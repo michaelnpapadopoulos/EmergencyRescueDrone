@@ -1,7 +1,7 @@
 package ca.mcmaster.se2aa4.island.team45;
 
 public class CoordinateManager {
-    private int[2] coordinates;
+    private int[] coordinates;
 
     public CoordinateManager() {
         this.coordinates[0] = 1;

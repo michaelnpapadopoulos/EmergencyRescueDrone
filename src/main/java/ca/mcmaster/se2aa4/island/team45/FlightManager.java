@@ -4,6 +4,8 @@ public class FlightManager {
     private static final FlightManager fm = new FlightManager();
     private DirectionManager dm;
     private BatteryManager bm;
+    private CoordinateManager cm;
+    private int stage;
 
     private FlightManager() {}
 

@@ -10,6 +10,8 @@ public class FlightManager {
     public void passInitialInfo(String direction, int batteryLevel) {
         dm = new DirectionManager(direction);
         bm = new BatteryManager(batteryLevel);
+        cm = new CoordinateManager();
+        stage = 1;
     }
     
     public static FlightManager getInstance() {

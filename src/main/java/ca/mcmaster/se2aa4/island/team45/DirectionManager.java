@@ -1,17 +1,19 @@
 package ca.mcmaster.se2aa4.island.team45;
 
-public class DirectionManager {
-    private String direction;
+import ca.mcmaster.se2aa4.island.Direction;
 
-    public DirectionManager(String direction) {
+public class DirectionManager {
+    private Direction direction;
+
+    public DirectionManager(Direction direction) {
         this.direction = direction;
     }
 
-    public void changeDirection(String newDirection) {
+    public void changeDirection(Direction newDirection) {
         this.direction = newDirection;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return this.direction;
     }
 }

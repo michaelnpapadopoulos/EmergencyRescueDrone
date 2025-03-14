@@ -2,7 +2,7 @@ package ca.mcmaster.se2aa4.island.team45.drone;
 
 import org.json.JSONObject;
 
-import ca.mcmaster.se2aa4.island.team45.missionphase.PhaseManager;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ public class FlightManager {
     private DirectionManager direction;
     private BatteryManager battery;
     private PreviousResult previousResult;
-    private PhaseManager phaseManager;
+    private StageManager stageManager;
 
     private FlightManager() {}
 
@@ -25,12 +25,12 @@ public class FlightManager {
     public void passInitialInfo(String direction, int batteryLevel) { // Passes initial information about the drone from the initialize() method in Explorer
         this.direction = new DirectionManager(direction.charAt(0));
         this.battery = new BatteryManager(batteryLevel);
-        this.previousResult = new PreviousResult(batteryLevel, null, direction);
-        this.phaseManager = new PhaseManager();
+        this.previousResult = new PreviousResult(0, null, direction);
+        this.stageManager = new StageManager();
     }
     
-    public JSONObject getDecision() {
-        return phaseManager.makePhaseDecision(direction, battery, previousResult);
+    public String getDecision() {
+        return this.stageManager.makeStageDecision(direction, battery, previousResult, this.stageManager);
     }
 
     public void acknowledgeResults(JSONObject results) {

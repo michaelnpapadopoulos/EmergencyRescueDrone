@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45;
+package ca.mcmaster.se2aa4.island.team45.drone;
 
 public class BatteryManager {
     private int batteryLevel;

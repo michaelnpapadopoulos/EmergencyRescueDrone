@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45;
+package ca.mcmaster.se2aa4.island.team45.map;
 
 public class CoordinateManager {
     private int[] coordinates;

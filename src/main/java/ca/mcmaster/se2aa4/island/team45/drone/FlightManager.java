@@ -2,19 +2,19 @@ package ca.mcmaster.se2aa4.island.team45.drone;
 
 import org.json.JSONObject;
 
-import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
-import netscape.javascript.JSObject;
+import ca.mcmaster.se2aa4.island.team45.missionphase.PhaseManager;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FlightManager {
     private static final FlightManager fm = new FlightManager();
-    
-    private String direction;
-    private int batteryLevel;
-
     private final Logger logger = LogManager.getLogger();
-    private int count = 5;
+
+    private DirectionManager direction;
+    private BatteryManager battery;
+    private PreviousResult previousResult;
+    private PhaseManager phaseManager;
 
     private FlightManager() {}
 
@@ -22,26 +22,25 @@ public class FlightManager {
         return fm;
     }
 
-    public void passInitialInfo(String direction, int batteryLevel) {
-        this.direction = direction;
-        this.batteryLevel = batteryLevel;
+    public void passInitialInfo(String direction, int batteryLevel) { // Passes initial information about the drone from the initialize() method in Explorer
+        this.direction = new DirectionManager(direction.charAt(0));
+        this.battery = new BatteryManager(batteryLevel);
+        this.previousResult = new PreviousResult(batteryLevel, null, direction);
+        this.phaseManager = new PhaseManager();
     }
     
-    public String makeDecision() {
-        logger.info("Making decision...");
-        JSONObject decision = new JSONObject();
+    public JSONObject getDecision() {
+        return phaseManager.makePhaseDecision(direction, battery, previousResult);
+    }
 
-        if (this.count > 0) { 
-            this.count--;
-            decision.put("action", "fly");
-        } else if (this.count == 0) {
-            this.count--;
-            decision.put("action", "scan");
-        } else {
-            decision.put("action", "stop");
-        }
+    public void acknowledgeResults(JSONObject results) {
+        logger.info("** Acknowledging results...");
+        int cost = results.getInt("cost");
+        String status = results.getString("status");
+        JSONObject extraInfo = results.getJSONObject("extras");
 
-        return decision.toString();
+        previousResult.setPreviousResult(cost, status, extraInfo);
+        battery.consumeBattery(cost);
     }
     
     

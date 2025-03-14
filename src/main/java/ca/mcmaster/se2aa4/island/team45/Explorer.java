@@ -30,27 +30,28 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        // JSONObject decision = new JSONObject();
-        // decision.put("action", "stop"); // we stop the exploration immediately
-        // logger.info("** Decision: {}",decision.toString());
+    
 
-        String decision = FlightManager.getInstance().makeDecision();
+        JSONObject decision = FlightManager.getInstance().getDecision();
         logger.info("** Decision: {}", decision);
-        return decision;
+
+        return decision.toString();
     }
 
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
 
-        logger.info("** Response received:\n"+response.toString(2));
-        Integer cost = response.getInt("cost");
-        logger.info("The cost of the action was {}", cost);
-        String status = response.getString("status");
-        logger.info("The status of the drone is {}", status);
+        FlightManager.getInstance().acknowledgeResults(response);
+
+        // logger.info("** Response received:\n"+response.toString(2));
+        // Integer cost = response.getInt("cost");
+        // logger.info("The cost of the action was {}", cost);
+        // String status = response.getString("status");
+        // logger.info("The status of the drone is {}", status);
         
-        JSONObject extraInfo = response.getJSONObject("extras");
-        logger.info("Additional information received: {}", extraInfo);
+        // JSONObject extraInfo = response.getJSONObject("extras");
+        // logger.info("Additional information received: {}", extraInfo);
     }
 
     @Override

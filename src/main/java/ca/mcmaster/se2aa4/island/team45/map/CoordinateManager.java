@@ -4,8 +4,8 @@ public class CoordinateManager {
     private int[] coordinates;
 
     public CoordinateManager() {
-        this.coordinates[0] = 1;
-        this.coordinates[1] = 1;
+        this.coordinates[0] = 0;
+        this.coordinates[1] = 0;
     }
 
     public void incrementNorth(String newDirection) {

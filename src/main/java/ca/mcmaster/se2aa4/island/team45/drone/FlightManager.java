@@ -9,10 +9,9 @@ import org.apache.logging.log4j.Logger;
 
 public class FlightManager {
     private static final FlightManager fm = new FlightManager();
-    private DirectionManager dm;
-    private BatteryManager bm;
-    private CoordinateManager cm;
-    private int stage;
+    
+    private String direction;
+    private int batteryLevel;
 
     private final Logger logger = LogManager.getLogger();
     private int count = 5;
@@ -24,10 +23,8 @@ public class FlightManager {
     }
 
     public void passInitialInfo(String direction, int batteryLevel) {
-        dm = new DirectionManager(direction);
-        bm = new BatteryManager(batteryLevel);
-        cm = new CoordinateManager();
-        stage = 1;
+        this.direction = direction;
+        this.batteryLevel = batteryLevel;
     }
     
     public String makeDecision() {
@@ -36,9 +33,9 @@ public class FlightManager {
 
         if (this.count > 0) { 
             this.count--;
-
             decision.put("action", "fly");
         } else if (this.count == 0) {
+            this.count--;
             decision.put("action", "scan");
         } else {
             decision.put("action", "stop");

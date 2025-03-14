@@ -25,16 +25,18 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
 
-        // FlightManager.getInstance().passInitialInfo(direction, batteryLevel);
+        FlightManager.getInstance().passInitialInfo(direction, batteryLevel);
     }
 
     @Override
     public String takeDecision() {
-        JSONObject decision = new JSONObject();
-        decision.put("action", "stop"); // we stop the exploration immediately
-        logger.info("** Decision: {}",decision.toString());
+        // JSONObject decision = new JSONObject();
+        // decision.put("action", "stop"); // we stop the exploration immediately
+        // logger.info("** Decision: {}",decision.toString());
 
-        return decision.toString();
+        String decision = FlightManager.getInstance().makeDecision();
+        logger.info("** Decision: {}", decision);
+        return decision;
     }
 
     @Override

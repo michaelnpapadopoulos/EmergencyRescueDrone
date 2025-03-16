@@ -26,32 +26,48 @@ public class DirectionManager { // Keeps track of direction during path finding
     }
     
     //=========== DIRECTION METHODS ===========//
-    public void turnLeft() { 
-        this.trueDirection = (this.trueDirection+3)%4; 
-        setDirection();
+    public char getLeft() { 
+        int turnedTrue = (this.trueDirection+3)%4; 
+        return getCardinalDirection(turnedTrue);
     } 
 
-    public void turnRight() { 
-        this.trueDirection = (this.trueDirection+1)%4;
-        setDirection(); 
+    public char getRight() { 
+        int turnedTrue = (this.trueDirection+1)%4;
+        return getCardinalDirection(turnedTrue);
     }
 
-    private void setDirection() { // Sets the direction based on the trueDirection value
-        switch (this.trueDirection) {
+    private char getCardinalDirection(int trueDirValue) { // Sets the direction based on the trueDirection value
+        switch (trueDirValue) {
             case 0:
-                this.direction = 'N';
-                break;
+                return 'N';
             case 1:
-                this.direction = 'E';
-                break;
+                return 'E';
             case 2:
-                this.direction = 'S';
-                break;
+                return 'S';
             case 3:
-                this.direction = 'W';
-                break;
+                return 'W';
         }
+
+        return ' ';
     }
 
     public char getDirection() { return this.direction; } // Getter for the direction
+
+    public void setDirection(char newDirection) { // Setter for the direction
+        this.direction = newDirection;
+        switch (newDirection) {
+            case 'N':
+                this.trueDirection = 0;
+                break;
+            case 'E':
+                this.trueDirection = 1;
+                break;
+            case 'S':
+                this.trueDirection = 2;
+                break;
+            case 'W':
+                this.trueDirection = 3;
+                break;
+        }
+    }
 }

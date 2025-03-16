@@ -14,20 +14,25 @@ public class InitialStage extends Stage { // The initial stage of the mission, d
     public String makeDecision(DirectionManager direction, BatteryManager battery, PreviousResult pResult, PreviousDecision pDecision, StageManager sm) {
         logger.info("Making initial stage decision...");
         if (pDecision.getPrevAction() == null) {
-            pDecision.setPrevAction("fly");
-            return FlightCommands.getInstance().fly();
+            pDecision.setPrevAction("scan");
+            return FlightCommands.getInstance().scan();
         } else if (forwardCount == 25) {
-            pDecision.setPrevAction("heading");
-            pDecision.setPrevHeading(direction.getRight());
-            sm.setStage(new FindStage()); // Change mission stage to FindStage
-            return FlightCommands.getInstance().heading(direction.getRight());
+            if (pDecision.getPrevAction().equals("scan")) {
+                pDecision.setPrevAction("heading");
+                pDecision.setPrevHeading(direction.getRight());
+                sm.setStage(new FindStage()); // Change mission stage to FindStage
+                return FlightCommands.getInstance().heading(direction.getRight());
+            } else {
+                pDecision.setPrevAction("scan");
+                return FlightCommands.getInstance().scan();
+            }            
         }
         
         if (pDecision.getPrevAction().equals("fly")) {
-            forwardCount++;
             pDecision.setPrevAction("scan");
             return FlightCommands.getInstance().scan();
         } else {
+            forwardCount++;
             pDecision.setPrevAction("fly");
             return FlightCommands.getInstance().fly();
         }

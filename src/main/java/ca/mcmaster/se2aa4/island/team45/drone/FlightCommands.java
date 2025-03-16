@@ -18,7 +18,7 @@ public class FlightCommands {
         return decision.toString();
     }
 
-    public String heading(char dir) {
+    public String heading(String dir) {
         JSONObject decision = new JSONObject();
         JSONObject param = new JSONObject();
 
@@ -28,7 +28,7 @@ public class FlightCommands {
         return decision.toString();
     }
 
-    public String echo (char dir) {
+    public String echo (String dir) {
         JSONObject decision = new JSONObject();
         JSONObject param = new JSONObject();
 

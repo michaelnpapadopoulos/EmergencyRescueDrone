@@ -19,16 +19,16 @@ public class CoordinateAdjuster {
     private int[] flyAdjust(DirectionManager dm, int[] coords) {
         int[] newCoords = coords;
         switch (dm.getDirection()) {
-            case 'N':
+            case "N":
                 newCoords[1]--;
                 break;
-            case 'E':
+            case "E":
                 newCoords[0]++;
                 break;
-            case 'S':
+            case "S":
                 newCoords[1]++;
                 break;
-            case 'W':
+            case "W":
                 newCoords[0]--;
                 break;
         }
@@ -39,37 +39,37 @@ public class CoordinateAdjuster {
     private int[] headingAdjust(DirectionManager dm, PreviousDecision pd, int[] coords) {
         int[] newCoords = coords;
         switch (dm.getDirection()) {
-            case 'N':
-                if (pd.getPrevHeading() == 'E') {
+            case "N":
+                if (pd.getPrevHeading().equals("E")) {
                     newCoords[0]++;
-                } else if (pd.getPrevHeading() == 'W') {
+                } else if (pd.getPrevHeading().equals("W")) {
                     newCoords[0]--;
                 }
                 newCoords[1]--;
                 break;
 
-            case 'E':
-                if (pd.getPrevHeading() == 'N') {
+            case "E":
+                if (pd.getPrevHeading().equals("N")) {
                     newCoords[1]--;
-                } else if (pd.getPrevHeading() == 'S') {
+                } else if (pd.getPrevHeading().equals("S")) {
                     newCoords[1]++;
                 }
                 newCoords[0]++;
                 break;
 
-            case 'S':
-                if (pd.getPrevHeading() == 'E') {
+            case "S":
+                if (pd.getPrevHeading().equals("E")) {
                     newCoords[0]++;
-                } else if (pd.getPrevHeading() == 'W') {
+                } else if (pd.getPrevHeading().equals("W")) {
                     newCoords[0]--;
                 }
                 newCoords[1]++;
                 break;
 
-            case 'W':
-                if (pd.getPrevHeading() == 'N') {
+            case "W":
+                if (pd.getPrevHeading().equals("N")) {
                     newCoords[1]--;
-                } else if (pd.getPrevHeading() == 'S') {
+                } else if (pd.getPrevHeading().equals("S")) {
                     newCoords[1]++;
                 }
                 newCoords[0]--;

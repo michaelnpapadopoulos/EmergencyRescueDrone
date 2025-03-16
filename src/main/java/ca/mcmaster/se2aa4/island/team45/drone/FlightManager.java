@@ -23,7 +23,7 @@ public class FlightManager {
     }
 
     public void passInitialInfo(String direction, int batteryLevel) { // Passes initial information about the drone from the initialize() method in Explorer
-        this.direction = new DirectionManager(direction.charAt(0));
+        this.direction = new DirectionManager(direction);
         this.battery = new BatteryManager(batteryLevel);
         this.previousResult = new PreviousResult(0, null, direction);
         this.stageManager = new StageManager();

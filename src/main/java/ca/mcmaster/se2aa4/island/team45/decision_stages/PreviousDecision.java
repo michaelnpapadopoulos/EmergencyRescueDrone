@@ -1,19 +1,19 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
 public class PreviousDecision {
-    private String prevAction;
-    private char prevHeading;
+    private String prevAction; // Prim obssesed
+    private String prevHeading;
 
     public PreviousDecision() {
         this.prevAction = "";
-        this.prevHeading = ' ';
+        this.prevHeading = "";
     }
 
     public void setPrevAction(String action) {
         this.prevAction = action;
     }
 
-    public void setPrevHeading(char heading) {
+    public void setPrevHeading(String heading) {
         this.prevHeading = heading;
     }
 
@@ -24,7 +24,7 @@ public class PreviousDecision {
         return this.prevAction;
     }
 
-    public char getPrevHeading() {
+    public String getPrevHeading() {
         return this.prevHeading;
     }
 }

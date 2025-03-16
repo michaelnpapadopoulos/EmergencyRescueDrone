@@ -4,68 +4,68 @@ public class DirectionManager { // Keeps track of direction during path finding
 
     //=========== DIRECTION ATTRIBUTES ===========//
     private int trueDirection; // Stores a value between 0 and 3, 0 being North, 1 being east, and so on.
-    private char direction;
+    private String direction;
 
     //=========== DIRECTION CONSTRUCTORS ===========//
-    public DirectionManager(char startingDirection) { 
+    public DirectionManager(String startingDirection) { 
         this.direction = startingDirection; 
         switch (startingDirection) {
-            case 'N':
+            case "N":
                 this.trueDirection = 0;
                 break;
-            case 'E':
+            case "E":
                 this.trueDirection = 1;
                 break;
-            case 'S':
+            case "S":
                 this.trueDirection = 2;
                 break;
-            case 'W':
+            case "W":
                 this.trueDirection = 3;
                 break;
         }
     }
     
     //=========== DIRECTION METHODS ===========//
-    public char getLeft() { 
+    public String getLeft() { 
         int turnedTrue = (this.trueDirection+3)%4; 
         return getCardinalDirection(turnedTrue);
     } 
 
-    public char getRight() { 
+    public String getRight() { 
         int turnedTrue = (this.trueDirection+1)%4;
         return getCardinalDirection(turnedTrue);
     }
 
-    private char getCardinalDirection(int trueDirValue) { // Sets the direction based on the trueDirection value
+    private String getCardinalDirection(int trueDirValue) { // Get Cardinal Direction from true direction value
         switch (trueDirValue) {
             case 0:
-                return 'N';
+                return "N";
             case 1:
-                return 'E';
+                return "E";
             case 2:
-                return 'S';
+                return "S";
             case 3:
-                return 'W';
+                return "W";
         }
 
-        return ' ';
+        return null;
     }
 
-    public char getDirection() { return this.direction; } // Getter for the direction
+    public String getDirection() { return this.direction; } // Getter for the direction
 
-    public void setDirection(char newDirection) { // Setter for the direction
+    public void setDirection(String newDirection) { // Setter for the direction
         this.direction = newDirection;
         switch (newDirection) {
-            case 'N':
+            case "N":
                 this.trueDirection = 0;
                 break;
-            case 'E':
+            case "E":
                 this.trueDirection = 1;
                 break;
-            case 'S':
+            case "S":
                 this.trueDirection = 2;
                 break;
-            case 'W':
+            case "W":
                 this.trueDirection = 3;
                 break;
         }

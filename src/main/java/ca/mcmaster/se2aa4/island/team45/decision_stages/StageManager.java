@@ -27,7 +27,10 @@ public class StageManager {
     public String makeStageDecision(DirectionManager direction, BatteryManager battery, PreviousResult previousResult, StageManager stageManager) {
         String decision = currentStage.makeDecision(direction, battery, previousResult, this.previousDecision, this);
         logger.info("Made a decision: {}", decision);
-        int[] coords = coordinateManager.getCoordinates();
+        if (decision.substring(11, 15).equals("stop")) {
+            logger.info("Battery level at end of flight: {}", battery.getBatteryLevel());
+        }
+        int[] coords = this.coordinateManager.getCoordinates();
         logger.info("Current Coords: [{}, {}]", coords[0], coords[1]);
         this.coordinateManager.adjustCoords(direction, this.previousDecision);
         return decision;

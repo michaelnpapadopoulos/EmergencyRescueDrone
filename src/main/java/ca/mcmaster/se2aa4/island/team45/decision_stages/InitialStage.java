@@ -20,7 +20,7 @@ public class InitialStage extends Stage { // The initial stage of the mission, d
             if (pDecision.getPrevAction().equals("scan")) {
                 pDecision.setPrevAction("heading");
                 pDecision.setPrevHeading(direction.getRight());
-                sm.setStage(new FindStage()); // Change mission stage to FindStage
+                sm.setStage(new PerimeterStage()); // Change mission stage to FindStage
                 return FlightCommands.getInstance().heading(direction.getRight());
             } else {
                 pDecision.setPrevAction("scan");

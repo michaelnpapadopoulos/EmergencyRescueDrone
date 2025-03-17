@@ -74,6 +74,7 @@ public class CoordinateAdjuster {
                 newCoords[0]--;
                 break;
         }
+        
         dm.setDirection(pd.getPrevHeading());
         return newCoords;
     }

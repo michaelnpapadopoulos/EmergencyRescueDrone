@@ -27,10 +27,18 @@ public class PreviousResult {
         return status;
     }
 
-    public JSONObject getExtras() {
+    private JSONObject getExtras() {
         if (extras == null || extras.length() == 0) {
             return null;
         }
         return extras;
+    }
+
+    public String getFound() {
+        JSONObject extras = getExtras();
+        if (extras == null) {
+            return null;
+        }
+        return extras.getString("found");
     }
 }

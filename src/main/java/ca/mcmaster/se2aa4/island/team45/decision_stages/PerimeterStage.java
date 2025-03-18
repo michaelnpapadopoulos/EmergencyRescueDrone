@@ -4,10 +4,11 @@ import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 
 public class PerimeterStage extends Stage { // Locate and mark the edges of the perimeter
 
-    public String makeDecision(DirectionManager direction, BatteryManager battery, PreviousResult pResult, PreviousDecision pDecision, StageManager sm) {
+    public String makeDecision(DirectionManager direction, BatteryManager battery, PreviousResult pResult, PreviousDecision pDecision, StageManager sm, POIManager poiManager) {
         if (pDecision.getPrevAction().equals("heading")) {
             pDecision.setPrevAction("scan");
             return FlightCommands.getInstance().scan();

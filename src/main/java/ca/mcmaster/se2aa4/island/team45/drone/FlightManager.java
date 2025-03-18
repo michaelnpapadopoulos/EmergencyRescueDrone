@@ -3,6 +3,7 @@ package ca.mcmaster.se2aa4.island.team45.drone;
 import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
+import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ public class FlightManager {
     private BatteryManager battery;
     private PreviousResult previousResult;
     private StageManager stageManager;
+    private POIManager poiManager;
 
     private FlightManager() {}
 
@@ -27,10 +29,11 @@ public class FlightManager {
         this.battery = new BatteryManager(batteryLevel);
         this.previousResult = new PreviousResult(0, null, direction);
         this.stageManager = new StageManager();
+        this.poiManager = new POIManager();
     }
     
     public String getDecision() {
-        return this.stageManager.makeStageDecision(direction, battery, previousResult, this.stageManager);
+        return this.stageManager.makeStageDecision(direction, battery, previousResult, this.stageManager, this.poiManager);
     }
 
     public void acknowledgeResults(JSONObject results) {

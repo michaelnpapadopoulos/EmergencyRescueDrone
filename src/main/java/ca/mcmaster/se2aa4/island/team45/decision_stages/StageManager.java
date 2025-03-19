@@ -9,6 +9,8 @@ import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+
 public class StageManager {
     private final Logger logger = LogManager.getLogger();
 
@@ -42,5 +44,29 @@ public class StageManager {
 
         logger.info("Edges found:\nNorth: {}\nEast: {}\nSouth: {}\nWest: {}", poiManager.getIslandEdge("North"), poiManager.getIslandEdge("East"), poiManager.getIslandEdge("South"), poiManager.getIslandEdge("West"));
         return decision;
+    }
+
+    public boolean checkStop(BatteryManager bm, DirectionManager dm) {
+        //checks cost to return to 1,1 and if we have enough budget within a small margin
+        /*int[] coords = coordinateManager.getCoordinates();*/
+        final int COST = 50;
+        /*switch (dm.getDirection()) {
+            case "N":
+                cost = fly cost1*(coords[1] -1) + 1heading cost + 1fly cost*(coords[0] -1);
+                break;
+            case "E":
+                cost = 1heading cost + 1fly cost*(coords[1] -1) + 1heading cost + 1fly cost*(coords[0] -1);
+                break;
+            case "S":
+                cost = 1heading cost + 1fly cost*(coords[0] -1) + 1heading cost + 1fly cost*(coords[1] -1);
+                break;
+            case "W":
+                cost = 1fly cost*(coords[0] -1) + 1heading cost + 1fly cost*(coords[1] -1);
+                break;
+        }*/
+        if ((bm.getBatteryLevel()+10) <= COST/*placeholder could be changed if new max stop COST is found*/) {
+            return true;
+        }
+        return false;
     }
 }

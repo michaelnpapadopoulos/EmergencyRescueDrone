@@ -35,10 +35,11 @@ public class PreviousResult {
     }
 
     public String getFound() {
-        JSONObject extras = getExtras();
-        if (extras == null) {
+        if (getExtras() == null) {
+            return null;
+        } else if (!getExtras().has("found")) {
             return null;
         }
-        return extras.getString("found");
+        return getExtras().getString("found");
     }
 }

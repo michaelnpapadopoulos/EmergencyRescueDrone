@@ -27,10 +27,11 @@ public class StageManager {
     }
 
     public String makeStageDecision(DirectionManager direction, BatteryManager battery, PreviousResult previousResult, StageManager stageManager, POIManager poiManager) {
-        String decision = currentStage.makeDecision(direction, battery, previousResult, this.previousDecision, this, poiManager);
+        logger.info("Current stage: {}", this.currentStage.getClass().getSimpleName());
+        String decision = currentStage.makeDecision(direction, battery, previousResult, this.previousDecision, this, poiManager, this.coordinateManager);
         logger.info("Made a decision: {}", decision);
 
-        if (decision.substring(11, 15).equals("stop")) {
+        if (decision.length() >= 15 && decision.substring(11, 15).equals("stop")) {
             logger.info("Battery level at end of flight: {}", battery.getBatteryLevel());
         }
 
@@ -38,6 +39,8 @@ public class StageManager {
         logger.info("Current Coords: [{}, {}]", coords[0], coords[1]);
         
         this.coordinateManager.adjustCoords(direction, this.previousDecision);
+
+        logger.info("Edges found:\nNorth: {}\nEast: {}\nSouth: {}\nWest: {}", poiManager.getIslandEdge("North"), poiManager.getIslandEdge("East"), poiManager.getIslandEdge("South"), poiManager.getIslandEdge("West"));
         return decision;
     }
 }

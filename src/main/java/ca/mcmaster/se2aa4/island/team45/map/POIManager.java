@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class POIManager {
+    // Island information
     private HashMap<String, int[]> islandCorners = new HashMap<String, int[]>();
-    private HashMap<String, Integer> islandEdges = new HashMap<String, Integer>();
+    private HashMap<String, int[]> islandEdges = new HashMap<String, int[]>(); // The int[] array will store a single value for x or y, and then a -1 to indicate the other value is not set
+
+    // Site and creek information
     private ArrayList<int[]> creeks = new ArrayList<int[]>();
     private int[] siteLocation = new int[2];
     
@@ -21,15 +24,15 @@ public class POIManager {
         siteLocation = siteCoord;
     }
 
-    public void addIslandEdge(String edgeName, int edgeCoord) {
+    public void addIslandEdge(String edgeName, int[] edgeCoord) {
         islandEdges.put(edgeName, edgeCoord);
     }
 
-    public int getIslandEdge(String edgeName) {
+    public int[] getIslandEdge(String edgeName) {
         if (islandEdges.containsKey(edgeName)) {
             return islandEdges.get(edgeName);
         }
-        return -1; // Edge not in hashmap
+        return null; // Edge not in hashmap
     }
 
 }

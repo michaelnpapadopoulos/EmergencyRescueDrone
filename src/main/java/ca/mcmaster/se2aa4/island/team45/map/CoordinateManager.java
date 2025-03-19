@@ -21,4 +21,12 @@ public class CoordinateManager {
     public int[] getCoordinates() {
         return this.coordinates;
     }
+
+    public int getX() {
+        return this.coordinates[0];
+    }
+
+    public int getY() {
+        return this.coordinates[1];
+    }
 }

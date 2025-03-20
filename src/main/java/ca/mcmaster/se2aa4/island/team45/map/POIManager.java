@@ -6,12 +6,14 @@ import java.util.HashMap;
 public class POIManager {
     // Island information
     private HashMap<String, int[]> islandCorners = new HashMap<String, int[]>();
-    private HashMap<String, int[]> islandEdges = new HashMap<String, int[]>(); // The int[] array will store a single value for x or y, and then a -1 to indicate the other value is not set
-
-    // Site and creek information
     private ArrayList<int[]> creeks = new ArrayList<int[]>();
     private int[] siteLocation = new int[2];
-    
+    private IslandEdgeManager islandEdgeManager;
+
+    public POIManager() {
+        this.islandEdgeManager = new IslandEdgeManager();
+    }
+
     public void addCreek(int[] creekCoord) {
         creeks.add(creekCoord);
     }
@@ -24,15 +26,15 @@ public class POIManager {
         siteLocation = siteCoord;
     }
 
-    public void addIslandEdge(String edgeName, int[] edgeCoord) {
-        islandEdges.put(edgeName, edgeCoord);
+    public void addIslandEdge(String direction, int[] coordinates) {
+        islandEdgeManager.addEdge(direction, coordinates);
     }
 
-    public int[] getIslandEdge(String edgeName) {
-        if (islandEdges.containsKey(edgeName)) {
-            return islandEdges.get(edgeName);
-        }
-        return null; // Edge not in hashmap
+    public int[] getIslandEdge(String direction) {
+        return islandEdgeManager.getEdge(direction);
     }
 
+    public boolean hasIslandEdge(String direction) {
+        return islandEdgeManager.hasEdge(direction);
+    }
 }

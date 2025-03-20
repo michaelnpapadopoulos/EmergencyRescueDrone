@@ -9,25 +9,24 @@ public class CoordinateManager {
 
 
     public CoordinateManager() {
-        currentCoords = new Coordinate(1, 1);
+        currentCoords = new Coordinate(new CoordValue(1), new CoordValue(1));
     }
 
     public void adjustCoords(DirectionManager dm, PreviousDecision pd) {
-        int[] originalCoords = new int[] {this.coordinates[0].getCoordVal(), this.coordinates[1].getCoordVal()};
-        int[] adjustedCoords = coordAdjuster.makeAdjustment(dm, pd, originalCoords);
-        this.coordinates[0] = new CoordValue(adjustedCoords[0]);
-        this.coordinates[1] = new CoordValue(adjustedCoords[1]);
+        Coordinate originalCoords = this.currentCoords;
+        Coordinate adjustedCoords = coordAdjuster.makeAdjustment(dm, pd, originalCoords);
+        this.currentCoords = adjustedCoords;
     }
 
     public Coordinate getCoordinates() {
-        return new Coordinate(getCoordinateX(), getCoordinateY());
+        return new Coordinate(new CoordValue(getCoordinateX()), new CoordValue(getCoordinateY()));
     }
 
     public int getCoordinateX() {
-        return this.currentCoords.getX();
+        return this.currentCoords.getX().getCoordVal();
     }
 
     public int getCoordinateY() {
-        return this.currentCoords.getY();
+        return this.currentCoords.getY().getCoordVal();
     }
 }

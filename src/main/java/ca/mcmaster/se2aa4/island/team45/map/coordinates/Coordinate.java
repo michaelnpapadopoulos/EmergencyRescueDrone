@@ -3,17 +3,17 @@ package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 public class Coordinate {
     private CoordValue[] coordinates = new CoordValue[2];
 
-    public Coordinate(int x, int y) {
-        this.coordinates[0] = new CoordValue(x);
-        this.coordinates[1] = new CoordValue(y);
+    public Coordinate(CoordValue x, CoordValue y) {
+        this.coordinates[0] = x;
+        this.coordinates[1] = y;
     }
 
-    public int getX() {
-        return this.coordinates[0].getCoordVal();
+    public CoordValue getX() {
+        return this.coordinates[0];
     }
 
-    public int getY() {
-        return this.coordinates[1].getCoordVal();
+    public CoordValue getY() {
+        return this.coordinates[1];
     }
 
     public void incrementX() {

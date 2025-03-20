@@ -5,7 +5,7 @@ import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 
 public class CoordinateAdjuster {
 
-    public int[] makeAdjustment(DirectionManager dm, PreviousDecision pd, Coordinate coordinates) {
+    public Coordinate makeAdjustment(DirectionManager dm, PreviousDecision pd, Coordinate coordinates) {
 
         if (pd.getPrevAction().equals("fly")) {
             return flyAdjust(dm, coordinates);
@@ -16,62 +16,62 @@ public class CoordinateAdjuster {
         }
     }
 
-    private int[] flyAdjust(DirectionManager dm, Coordinate coords) {
-        int[] newCoords = coords;
+    private Coordinate flyAdjust(DirectionManager dm, Coordinate coords) {
+        Coordinate newCoords = coords;
         switch (dm.getDirection()) {
             case "N":
-                newCoords[1]--;
+                newCoords.decrementY();
                 break;
             case "E":
-                newCoords[0]++;
+                newCoords.incrementX();
                 break;
             case "S":
-                newCoords[1]++;
+                newCoords.incrementY();
                 break;
             case "W":
-                newCoords[0]--;
+                newCoords.decrementX();
                 break;
         }
         return newCoords;
     }
 
-    private int[] headingAdjust(DirectionManager dm, PreviousDecision pd, Coordinate coords) {
-        int[] newCoords = coords;
+    private Coordinate headingAdjust(DirectionManager dm, PreviousDecision pd, Coordinate coords) {
+        Coordinate newCoords = coords;
         switch (dm.getDirection()) {
             case "N":
                 if (pd.getPrevHeading().equals("E")) {
-                    newCoords[0]++;
+                    newCoords.incrementX();
                 } else if (pd.getPrevHeading().equals("W")) {
-                    newCoords[0]--;
+                    newCoords.decrementX();
                 }
-                newCoords[1]--;
+                newCoords.decrementY();
                 break;
 
             case "E":
                 if (pd.getPrevHeading().equals("N")) {
-                    newCoords[1]--;
+                    newCoords.decrementY();
                 } else if (pd.getPrevHeading().equals("S")) {
-                    newCoords[1]++;
+                    newCoords.incrementY();
                 }
-                newCoords[0]++;
+                newCoords.incrementX();
                 break;
 
             case "S":
                 if (pd.getPrevHeading().equals("E")) {
-                    newCoords[0]++;
+                    newCoords.decrementX();
                 } else if (pd.getPrevHeading().equals("W")) {
-                    newCoords[0]--;
+                    newCoords.decrementX();
                 }
-                newCoords[1]++;
+                newCoords.incrementY();
                 break;
 
             case "W":
                 if (pd.getPrevHeading().equals("N")) {
-                    newCoords[1]--;
+                    newCoords.decrementY();
                 } else if (pd.getPrevHeading().equals("S")) {
-                    newCoords[1]++;
+                    newCoords.incrementY();
                 }
-                newCoords[0]--;
+                newCoords.decrementX();
                 break;
         }
         

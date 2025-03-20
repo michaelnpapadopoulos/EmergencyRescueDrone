@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
+import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.EchoSweep;
 import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
@@ -35,8 +36,8 @@ public class StageManager {
             logger.info("Battery level at end of flight: {}", battery.getBatteryLevel());
         }
 
-        int[] coords = this.coordinateManager.getCoordinates();
-        logger.info("Current Coords: [{}, {}]", coords[0], coords[1]);
+        Coordinate coords = this.coordinateManager.getCoordinates();
+        logger.info("Current Coords: [{}, {}]", coords.getX(), coords.getY());
 
         this.coordinateManager.adjustCoords(direction, this.previousDecision);
 

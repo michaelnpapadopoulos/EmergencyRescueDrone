@@ -8,14 +8,14 @@ import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
-import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.IslandEdgeManager;
+import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 
-public class MissionStage extends Stage {
+public class PerimeterStage extends Stage {
     private final Logger logger = LogManager.getLogger();
     private IslandEdgeManager islandEdgeManager;
 
-    public MissionStage() {
+    public PerimeterStage() {
         this.islandEdgeManager = new IslandEdgeManager();
     }
 

@@ -46,7 +46,7 @@ public class PerimeterStage extends Stage { // Locate and mark the edges of the 
             pDecision.setPrevAction("scan");
 
             poiManager.addIslandEdge("South", new int[] {-1, cm.getY()-1});
-            sm.setStage(new POIStage());
+            sm.setStage(new FlyStage1());
             return FlightCommands.getInstance().scan();
         } else {
             pDecision.setPrevAction("fly");

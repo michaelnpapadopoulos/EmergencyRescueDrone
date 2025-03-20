@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
 import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
+import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
@@ -30,7 +31,12 @@ public class StageManager {
 
     public String makeStageDecision(DirectionManager direction, BatteryManager battery, PreviousResult previousResult, StageManager stageManager, POIManager poiManager) {
         logger.info("Current stage: {}", this.currentStage.getClass().getSimpleName());
-        String decision = currentStage.makeDecision(direction, battery, previousResult, this.previousDecision, this, poiManager, this.coordinateManager);
+        String decision = "";
+        if(stageManager.checkStop(battery)) {
+            decision = FlightCommands.getInstance().stop();
+        } else {
+            decision = currentStage.makeDecision(direction, battery, previousResult, this.previousDecision, this, poiManager, this.coordinateManager);
+        }
         logger.info("Made a decision: {}", decision);
 
         if (decision.length() >= 15 && decision.substring(11, 15).equals("stop")) {
@@ -46,7 +52,7 @@ public class StageManager {
         return decision;
     }
 
-    public boolean checkStop(BatteryManager bm, DirectionManager dm) {
+    public boolean checkStop(BatteryManager bm/*, DirectionManager dm*/) {
         //checks cost to return to 1,1 and if we have enough budget within a small margin
         /*int[] coords = coordinateManager.getCoordinates();*/
         final int COST = 50;
@@ -64,7 +70,7 @@ public class StageManager {
                 cost = 1fly cost*(coords[0] -1) + 1heading cost + 1fly cost*(coords[1] -1);
                 break;
         }*/
-        if ((bm.getBatteryLevel()+10) <= COST/*placeholder could be changed if new max stop COST is found*/) {
+        if ((bm.getBatteryLevel()+10) <= COST/*placeholder could be changed if new max stop COST is found (with additional size to address posible larger values)*/) {
             return true;
         }
         return false;

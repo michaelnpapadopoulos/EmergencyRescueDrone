@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.drone;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PreviousResult {
@@ -41,5 +42,28 @@ public class PreviousResult {
             return null;
         }
         return getExtras().getString("found");
+    }
+
+    public String getRange() {
+        if (getExtras() == null) {
+            return null;
+        } else if (!getExtras().has("range")) {
+            return null;
+        }
+        return getExtras().getString("range");
+    }
+
+    public boolean getLand() {
+        JSONArray biomes = extras.optJSONArray("biomes");
+        if(biomes == null) {
+            return false;
+        }
+        for (int i = 0; i < biomes.length(); i++) {
+            if (biomes.getString(i).equals("OCEAN")) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

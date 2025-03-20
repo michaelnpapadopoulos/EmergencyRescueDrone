@@ -1,6 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45.decision_stages.findedge_substages;
-
-import java.lang.Thread.State;
+package ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +10,8 @@ import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
-import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
 public class InPositionTurn extends Stage {
     private final Logger logger = LogManager.getLogger();
@@ -98,14 +96,22 @@ public class InPositionTurn extends Stage {
         return FlightCommands.getInstance().heading(headingDir);
     }
 
-    public String makeDecision(DirectionManager direction, BatteryManager battery, PreviousResult pResult, PreviousDecision pDecision, StageManager sm, POIManager poiManager, CoordinateManager cm) {
-        if (turnDirection.equals("right")) {
-            return inPositionRight(direction, pDecision, sm);
-        } else if (turnDirection.equals("left")) {
-            return inPositionLeft(direction, pDecision, sm);
-        } else {
-            logger.error("** Invalid turn direction **");
-            return null;
-        }
+    public String makeDecision(
+        DirectionManager direction, 
+        BatteryManager battery, 
+        PreviousResult pResult, 
+        PreviousDecision pDecision, 
+        StageManager sm, 
+        POIManager poiManager, 
+        CoordinateManager cm
+        ) {
+            if (turnDirection.equals("right")) {
+                return inPositionRight(direction, pDecision, sm);
+            } else if (turnDirection.equals("left")) {
+                return inPositionLeft(direction, pDecision, sm);
+            } else {
+                logger.error("** Invalid turn direction **");
+                return null;
+            }
     }
 }

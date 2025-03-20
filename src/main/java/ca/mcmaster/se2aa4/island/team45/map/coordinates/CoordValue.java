@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45.map;
+package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
 public class CoordValue {
     int coord;
@@ -9,5 +9,13 @@ public class CoordValue {
 
     public int getCoordVal() {
         return coord;
+    }
+
+    public void increment() {
+        coord++;
+    }
+
+    public void decrement() {
+        coord--;
     }
 }

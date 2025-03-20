@@ -1,11 +1,11 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.findedge_substages.EchoSweep;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.EchoSweep;
 import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
-import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

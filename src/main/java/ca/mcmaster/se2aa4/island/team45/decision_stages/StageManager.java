@@ -5,6 +5,7 @@ import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.map.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.IslandEdgeManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,11 +16,13 @@ public class StageManager {
     private Stage currentStage;
     private PreviousDecision previousDecision;
     private CoordinateManager coordinateManager;
+    private IslandEdgeManager islandEdgeManager;
 
     public StageManager() {
-        this.currentStage = new InitialStage();
+        this.currentStage = new MissionStage();
         this.previousDecision = new PreviousDecision();
         this.coordinateManager = new CoordinateManager();
+        this.islandEdgeManager = new IslandEdgeManager();
     }
 
     public void setStage(Stage newStage) {
@@ -37,7 +40,7 @@ public class StageManager {
 
         int[] coords = this.coordinateManager.getCoordinates();
         logger.info("Current Coords: [{}, {}]", coords[0], coords[1]);
-        
+
         this.coordinateManager.adjustCoords(direction, this.previousDecision);
 
         logger.info("Edges found:\nNorth: {}\nEast: {}\nSouth: {}\nWest: {}", poiManager.getIslandEdge("North"), poiManager.getIslandEdge("East"), poiManager.getIslandEdge("South"), poiManager.getIslandEdge("West"));

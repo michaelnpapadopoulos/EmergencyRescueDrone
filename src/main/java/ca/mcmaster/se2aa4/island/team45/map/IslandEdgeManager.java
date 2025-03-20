@@ -4,33 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IslandEdgeManager {
-    private Map<String, int[]> edges;
+    private Map<String, int[]> edges = new HashMap<>();
+    private Map<String, int[]> corners = new HashMap<>();
 
-    public IslandEdgeManager() {
-        edges = new HashMap<>();
+
+    public void addMapCorner(String cornerName, int[] cornerCoord) {
+        this.corners.put(cornerName, cornerCoord);
     }
 
-    public void addEdge(String direction, int[] coords) {
-        edges.put(direction, coords);
+    public void addEdge(String direction, int[] coordinates) {
+        edges.put(direction, coordinates);
     }
 
     public int[] getEdge(String direction) {
-        return edges.getOrDefault(direction, new int[]{-1, -1});
+        if (!edges.containsKey(direction)) {
+            return null;
+        }
+        return edges.get(direction);
     }
 
     public boolean hasEdge(String direction) {
         return edges.containsKey(direction);
-    }
-
-    public void calculateAndAddCorners() {
-        int[] north = getEdge("North");
-        int[] west  = getEdge("West");
-        int[] south = getEdge("South");
-        int[] east  = getEdge("East");
-
-        addEdge("NorthWest", new int[] {west[0], north[1]});
-        addEdge("NorthEast", new int[] {east[0], north[1]});
-        addEdge("SouthWest", new int[] {west[0], south[1]});
-        addEdge("SouthEast", new int[] {east[0], south[1]});
     }
 }

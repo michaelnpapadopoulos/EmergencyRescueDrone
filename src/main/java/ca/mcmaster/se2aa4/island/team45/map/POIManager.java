@@ -6,9 +6,11 @@ import java.util.HashMap;
 public class POIManager {
     // Island information
     private HashMap<String, int[]> islandCorners = new HashMap<String, int[]>();
+    private IslandEdgeManager islandEdgeManager;
+
+    // Points of interest
     private ArrayList<int[]> creeks = new ArrayList<int[]>();
     private int[] siteLocation = new int[2];
-    private IslandEdgeManager islandEdgeManager;
 
     public POIManager() {
         this.islandEdgeManager = new IslandEdgeManager();

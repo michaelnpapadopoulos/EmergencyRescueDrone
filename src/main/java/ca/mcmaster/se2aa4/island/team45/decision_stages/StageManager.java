@@ -16,13 +16,11 @@ public class StageManager {
     private Stage currentStage;
     private PreviousDecision previousDecision;
     private CoordinateManager coordinateManager;
-    private IslandEdgeManager islandEdgeManager;
 
     public StageManager() {
-        this.currentStage = new MissionStage();
+        this.currentStage = new PerimeterStage();
         this.previousDecision = new PreviousDecision();
         this.coordinateManager = new CoordinateManager();
-        this.islandEdgeManager = new IslandEdgeManager();
     }
 
     public void setStage(Stage newStage) {

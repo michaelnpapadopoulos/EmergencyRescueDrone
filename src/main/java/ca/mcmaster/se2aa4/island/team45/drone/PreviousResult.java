@@ -42,4 +42,13 @@ public class PreviousResult {
         }
         return getExtras().getString("found");
     }
+
+    public int getRange() {
+        if (getExtras() == null) {
+            return -1;
+        } else if (!getExtras().has("range")) {
+            return -1;
+        }
+        return getExtras().getInt("range");
+    }
 }

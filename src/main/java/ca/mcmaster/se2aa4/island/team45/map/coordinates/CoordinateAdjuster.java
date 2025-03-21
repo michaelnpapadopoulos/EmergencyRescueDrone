@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 
 public class CoordinateAdjuster {

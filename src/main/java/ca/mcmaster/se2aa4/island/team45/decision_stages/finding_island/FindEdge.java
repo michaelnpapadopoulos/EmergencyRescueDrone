@@ -60,7 +60,8 @@ public class FindEdge implements Stage {
                     } else {
                         turnDirection = "left";
                     }
-                    stageManager.setStage(new UTurn(turnDirection, new SearchInitial()));
+
+                    stageManager.setStage(new UTurn(turnDirection, new SearchInitial(this.directionToEcho)));
                     return FlightCommands.getInstance().fly();
                 }
 

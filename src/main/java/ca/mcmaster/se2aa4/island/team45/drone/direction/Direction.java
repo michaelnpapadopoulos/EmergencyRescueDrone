@@ -30,6 +30,21 @@ public class Direction {
         }
     }
 
+    public String getFullDirectionString(String directionChar) {
+        switch (directionChar) {
+            case "N":
+                return "North";
+            case "E":
+                return "East";
+            case "S":
+                return "South";
+            case "W":
+                return "West";
+            default:
+                return "Invalid direction";
+        }
+    }
+
     public String stringForward() {
         return directionState.getDirection();
     }

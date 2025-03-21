@@ -32,19 +32,12 @@ public class UTurn implements Stage {
         POIManager poiManager, 
         CoordinateManager cm
         ) {
-            if (pState.getPrevUTurn() == null) {
-                if (turnDirection.equals("right")) {
-                    return uTurnRight(direction, pState, sm);
-                } else {
-                    return uTurnLeft(direction, pState, sm);
-                }
+            if (turnDirection.equals("right")) {
+                return uTurnRight(direction, pState, sm);
             } else {
-                if (pState.getPrevUTurn().equals("right")) {
-                    return uTurnLeft(direction, pState, sm);
-                } else {
-                    return uTurnRight(direction, pState, sm);
-                }
-            }
+                return uTurnLeft(direction, pState, sm);
+                
+            } 
         }
 
     private String uTurnRight(DirectionManager direction, PreviousState pState, StageManager sm) {

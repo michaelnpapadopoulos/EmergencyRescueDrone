@@ -78,4 +78,27 @@ public class IslandEdgeManager {
         } 
         return null;
     }
+
+    public boolean atEdge(String directionChar, Coordinate currCoord, String edgeLabel) {
+        Coordinate edge = getEdge(edgeLabel);
+        if (directionChar.equals("N")) {
+            if (currCoord.getY().getCoordVal() < edge.getY().getCoordVal()) {
+                return true;
+            }
+        } else if (directionChar.equals("S")) {
+            if (currCoord.getY().getCoordVal() > edge.getY().getCoordVal()) {
+                return true;
+            }
+        } else if (directionChar.equals("E")) {
+            if (currCoord.getX().getCoordVal() > edge.getX().getCoordVal()) {
+                return true;
+            }
+        } else {
+            if (currCoord.getX().getCoordVal() < edge.getX().getCoordVal()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

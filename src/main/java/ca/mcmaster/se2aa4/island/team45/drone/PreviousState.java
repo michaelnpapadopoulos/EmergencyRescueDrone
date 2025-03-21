@@ -5,7 +5,7 @@ import org.json.JSONObject;
 public class PreviousState {
     private String prevAction;
     private String prevHeading;
-    private String prevUTurn = null;
+    private String prevUTurn;
     private int cost;
     private JSONObject extras;
     private String status;
@@ -65,11 +65,23 @@ public class PreviousState {
         return getExtras().getInt("range");
     }
 
-    public void setPrevUTurn(String prevUTurn) {
-        this.prevUTurn = prevUTurn;
+    public void setPrevUTurn(String turnDirection) {
+        this.prevUTurn = turnDirection;
     }
 
-    public String getPrevUTurn() {
-        return prevUTurn;
+    private String getPrevUTurn() {
+        return this.prevUTurn;
+    }
+
+    public String getOppositeUTurn() {
+        if (getPrevUTurn() == null) {
+            return null;
+        } else {
+            if (getPrevUTurn().equals("right")) {
+                return "left";
+            } else {
+                return "right";
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.drone;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PreviousResult {
@@ -50,5 +51,14 @@ public class PreviousResult {
             return -1;
         }
         return getExtras().getInt("range");
+    }
+
+    public JSONArray getBiomes() {
+        if (getExtras() == null) {
+            return null;
+        } else if (!getExtras().has("biomes")) {
+            return null;
+        }
+        return getExtras().getJSONArray("biomes");
     }
 }

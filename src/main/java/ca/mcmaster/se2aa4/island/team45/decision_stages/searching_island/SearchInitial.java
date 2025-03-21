@@ -2,6 +2,9 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island;
 
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Stage;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPositionTurn;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.UTurn;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.flyDistance;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
@@ -14,6 +17,11 @@ import org.apache.logging.log4j.Logger;
 
 public class SearchInitial implements Stage { // The initial stage of the mission, find first edge of island
     private final Logger logger = LogManager.getLogger();
+    private String finalEdgeLabel;
+
+    public SearchInitial(String finalEdgeLabel) {
+        this.finalEdgeLabel = finalEdgeLabel;
+    }
 
     public String makeDecision(
         DirectionManager direction, 
@@ -23,8 +31,46 @@ public class SearchInitial implements Stage { // The initial stage of the missio
         POIManager poiManager, 
         CoordinateManager cm
         ) {
-            logger.info("** Initial Search passby **");
-            pState.setPrevAction("stop");
-            return FlightCommands.getInstance().stop();
+
+            logger.info("** Flying towards {} edge **", finalEdgeLabel);
+            if (poiManager.atIslandEdge(direction.getDirection().stringForward(), cm.getCoordinates(), direction.getDirection().getFullDirectionString(direction.getDirection().stringForward()))) {
+                logger.info("** Reaching {} edge **", direction.getDirection().getFullDirectionString(direction.getDirection().stringForward()));
+
+                if (poiManager.atIslandEdge(this.finalEdgeLabel, cm.getCoordinates(), direction.getDirection().getFullDirectionString(this.finalEdgeLabel))) {
+                    logger.info("** Reached {} Edge **", this.finalEdgeLabel);
+                    
+                    String initialTurnDirection;
+                    String inPositionTurnDirection;
+                    if (pState.getOppositeUTurn().equals("right")) {
+                        inPositionTurnDirection = "left";
+                        initialTurnDirection = direction.getDirection().stringLeft();
+                    } else {
+                        inPositionTurnDirection = "right";
+                        initialTurnDirection = direction.getDirection().stringRight();
+                    }
+
+                    sm.setStage(new InPositionTurn(inPositionTurnDirection, new SearchFinal()));
+                    pState.setPrevAction("heading");
+                    pState.setPrevHeading(initialTurnDirection);
+                    return FlightCommands.getInstance().heading(initialTurnDirection);
+                }
+
+                pState.setPrevAction("fly");
+
+                sm.setStage(new UTurn(pState.getOppositeUTurn(), new SearchInitial(finalEdgeLabel)));
+                return FlightCommands.getInstance().fly();
+            }
+
+            if (pState.getPrevAction().equals("scan")) {
+                logger.info("** Flying forward **");
+                pState.setPrevAction("fly");
+                return FlightCommands.getInstance().fly();
+            } else {
+                logger.info("** Scanning square **");
+                pState.setPrevAction("scan");
+                return FlightCommands.getInstance().scan();
+            }
+
+            
     }
 }

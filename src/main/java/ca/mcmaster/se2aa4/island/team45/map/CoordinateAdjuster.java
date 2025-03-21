@@ -1,11 +1,11 @@
 package ca.mcmaster.se2aa4.island.team45.map;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 
 public class CoordinateAdjuster {
 
-    public int[] makeAdjustment(DirectionManager dm, PreviousDecision pd, int[] coordinates) {
+    public int[] makeAdjustment(DirectionManager dm, PreviousState pd, int[] coordinates) {
 
         if (pd.getPrevAction().equals("fly")) {
             return flyAdjust(dm, coordinates);
@@ -35,7 +35,7 @@ public class CoordinateAdjuster {
         return newCoords;
     }
 
-    private int[] headingAdjust(DirectionManager dm, PreviousDecision pd, int[] coords) {
+    private int[] headingAdjust(DirectionManager dm, PreviousState pd, int[] coords) {
         int[] newCoords = coords;
         switch (dm.getDirection()) {
             case "N":

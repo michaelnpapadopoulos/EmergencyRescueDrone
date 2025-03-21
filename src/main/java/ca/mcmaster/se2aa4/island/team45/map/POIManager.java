@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class POIManager {
-    // Island information
-    private HashMap<String, int[]> islandCorners = new HashMap<String, int[]>();
+    private HashMap<String, int[]> islandCorners = new HashMap<>();
     private IslandEdgeManager islandEdgeManager;
-
-    // Points of interest
-    private ArrayList<int[]> creeks = new ArrayList<int[]>();
+    private ArrayList<int[]> creeks = new ArrayList<>();
     private int[] siteLocation = new int[2];
 
     public POIManager() {

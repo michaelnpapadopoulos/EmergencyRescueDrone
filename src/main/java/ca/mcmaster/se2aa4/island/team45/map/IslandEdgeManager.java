@@ -7,7 +7,6 @@ public class IslandEdgeManager {
     private Map<String, int[]> edges = new HashMap<>();
     private Map<String, int[]> corners = new HashMap<>();
 
-
     public void addMapCorner(String cornerName, int[] cornerCoord) {
         this.corners.put(cornerName, cornerCoord);
     }
@@ -17,10 +16,7 @@ public class IslandEdgeManager {
     }
 
     public int[] getEdge(String direction) {
-        if (!edges.containsKey(direction)) {
-            return null;
-        }
-        return edges.get(direction);
+        return edges.getOrDefault(direction, null);
     }
 
     public boolean hasEdge(String direction) {

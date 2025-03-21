@@ -9,7 +9,6 @@ import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPositionTurn;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 public class EchoSweep extends Stage {
     private final Logger logger = LogManager.getLogger();
     boolean echoedRight = false;
-    boolean echoedForward = false;
     boolean echoedLeft = false;
     String relativeLastEchoed;
 
@@ -30,32 +28,38 @@ public class EchoSweep extends Stage {
         POIManager poiManager, 
         CoordinateManager cm
         ) { // Echos left, forward, then right to find the edge of the island
-            logger.info("** Echoing in all directions to find the edge of the island **");
-            String echoDirection;
-            
+            logger.info("** Echoing in left and right directions to find island edge **");
             if (pResult.getFound() != null && pResult.getFound().equals("GROUND")) { // Turns in the direction that the island was found in
                 logger.info("** Found the edge of the island **");
-                
-                
+
+                if (pDecision.getPrevHeading().equals(direction.getDirection())) {
+                    pDecision.setPrevAction("heading");
+                    pDecision.setPrevHeading(direction.getLeft());
+                    sm.setStage(new FindEdge("right")); // Sets the next stage to FindEdge if forward echo has found the edge of the island
+                    return FlightCommands.getInstance().heading(direction.getLeft());
+                }
+
+                poiManager.addIslandEdge(direction, cm.getCoordinates());
+                pDecision.setPrevAction("fly");
+                sm.setStage(new FindEdge(relativeLastEchoed));
+                return FlightCommands.getInstance().fly();
             } 
 
+
+            String echoDirection;
             if (echoedRight == false) { // Echo right
                 echoedRight = true;
                 relativeLastEchoed = "right";
                 echoDirection = direction.getRight();
                 
-            } else if (echoedForward == false) { // Echo forward
-                echoedForward = true;
-                echoDirection = direction.getDirection();
-
-            } else if (echoedLeft == false) { // Echo left
+            } else if (echoedLeft == false) { // Echo forward
                 echoedLeft = true;
                 relativeLastEchoed = "left";
                 echoDirection = direction.getLeft();
 
             } else {
                 logger.info("** Flying forward **");
-                this.echoedRight = false; this.echoedForward = false; this.echoedLeft = false;
+                this.echoedRight = false; this.echoedLeft = false;
 
                 pDecision.setPrevAction("fly");
                 return FlightCommands.getInstance().fly();

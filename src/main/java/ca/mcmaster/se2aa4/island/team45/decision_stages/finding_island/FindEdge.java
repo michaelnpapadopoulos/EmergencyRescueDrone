@@ -15,10 +15,14 @@ import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
 public class FindEdge extends Stage {
     private final Logger logger = LogManager.getLogger();
-    private int distanceToEdge;
+    private String directionToEcho;
 
-    public FindEdge (int distanceToEdge) {
-        this.distanceToEdge = distanceToEdge;
+    public FindEdge (String relativeLastEchoed, DirectionManager direction) {
+        if (relativeLastEchoed.equals("right")) {
+            this.directionToEcho = direction.getRight();
+        } else {
+            this.directionToEcho = direction.getLeft();
+        }
     }
 
     public String makeDecision(
@@ -30,24 +34,27 @@ public class FindEdge extends Stage {
         POIManager poiManager, 
         CoordinateManager cm
         ) {
-            logger.info("** Flying to the edge of the island **");
-            if (distanceToEdge >= 0) {
-                distanceToEdge--;
+            logger.info("** Echoing in {} direction to find edge **", directionToEcho);
+
+            if (pResult.getFound() != null && pResult.getFound().equals("OUT_OF_BOUNDS")) {
+                logger.info("** Found the edge of the island **");
+                pDecision.setPrevAction("heading");
+                pDecision.setPrevHeading(directionToEcho);
+                sm.setStage(new DirectionalSweep());
+                poiManager.addIslandEdge(direction, cm.getRearCoordinate(direction));
+
+                return FlightCommands.getInstance().heading(directionToEcho);
+            }
+
+            if (pDecision.getPrevAction().equals("fly")) {
+                pDecision.setPrevAction("echo");
+                pDecision.setPrevHeading(directionToEcho);
+
+                return FlightCommands.getInstance().echo(directionToEcho);
+            } else {
                 pDecision.setPrevAction("fly");
                 return FlightCommands.getInstance().fly();
-            } else if (distanceToEdge == -1) {
-                logger.info("** Reached the edge of the island **");
-                distanceToEdge--;
-
-                pDecision.setPrevAction("scan");
-                return FlightCommands.getInstance().scan();
-            } else {
-                logger.info("** Scanned the edge of the island **");
-                pDecision.setPrevAction("stop");
-
-                return FlightCommands.getInstance().stop();
             }
+                
     }
-
-    
 }

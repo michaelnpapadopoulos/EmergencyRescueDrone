@@ -1,10 +1,7 @@
 package ca.mcmaster.se2aa4.island.team45.map;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordValue;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
 
 public class POIManager {
@@ -31,8 +28,8 @@ public class POIManager {
         islandEdgeManager.addEdge(dm, coord);
     }
 
-    public int[] getIslandEdge(String direction) {
-        return islandEdgeManager.getEdge(direction);
+    public Coordinate getIslandEdge(String edgeLabel) {
+        return islandEdgeManager.getEdge(edgeLabel);
     }
 
     public boolean hasIslandEdge(String direction) {

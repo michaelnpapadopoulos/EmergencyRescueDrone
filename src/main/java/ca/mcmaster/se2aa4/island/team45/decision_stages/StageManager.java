@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.EchoSweep;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.FirstEcho;
 import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
@@ -19,7 +20,7 @@ public class StageManager {
     private CoordinateManager coordinateManager;
 
     public StageManager() {
-        this.currentStage = new EchoSweep();
+        this.currentStage = new FirstEcho();
         this.previousDecision = new PreviousDecision();
         this.coordinateManager = new CoordinateManager();
     }

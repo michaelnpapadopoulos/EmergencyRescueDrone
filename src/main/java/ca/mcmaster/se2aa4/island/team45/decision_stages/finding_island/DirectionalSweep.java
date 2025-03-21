@@ -14,10 +14,13 @@ import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPosi
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DirectionalSweep {
+public class DirectionalSweep extends Stage {
     private final Logger logger = LogManager.getLogger();
-    boolean echoed = false;
-    String relativeLastEchoed;
+    String directionToEcho;
+
+    public DirectionalSweep(String directionToEcho) {
+        this.directionToEcho = directionToEcho;
+    }
 
     public String makeDecision(
         DirectionManager direction, 
@@ -27,53 +30,28 @@ public class DirectionalSweep {
         StageManager sm, 
         POIManager poiManager, 
         CoordinateManager cm
-        ) { // Echos left, forward, then right to find the edge of the island
-            logger.info("** Echoing in {} direction **", );
-            String echoDirection;
-            
-            if (pResult.getFound() != null && pResult.getFound().equals("GROUND")) { // Turns in the direction that the island was found in
+        ) {
+            logger.info("** Echoing in {} direction to find edge **", directionToEcho);
+
+            if (pResult.getFound() != null && pResult.getFound().equals("OUT_OF_BOUNDS")) {
                 logger.info("** Found the edge of the island **");
-                logger.info("** Distance to edge of island: {} **", pResult.getRange());
-                sm.setStage(new InPositionTurn(relativeLastEchoed, new FindEdge(pResult.getRange() - 1))); // Transition to next stage, set distance to edge of island
+                pDecision.setPrevAction("heading");
+                pDecision.setPrevHeading(directionToEcho);
+                sm.setStage(new DirectionalSweep());
+                poiManager.addIslandEdge(direction, cm.getRearCoordinate(direction));
 
-                if (pDecision.getPrevHeading().equals(direction.getDirection())) { // Just goes straight if island found forwards
-                    pDecision.setPrevAction("fly");
-                    return FlightCommands.getInstance().fly();
+                return FlightCommands.getInstance().heading(directionToEcho);
+            }
 
-                } else { // Turns in the direction that the island was found in
-                    pDecision.setPrevAction("heading");
-                    pDecision.setPrevHeading(pDecision.getPrevHeading());
-                    return FlightCommands.getInstance().heading(pDecision.getPrevHeading());
-                }
-            } 
+            if (pDecision.getPrevAction().equals("fly")) {
+                pDecision.setPrevAction("echo");
+                pDecision.setPrevHeading(directionToEcho);
 
-            if (echoedRight == false) { // Echo right
-                echoedRight = true;
-                relativeLastEchoed = "right";
-                echoDirection = direction.getRight();
-                
-            } else if (echoedForward == false) { // Echo forward
-                echoedForward = true;
-                echoDirection = direction.getDirection();
-
-            } else if (echoedLeft == false) { // Echo left
-                echoedLeft = true;
-                relativeLastEchoed = "left";
-                echoDirection = direction.getLeft();
-
+                return FlightCommands.getInstance().echo(directionToEcho);
             } else {
-                logger.info("** Flying forward **");
-                this.echoedRight = false; this.echoedForward = false; this.echoedLeft = false;
-
                 pDecision.setPrevAction("fly");
                 return FlightCommands.getInstance().fly();
             }
-
-            logger.info("** Echoing " + echoDirection + " **");
-            pDecision.setPrevAction("echo");
-            pDecision.setPrevHeading(echoDirection);
-            
-            return FlightCommands.getInstance().echo(echoDirection);
     }
     
 }

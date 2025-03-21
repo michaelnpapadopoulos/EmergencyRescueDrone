@@ -22,6 +22,32 @@ public class CoordinateManager {
         return new Coordinate(new CoordValue(getCoordinateX()), new CoordValue(getCoordinateY()));
     }
 
+    public Coordinate getRearCoordinate(DirectionManager dm) {
+        Coordinate rearAdjustedCoords = getCoordinates();
+        switch (dm.getDirection()) {
+            case "N":
+                rearAdjustedCoords.incrementY();
+                break;
+
+            case "E":
+                rearAdjustedCoords.decrementX();
+                break;
+
+            case "S":
+                rearAdjustedCoords.decrementY();
+                break;
+
+            case "W":
+                rearAdjustedCoords.incrementX();
+                break;
+
+            default:
+                return null;
+        }
+        
+        return rearAdjustedCoords;
+    }
+
     public int getCoordinateX() {
         return this.currentCoords.getX().getCoordVal();
     }

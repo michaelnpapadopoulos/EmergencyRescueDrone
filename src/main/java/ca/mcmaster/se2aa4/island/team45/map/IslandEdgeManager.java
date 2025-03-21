@@ -7,7 +7,6 @@ import java.util.Map;
 
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
 import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordValue;
 
 public class IslandEdgeManager {
     private Map<String, Coordinate> edges = new HashMap<>();
@@ -18,7 +17,7 @@ public class IslandEdgeManager {
         edgeCoordinates.add(edge);
     }
 
-    public void determineEdges() {
+    public void labelEdges() {
         if (edgeCoordinates.get(0).getX() == null) {
             if (edgeCoordinates.get(1).getY().getCoordVal() > edgeCoordinates.get(0).getY().getCoordVal()) {
                 edges.put("South", edgeCoordinates.get(1));
@@ -50,18 +49,14 @@ public class IslandEdgeManager {
                 edges.put("South", edgeCoordinates.get(3));
             }
         }
-        
     }
 
-    // public int[] getEdge(String direction) {
-    //     if (!edges.containsKey(direction)) {
-    //         return null;
-    //     }
-    //     return edges.get(direction);
-    // }
+    public Coordinate getEdge(String edgeLabel) {
+        return edges.get(edgeLabel);
+    }
 
-    public boolean hasEdge(String direction) {
-        return edges.containsKey(direction);
+    public boolean hasEdge(String edgeLabel) { // Takes in "North", "East", "South", or "West"
+        return edges.containsKey(edgeLabel);
     }
 
     private Coordinate determineEdge(DirectionManager direction, Coordinate coord) {

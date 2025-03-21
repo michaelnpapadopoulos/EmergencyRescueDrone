@@ -3,19 +3,19 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
+// Removed PreviousDecision import since we're using PreviousState
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Stage;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
-public class UTurn extends Stage {
+public class UTurn implements Stage {
     private final Logger logger = LogManager.getLogger();
-    private boolean turned;
+    private boolean turned = false;
     private String turnDirection;
     private Stage returnStage;
 
@@ -27,43 +27,53 @@ public class UTurn extends Stage {
     public String makeDecision(
         DirectionManager direction, 
         BatteryManager battery, 
-        PreviousResult pResult, 
-        PreviousDecision pDecision, 
+        PreviousState pState, 
         StageManager sm, 
         POIManager poiManager, 
         CoordinateManager cm
         ) {
-            if (turnDirection.equals("right")) {
-                return uTurnRight(direction, pDecision, sm);
+            if (pState.getPrevUTurn() == null) {
+                if (turnDirection.equals("right")) {
+                    return uTurnRight(direction, pState, sm);
+                } else {
+                    return uTurnLeft(direction, pState, sm);
+                }
             } else {
-                return uTurnLeft(direction, pDecision, sm);
+                if (pState.getPrevUTurn().equals("right")) {
+                    return uTurnLeft(direction, pState, sm);
+                } else {
+                    return uTurnRight(direction, pState, sm);
+                }
             }
-
         }
 
-    private String uTurnRight(DirectionManager direction, PreviousDecision pDecision, StageManager sm) {
+    private String uTurnRight(DirectionManager direction, PreviousState pState, StageManager sm) {
         logger.info("** Making a right U-turn **");
-        this.turned = true;
-
+       
         if (turned == true) {
             sm.setStage(returnStage);
+            pState.setPrevUTurn("right");
         }
 
-        pDecision.setPrevAction("heading");
-        pDecision.setPrevHeading(direction.getRight());
-        return FlightCommands.getInstance().heading(direction.getRight());
+        this.turned = true;
+
+        pState.setPrevAction("heading");
+        pState.setPrevHeading(direction.getDirection().stringRight());
+        return FlightCommands.getInstance().heading(direction.getDirection().stringRight());
     }
 
-    private String uTurnLeft(DirectionManager direction, PreviousDecision pDecision, StageManager sm) {
+    private String uTurnLeft(DirectionManager direction, PreviousState pState, StageManager sm) {
         logger.info("** Making a left U-turn **");
-        this.turned = true;
 
         if (turned == true) {
             sm.setStage(returnStage);
+            pState.setPrevUTurn("left");
         }
 
-        pDecision.setPrevAction("heading");
-        pDecision.setPrevHeading(direction.getLeft());
-        return FlightCommands.getInstance().heading(direction.getLeft());
+        this.turned = true;
+
+        pState.setPrevAction("heading");
+        pState.setPrevHeading(direction.getDirection().stringLeft());
+        return FlightCommands.getInstance().heading(direction.getDirection().stringLeft());
     }
 }

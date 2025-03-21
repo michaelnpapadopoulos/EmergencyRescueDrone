@@ -7,12 +7,13 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.DroneConfiguration;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightManager;
-import ca.mcmaster.se2aa4.island.team45.drone.SimpleBatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.SimpleBatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import eu.ace_design.island.bot.IExplorerRaid;
 
@@ -35,7 +36,7 @@ public class Explorer implements IExplorerRaid {
 
             // Initialize FlightManager using the builder pattern
             flightManager = new FlightManager.Builder()
-                .withDirectionManager(new DirectionManager())
+                .withDirectionManager(new DirectionManager(new Direction(direction)))
                 .withBatteryManager(new SimpleBatteryManager(batteryLevel))
                 .withPreviousState(new PreviousState())
                 .withStageManager(new StageManager())
@@ -66,6 +67,7 @@ public class Explorer implements IExplorerRaid {
         try {
             JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
             flightManager.acknowledgeResults(response);
+            logger.info("\n\n");
         } catch (Exception e) {
             logger.error("Error while acknowledging results: ", e);
         }

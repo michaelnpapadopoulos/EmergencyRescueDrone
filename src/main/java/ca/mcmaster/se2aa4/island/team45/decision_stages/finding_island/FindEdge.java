@@ -3,56 +3,77 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Stage;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.SearchInitial;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.UTurn;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
-public class FindEdge extends Stage {
+public class FindEdge implements Stage {
     private final Logger logger = LogManager.getLogger();
     private String directionToEcho;
-
-    public FindEdge (String relativeLastEchoed, DirectionManager direction) {
-        if (relativeLastEchoed.equals("right")) {
-            this.directionToEcho = direction.getRight();
-        } else {
-            this.directionToEcho = direction.getLeft();
-        }
-    }
+    private boolean setDirectionToEcho = false;
 
     public String makeDecision(
         DirectionManager direction, 
         BatteryManager battery, 
-        PreviousResult pResult, 
-        PreviousDecision pDecision, 
-        StageManager sm, 
+        PreviousState previousState, 
+        StageManager stageManager, 
         POIManager poiManager, 
-        CoordinateManager cm
+        CoordinateManager coordinateManager
         ) {
-            logger.info("** Echoing in {} direction to find edge **", directionToEcho);
+            if (!setDirectionToEcho) { // Sets direction to echo on the first call
+                this.directionToEcho = previousState.getPrevHeading();
+                this.setDirectionToEcho = true;
+            }
 
-            if (pResult.getFound() != null && pResult.getFound().equals("OUT_OF_BOUNDS")) {
+            logger.info("** Echoing in {} direction to find edge **", directionToEcho);
+            if (previousState.getFound() != null && previousState.getFound().equals("OUT_OF_RANGE")) {
                 logger.info("** Found the edge of the island **");
-                pDecision.setPrevAction("heading");
-                pDecision.setPrevHeading(directionToEcho);
-                sm.setStage(new DirectionalSweep());
-                poiManager.addIslandEdge(direction, cm.getRearCoordinate(direction));
+                previousState.setPrevAction("heading");
+                previousState.setPrevHeading(directionToEcho);
+
+                String sweepDirection;
+                Direction tempDir = new Direction(directionToEcho);
+                if (direction.getDirection().stringRight().equals(directionToEcho)) {
+                    sweepDirection = tempDir.stringRight();
+                } else {
+                    sweepDirection = tempDir.stringLeft();
+                }
+                stageManager.setStage(new DirectionalSweep(sweepDirection));
+                poiManager.addIslandEdge(direction, coordinateManager.getRearCoordinate(direction));
+
+                if (poiManager.numberOfIslandEdgesFound() == 4) {
+                    logger.info("** Found all island edges **");
+                    poiManager.labelIslandEdges(); // Label island edges and add them to the IslandManager's hashmap
+                    previousState.setPrevAction("fly");
+
+                    String turnDirection;
+                    if (direction.getDirection().stringRight().equals(directionToEcho)) {
+                        turnDirection = "right";
+                    } else {
+                        turnDirection = "left";
+                    }
+                    stageManager.setStage(new UTurn(turnDirection, new SearchInitial()));
+                    return FlightCommands.getInstance().fly();
+                }
 
                 return FlightCommands.getInstance().heading(directionToEcho);
             }
 
-            if (pDecision.getPrevAction().equals("fly")) {
-                pDecision.setPrevAction("echo");
-                pDecision.setPrevHeading(directionToEcho);
+            if (previousState.getPrevAction().equals("fly")) {
+                previousState.setPrevAction("echo");
+                previousState.setPrevHeading(directionToEcho);
 
                 return FlightCommands.getInstance().echo(directionToEcho);
             } else {
-                pDecision.setPrevAction("fly");
+                previousState.setPrevAction("fly");
                 return FlightCommands.getInstance().fly();
             }
                 

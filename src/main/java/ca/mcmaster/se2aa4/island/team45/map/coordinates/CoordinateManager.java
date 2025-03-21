@@ -1,21 +1,18 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 
 public class CoordinateManager {
     private Coordinate currentCoords;
     private CoordinateAdjuster coordAdjuster = new CoordinateAdjuster();
 
-
     public CoordinateManager() {
-        currentCoords = new Coordinate(new CoordValue(1), new CoordValue(1));
+        this.currentCoords = new Coordinate(new CoordValue(1), new CoordValue(1));
     }
 
-    public void adjustCoords(DirectionManager dm, PreviousDecision pd) {
-        Coordinate originalCoords = this.currentCoords;
-        Coordinate adjustedCoords = coordAdjuster.makeAdjustment(dm, pd, originalCoords);
-        this.currentCoords = adjustedCoords;
+    public void adjustCoords(DirectionManager dm, PreviousState ps) {
+        this.currentCoords = coordAdjuster.makeAdjustment(dm, ps, this.currentCoords);
     }
 
     public Coordinate getCoordinates() {
@@ -24,7 +21,7 @@ public class CoordinateManager {
 
     public Coordinate getRearCoordinate(DirectionManager dm) {
         Coordinate rearAdjustedCoords = getCoordinates();
-        switch (dm.getDirection()) {
+        switch (dm.getDirection().stringForward()) {
             case "N":
                 rearAdjustedCoords.incrementY();
                 break;
@@ -47,6 +44,7 @@ public class CoordinateManager {
         
         return rearAdjustedCoords;
     }
+
 
     public int getCoordinateX() {
         return this.currentCoords.getX().getCoordVal();

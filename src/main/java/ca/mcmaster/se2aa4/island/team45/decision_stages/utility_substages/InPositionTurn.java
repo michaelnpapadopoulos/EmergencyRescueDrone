@@ -3,17 +3,16 @@ package ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Stage;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
-public class InPositionTurn extends Stage {
+public class InPositionTurn implements Stage {
     private final Logger logger = LogManager.getLogger();
     private int turnCount = 0;
     private String turnDirection;
@@ -24,91 +23,89 @@ public class InPositionTurn extends Stage {
         this.returnStage = returnStage;
     }
 
-    private String inPositionRight(DirectionManager direction, PreviousDecision pDecision, StageManager sm) {
+    private String inPositionRight(DirectionManager direction, PreviousState pState, StageManager sm) {
         logger.info("** Making an in position right turn **");
         String headingDir;
 
         if (turnCount == 4) { // Final right turn to face the inital direction
-            pDecision.setPrevAction("heading");
-            pDecision.setPrevHeading(direction.getRight());
+            pState.setPrevAction("heading");
+            pState.setPrevHeading(direction.getDirection().stringRight());
             sm.setStage(returnStage);
-            return FlightCommands.getInstance().heading(direction.getRight());
+            return FlightCommands.getInstance().heading(direction.getDirection().stringRight());
         }
 
         if (turnCount == 0) {
             turnCount++;
-            headingDir = direction.getRight();
+            headingDir = direction.getDirection().stringRight();
             
         } else if (turnCount == 1) { // Offsets plane by 1 square to allow for an in position right turn
             turnCount++;
-            pDecision.setPrevAction("fly");
+            pState.setPrevAction("fly");
             return FlightCommands.getInstance().fly();
 
         } else if (turnCount == 2) {
             turnCount++;
-            headingDir = direction.getRight();
+            headingDir = direction.getDirection().stringRight();
 
         } else {
             turnCount++;
-            headingDir = direction.getRight();
+            headingDir = direction.getDirection().stringRight();
         }
 
-        pDecision.setPrevAction("heading");
-        pDecision.setPrevHeading(headingDir);
+        pState.setPrevAction("heading");
+        pState.setPrevHeading(headingDir);
         
         return FlightCommands.getInstance().heading(headingDir);
     }
 
-
-
-    private String inPositionLeft(DirectionManager direction, PreviousDecision pDecision, StageManager sm) {
+    private String inPositionLeft(DirectionManager direction, PreviousState pState, StageManager sm) {
         logger.info("** Making an in position left turn **");
         String headingDir;
 
         if (turnCount == 4) { // Final left turn to face the inital direction
-            pDecision.setPrevAction("heading");
-            pDecision.setPrevHeading(direction.getLeft());
+            pState.setPrevAction("heading");
+            pState.setPrevHeading(direction.getDirection().stringLeft());
             sm.setStage(returnStage);
-            return FlightCommands.getInstance().heading(direction.getLeft());
+            return FlightCommands.getInstance().heading(direction.getDirection().stringLeft());
         }
 
         if (turnCount == 0) {
             turnCount++;
-            headingDir = direction.getLeft();
+            headingDir = direction.getDirection().stringLeft();
             
         } else if (turnCount == 1) { // Offsets plane by 1 square to allow for an in position left turn
             turnCount++;
-            pDecision.setPrevAction("fly");
+            pState.setPrevAction("fly");
             return FlightCommands.getInstance().fly();
 
         } else if (turnCount == 2) {
             turnCount++;
-            headingDir = direction.getLeft();
+            headingDir = direction.getDirection().stringLeft();
 
         } else {
             turnCount++;
-            headingDir = direction.getLeft();
+            headingDir = direction.getDirection().stringLeft();
         }
 
-        pDecision.setPrevAction("heading");
-        pDecision.setPrevHeading(headingDir);
+        pState.setPrevAction("heading");
+        pState.setPrevHeading(headingDir);
         
         return FlightCommands.getInstance().heading(headingDir);
     }
 
+    @Override
     public String makeDecision(
         DirectionManager direction, 
         BatteryManager battery, 
-        PreviousResult pResult, 
-        PreviousDecision pDecision, 
-        StageManager sm, 
+        PreviousState previousState, 
+        StageManager stageManager, 
         POIManager poiManager, 
-        CoordinateManager cm
+        CoordinateManager coordinateManager
         ) {
             if (turnDirection.equals("right")) {
-                return inPositionRight(direction, pDecision, sm);
+                return inPositionRight(direction, previousState, stageManager);
             } else if (turnDirection.equals("left")) {
-                return inPositionLeft(direction, pDecision, sm);
+                return inPositionLeft(direction, previousState, stageManager);
             } else {
                 logger.error("** Invalid turn direction **");
                 return null;

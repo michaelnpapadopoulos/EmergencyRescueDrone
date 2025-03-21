@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
 
 public class IslandEdgeManager {
     private Map<String, Coordinate> edges = new HashMap<>();
     private List<Coordinate> edgeCoordinates = new ArrayList<>();
+
+    public int numberOfCoordsFound() {
+        return edgeCoordinates.size();
+    }
 
     public void addEdge(DirectionManager direction, Coordinate coordinates) {
         Coordinate edge = determineEdge(direction, coordinates);
@@ -52,16 +56,19 @@ public class IslandEdgeManager {
     }
 
     public Coordinate getEdge(String edgeLabel) {
-        return edges.get(edgeLabel);
+        if (hasEdge(edgeLabel)) {
+            return edges.get(edgeLabel);
+        }
+        return null;
     }
 
     public boolean hasEdge(String edgeLabel) { // Takes in "North", "East", "South", or "West"
         return edges.containsKey(edgeLabel);
     }
 
-    private Coordinate determineEdge(DirectionManager direction, Coordinate coord) {
+    private Coordinate determineEdge(DirectionManager directionMan, Coordinate coord) {
         Coordinate edge;
-        String currDirection = direction.getDirection();
+        String currDirection = directionMan.getDirection().stringForward();
         if (currDirection.equals("N") || currDirection.equals("S")) {
             edge = new Coordinate(null,coord.getY());
             return edge;

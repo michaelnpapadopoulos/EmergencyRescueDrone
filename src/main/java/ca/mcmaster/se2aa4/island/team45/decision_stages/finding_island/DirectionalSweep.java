@@ -1,20 +1,18 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousDecision;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Stage;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
-import ca.mcmaster.se2aa4.island.team45.drone.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.POIManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPositionTurn;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DirectionalSweep extends Stage {
+public class DirectionalSweep implements Stage {
     private final Logger logger = LogManager.getLogger();
     String directionToEcho;
 
@@ -25,34 +23,32 @@ public class DirectionalSweep extends Stage {
     public String makeDecision(
         DirectionManager direction, 
         BatteryManager battery, 
-        PreviousResult pResult, 
-        PreviousDecision pDecision, 
-        StageManager sm, 
+        PreviousState previousState, 
+        StageManager stageManager, 
         POIManager poiManager, 
-        CoordinateManager cm
+        CoordinateManager coordinateManager
         ) {
             logger.info("** Echoing in {} direction to find edge **", directionToEcho);
 
-            if (pResult.getFound() != null && pResult.getFound().equals("OUT_OF_BOUNDS")) {
+            if (previousState.getFound() != null && previousState.getFound().equals("GROUND")) {
                 logger.info("** Found the edge of the island **");
-                pDecision.setPrevAction("heading");
-                pDecision.setPrevHeading(directionToEcho);
-                sm.setStage(new DirectionalSweep());
-                poiManager.addIslandEdge(direction, cm.getRearCoordinate(direction));
+                previousState.setPrevAction("fly");
+                previousState.setPrevHeading(directionToEcho);
+                stageManager.setStage(new FindEdge());
+                poiManager.addIslandEdge(direction, coordinateManager.getCoordinates());
 
-                return FlightCommands.getInstance().heading(directionToEcho);
+                return FlightCommands.getInstance().fly();
             }
 
-            if (pDecision.getPrevAction().equals("fly")) {
-                pDecision.setPrevAction("echo");
-                pDecision.setPrevHeading(directionToEcho);
+            if (previousState.getPrevAction().equals("fly")) {
+                previousState.setPrevAction("echo");
+                previousState.setPrevHeading(directionToEcho);
 
                 return FlightCommands.getInstance().echo(directionToEcho);
             } else {
-                pDecision.setPrevAction("fly");
+                previousState.setPrevAction("fly");
                 return FlightCommands.getInstance().fly();
             }
     }
-    
 }
 

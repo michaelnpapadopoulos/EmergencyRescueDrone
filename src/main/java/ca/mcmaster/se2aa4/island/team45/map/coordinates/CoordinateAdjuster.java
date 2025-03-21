@@ -1,16 +1,16 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
-import ca.mcmaster.se2aa4.island.team45.decision_stages.PreviousState;
-import ca.mcmaster.se2aa4.island.team45.drone.DirectionManager;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 
 public class CoordinateAdjuster {
 
-    public Coordinate makeAdjustment(DirectionManager dm, PreviousDecision pd, Coordinate coordinates) {
+    public Coordinate makeAdjustment(DirectionManager dm, PreviousState ps, Coordinate coordinates) {
 
-        if (pd.getPrevAction().equals("fly")) {
+        if (ps.getPrevAction().equals("fly")) {
             return flyAdjust(dm, coordinates);
-        } else if (pd.getPrevAction().equals("heading")) {
-            return headingAdjust(dm, pd, coordinates);
+        } else if (ps.getPrevAction().equals("heading")) {
+            return headingAdjust(dm, ps, coordinates);
         } else {
             return coordinates;
         }
@@ -18,7 +18,7 @@ public class CoordinateAdjuster {
 
     private Coordinate flyAdjust(DirectionManager dm, Coordinate coords) {
         Coordinate newCoords = coords;
-        switch (dm.getDirection()) {
+        switch (dm.getDirection().stringForward()) {
             case "N":
                 newCoords.decrementY();
                 break;
@@ -35,47 +35,47 @@ public class CoordinateAdjuster {
         return newCoords;
     }
 
-    private Coordinate headingAdjust(DirectionManager dm, PreviousDecision pd, Coordinate coords) {
+    private Coordinate headingAdjust(DirectionManager dm, PreviousState ps, Coordinate coords) {
         Coordinate newCoords = coords;
-        switch (dm.getDirection()) {
+        switch (dm.getDirection().stringForward()) {
             case "N":
-                if (pd.getPrevHeading().equals("E")) {
+                if (ps.getPrevHeading().equals("E")) {
                     newCoords.incrementX();
-                } else if (pd.getPrevHeading().equals("W")) {
+                } else if (ps.getPrevHeading().equals("W")) {
                     newCoords.decrementX();
                 }
                 newCoords.decrementY();
                 break;
 
             case "E":
-                if (pd.getPrevHeading().equals("N")) {
+                if (ps.getPrevHeading().equals("N")) {
                     newCoords.decrementY();
-                } else if (pd.getPrevHeading().equals("S")) {
+                } else if (ps.getPrevHeading().equals("S")) {
                     newCoords.incrementY();
                 }
                 newCoords.incrementX();
                 break;
 
             case "S":
-                if (pd.getPrevHeading().equals("E")) {
+                if (ps.getPrevHeading().equals("E")) {
                     newCoords.decrementX();
-                } else if (pd.getPrevHeading().equals("W")) {
+                } else if (ps.getPrevHeading().equals("W")) {
                     newCoords.decrementX();
                 }
                 newCoords.incrementY();
                 break;
 
             case "W":
-                if (pd.getPrevHeading().equals("N")) {
+                if (ps.getPrevHeading().equals("N")) {
                     newCoords.decrementY();
-                } else if (pd.getPrevHeading().equals("S")) {
+                } else if (ps.getPrevHeading().equals("S")) {
                     newCoords.incrementY();
                 }
                 newCoords.decrementX();
                 break;
         }
         
-        dm.setDirection(pd.getPrevHeading());
+        dm.setDirection(ps.getPrevHeading());
         return newCoords;
     }
 }

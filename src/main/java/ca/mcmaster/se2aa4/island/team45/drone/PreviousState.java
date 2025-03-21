@@ -1,10 +1,11 @@
-package ca.mcmaster.se2aa4.island.team45.decision_stages;
+package ca.mcmaster.se2aa4.island.team45.drone;
 
 import org.json.JSONObject;
 
 public class PreviousState {
     private String prevAction;
     private String prevHeading;
+    private String prevUTurn = null;
     private int cost;
     private JSONObject extras;
     private String status;
@@ -53,5 +54,22 @@ public class PreviousState {
             return null;
         }
         return getExtras().getString("found");
+    }
+
+    public int getRange() {
+        if (getExtras() == null) {
+            return -1;
+        } else if (!getExtras().has("range")) {
+            return -1;
+        }
+        return getExtras().getInt("range");
+    }
+
+    public void setPrevUTurn(String prevUTurn) {
+        this.prevUTurn = prevUTurn;
+    }
+
+    public String getPrevUTurn() {
+        return prevUTurn;
     }
 }

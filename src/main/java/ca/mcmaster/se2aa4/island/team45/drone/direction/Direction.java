@@ -18,16 +18,47 @@ public class Direction {
             case "N":
                 this.directionState = new NorthDirectionState();
                 break;
+            case "North":
+                this.directionState = new NorthDirectionState();
+                break;
             case "E":
+                this.directionState = new EastDirectionState();
+                break;
+            case "East":
                 this.directionState = new EastDirectionState();
                 break;
             case "S":
                 this.directionState = new SouthDirectionState();
                 break;
+            case "South":
+                this.directionState = new SouthDirectionState();
+                break;
             case "W":
                 this.directionState = new WestDirectionState();
                 break;
+            case "West":
+                this.directionState = new WestDirectionState();
+                break;
         }
+    }
+
+    public Direction getOppositeDirection() {
+        Direction oppDirection;
+        switch (this.directionState.getDirection()) {
+            case "N":
+                oppDirection = new Direction("S");
+                return oppDirection;
+            case "E":
+                oppDirection = new Direction("W");
+                return oppDirection;
+            case "S":
+                oppDirection = new Direction("N");
+                return oppDirection;
+            case "W":
+                oppDirection = new Direction("E");
+                return oppDirection;
+        }
+        return null;
     }
 
     public String getFullDirectionString(String directionChar) {

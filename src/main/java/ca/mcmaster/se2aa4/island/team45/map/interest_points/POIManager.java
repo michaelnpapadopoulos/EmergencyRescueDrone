@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45.map;
+package ca.mcmaster.se2aa4.island.team45.map.interest_points;
 
 import java.util.ArrayList;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
@@ -9,21 +9,35 @@ public class POIManager {
     private IslandEdgeManager islandEdgeManager;
 
     // Points of interest
-    private ArrayList<Coordinate> creeks = new ArrayList<Coordinate>();
-    private Coordinate siteLocation;
+    private ArrayList<Creek> creeks = new ArrayList<Creek>();
+    private Site emergencySite;
 
     public POIManager() {
         this.islandEdgeManager = new IslandEdgeManager();
     }
 
-    public void addCreek(Coordinate creekCoord) {
-        creeks.add(creekCoord);
+
+    //==== CREEK METHODS ====//
+    public void addCreek(Creek newCreek) {
+        creeks.add(newCreek);
     }
 
-    public void setSiteLocation(Coordinate siteCoord) {
-        siteLocation = siteCoord;
+    public void setSiteLocation(Site newSite) {
+        this.emergencySite = newSite;
     }
 
+    // TESTING GETTER
+    public ArrayList<Creek> getCreeks() {
+        return creeks;
+    }
+
+    // TESTING GETTER
+    public Site getSite() {
+        return emergencySite;
+    }
+
+
+    //==== ISLAND EDGE METHODS ====//
     public void addIslandEdge(DirectionManager dm, Coordinate coord) {
         islandEdgeManager.addEdge(dm, coord);
     }
@@ -47,4 +61,6 @@ public class POIManager {
     public boolean atIslandEdge(String directionChar, Coordinate currentCoord, String edgeLabel) {
         return islandEdgeManager.atEdge(directionChar, currentCoord, edgeLabel);
     }
+
+    
 }

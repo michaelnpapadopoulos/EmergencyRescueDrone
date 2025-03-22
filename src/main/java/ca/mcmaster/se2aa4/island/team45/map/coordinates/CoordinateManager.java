@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
+import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 
@@ -43,6 +44,25 @@ public class CoordinateManager {
         }
         
         return rearAdjustedCoords;
+    }
+
+public Coordinate getOffsetCoordinates(Direction direction, int shift) {
+    switch (direction.stringForward()) {
+        case "N":
+            return new Coordinate(new CoordValue(getCoordinateX()), new CoordValue(getCoordinateY() - shift));
+
+        case "E":
+            return new Coordinate(new CoordValue(getCoordinateX() + shift), new CoordValue(getCoordinateY()));
+
+        case "S":
+            return new Coordinate(new CoordValue(getCoordinateX()), new CoordValue(getCoordinateY() + shift));
+
+        case "W":
+            return new Coordinate(new CoordValue(getCoordinateX() - shift), new CoordValue(getCoordinateY()));
+
+            default:
+            return null;
+       }
     }
 
 

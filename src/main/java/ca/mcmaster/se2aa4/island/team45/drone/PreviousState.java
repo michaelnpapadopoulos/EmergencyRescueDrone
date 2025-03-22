@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.drone;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PreviousState {
@@ -69,7 +70,7 @@ public class PreviousState {
         this.prevUTurn = turnDirection;
     }
 
-    private String getPrevUTurn() {
+    public String getPrevUTurn() {
         return this.prevUTurn;
     }
 
@@ -83,5 +84,58 @@ public class PreviousState {
                 return "right";
             }
         }
+    }
+
+     public JSONArray getBiomes() {
+        if (getExtras() == null) {
+            return null;
+        } else if (!getExtras().has("biomes")) {
+            return null;
+        }
+        return getExtras().getJSONArray("biomes");
+    }
+
+    public JSONArray getSites() {
+        if (getExtras() == null || getExtras().getJSONArray("sites").length() == 0) {
+            return null;
+        } 
+
+        return getExtras().getJSONArray("sites");
+    }
+
+    public String[] retrieveSites() {
+        JSONArray sites = getSites();
+        if (sites == null) {
+            return null;
+        }
+
+        String[] siteList = new String[sites.length()];
+        for (int i = 0; i < sites.length(); i++) {
+            siteList[i] = sites.getString(i);
+        }
+
+        return siteList;
+    }
+
+    public JSONArray getCreeks() {
+        if (getExtras() == null || getExtras().getJSONArray("creeks").length() == 0) {
+            return null;
+        } 
+
+        return getExtras().getJSONArray("creeks");
+    }
+
+    public String[] retrieveCreeks() {
+        JSONArray creeks = getCreeks();
+        if (creeks == null) {
+            return null;
+        }
+
+        String[] creekList = new String[creeks.length()];
+        for (int i = 0; i < creeks.length(); i++) {
+            creekList[i] = creeks.getString(i);
+        }
+
+        return creekList;
     }
 }

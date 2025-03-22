@@ -14,7 +14,7 @@ import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.battery.SimpleBatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 import eu.ace_design.island.bot.IExplorerRaid;
 
 

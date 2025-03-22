@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45.map;
+package ca.mcmaster.se2aa4.island.team45.map.interest_points;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,19 +82,19 @@ public class IslandEdgeManager {
     public boolean atEdge(String directionChar, Coordinate currCoord, String edgeLabel) {
         Coordinate edge = getEdge(edgeLabel);
         if (directionChar.equals("N")) {
-            if (currCoord.getY().getCoordVal() < edge.getY().getCoordVal()) {
+            if (currCoord.getY().getCoordVal() <= edge.getY().getCoordVal()) {
                 return true;
             }
         } else if (directionChar.equals("S")) {
-            if (currCoord.getY().getCoordVal() > edge.getY().getCoordVal()) {
+            if (currCoord.getY().getCoordVal() >= edge.getY().getCoordVal()) {
                 return true;
             }
         } else if (directionChar.equals("E")) {
-            if (currCoord.getX().getCoordVal() > edge.getX().getCoordVal()) {
+            if (currCoord.getX().getCoordVal() >= edge.getX().getCoordVal()) {
                 return true;
             }
         } else {
-            if (currCoord.getX().getCoordVal() < edge.getX().getCoordVal()) {
+            if (currCoord.getX().getCoordVal() <= edge.getX().getCoordVal()) {
                 return true;
             }
         }

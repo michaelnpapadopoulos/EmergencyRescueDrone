@@ -58,7 +58,7 @@ public class CoordinateAdjuster {
 
             case "S":
                 if (ps.getPrevHeading().equals("E")) {
-                    newCoords.decrementX();
+                    newCoords.incrementX();
                 } else if (ps.getPrevHeading().equals("W")) {
                     newCoords.decrementX();
                 }

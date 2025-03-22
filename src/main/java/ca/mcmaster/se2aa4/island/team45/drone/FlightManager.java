@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
 import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 
 public class FlightManager {
     private final Logger logger = LogManager.getLogger();

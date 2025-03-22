@@ -48,7 +48,7 @@ public class EchoSweep implements Stage {
                 echoedRight = true;
                 echoDirection = direction.getDirection().stringRight();
                 
-            } else if (echoedLeft == false) { // Echo forward
+            } else if (echoedLeft == false) { // Echo left
                 echoedLeft = true;
                 echoDirection = direction.getDirection().stringLeft();
 

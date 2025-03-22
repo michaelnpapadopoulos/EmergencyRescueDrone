@@ -39,20 +39,16 @@ public class SearchInitial implements Stage { // The initial stage of the missio
                 if (poiManager.atIslandEdge(this.finalEdgeLabel, cm.getCoordinates(), direction.getDirection().getFullDirectionString(this.finalEdgeLabel))) {
                     logger.info("** Reached {} Edge **", this.finalEdgeLabel);
                     
-                    String initialTurnDirection;
-                    String inPositionTurnDirection;
+                    String UTurnDirection;
                     if (pState.getOppositeUTurn().equals("right")) {
-                        inPositionTurnDirection = "left";
-                        initialTurnDirection = direction.getDirection().stringLeft();
+                        UTurnDirection = "left";
                     } else {
-                        inPositionTurnDirection = "right";
-                        initialTurnDirection = direction.getDirection().stringRight();
+                        UTurnDirection = "right";
                     }
 
-                    sm.setStage(new InPositionTurn(inPositionTurnDirection, new SearchFinal()));
-                    pState.setPrevAction("heading");
-                    pState.setPrevHeading(initialTurnDirection);
-                    return FlightCommands.getInstance().heading(initialTurnDirection);
+                    sm.setStage(new UTurn(UTurnDirection, new InPositionTurn(pState.getOppositeUTurn(), new SearchFinal())));
+                    pState.setPrevAction("fly");
+                    return FlightCommands.getInstance().fly();
                 }
 
                 pState.setPrevAction("fly");

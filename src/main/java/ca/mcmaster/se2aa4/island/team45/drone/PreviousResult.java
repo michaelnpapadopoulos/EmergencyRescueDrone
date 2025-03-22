@@ -61,4 +61,18 @@ public class PreviousResult {
         }
         return getExtras().getJSONArray("biomes");
     }
+
+    public boolean noLand() {
+        JSONArray biomes = getBiomes();
+        if (biomes == null) {
+            return false;
+        } else {
+            for(int i = 0; i < biomes.length(); i++) {
+                if (!biomes.getString(i).equals("OCEAN") || !biomes.getString(i).equals("LAKE")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

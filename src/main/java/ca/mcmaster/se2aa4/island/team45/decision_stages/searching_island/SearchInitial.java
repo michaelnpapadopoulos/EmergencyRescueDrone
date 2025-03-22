@@ -6,9 +6,9 @@ import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPosi
 import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.UTurn;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.FlyDistance;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.EdgeFlight;
-import ca.mcmaster.se2aa4.island.team45.drone.FlightCommands;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.commands.FlightCommands;
+import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousState;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;

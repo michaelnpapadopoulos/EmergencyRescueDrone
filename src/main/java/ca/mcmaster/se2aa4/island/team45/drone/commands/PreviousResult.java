@@ -1,31 +1,12 @@
-package ca.mcmaster.se2aa4.island.team45.drone;
+package ca.mcmaster.se2aa4.island.team45.drone.commands;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PreviousState {
-    private String prevAction;
-    private String prevHeading;
-    private String prevUTurn;
+public class PreviousResult {
     private int cost;
-    private JSONObject extras;
     private String status;
-
-    public String getPrevAction() {
-        return prevAction;
-    }
-
-    public void setPrevAction(String prevAction) {
-        this.prevAction = prevAction;
-    }
-
-    public String getPrevHeading() {
-        return prevHeading;
-    }
-
-    public void setPrevHeading(String prevHeading) {
-        this.prevHeading = prevHeading;
-    }
+    private JSONObject extras;
 
     public void setPreviousResult(int cost, String status, JSONObject extras) {
         this.cost = cost;
@@ -66,27 +47,7 @@ public class PreviousState {
         return getExtras().getInt("range");
     }
 
-    public void setPrevUTurn(String turnDirection) {
-        this.prevUTurn = turnDirection;
-    }
-
-    public String getPrevUTurn() {
-        return this.prevUTurn;
-    }
-
-    public String getOppositeUTurn() {
-        if (getPrevUTurn() == null) {
-            return null;
-        } else {
-            if (getPrevUTurn().equals("right")) {
-                return "left";
-            } else {
-                return "right";
-            }
-        }
-    }
-
-     public JSONArray getBiomes() {
+    public JSONArray getBiomes() {
         if (getExtras() == null) {
             return null;
         } else if (!getExtras().has("biomes")) {

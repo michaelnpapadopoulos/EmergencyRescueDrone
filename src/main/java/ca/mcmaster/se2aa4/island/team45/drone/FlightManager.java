@@ -65,7 +65,7 @@ public class FlightManager {
     public void initialize(DroneConfiguration config) { 
         addStatusObserver(new POIObserver());
         addStatusObserver(new BatteryObserver());
-        addStatusObserver(new CoordinateObserver());
+        addStatusObserver(new CoordinateObserver()); // Need to adjust coordinates before direction
         addStatusObserver(new DirectionObserver());
         
         droneStatus.getDirectionManager().setDirection(config.getDirection());

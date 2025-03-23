@@ -22,7 +22,7 @@ public class DirectionalSweep implements Stage {
         logger.info("** Echoing in {} direction to find edge **", directionToEcho);
 
         if (commandCenter.getPrevAction().equals("fly")) {
-            return commandCenter.makeAction("echo", directionToEcho.getLongDir());
+            return commandCenter.makeAction("echo", directionToEcho.getShortDir());
         } else {
             return commandCenter.makeAction("fly");
         }

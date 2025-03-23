@@ -11,7 +11,7 @@ public class TransitionInformation { // Used to transfer information between Sta
 
     public void setSweepDir(DirectionEnum sweepDir) {
         this.sweepDirection = new Direction(sweepDir);
-        this.sweepString = sweepDir.getLongDir();
+        this.sweepString = sweepDir.getShortDir();
     }
 
     public Direction getSweepDir() {
@@ -24,7 +24,7 @@ public class TransitionInformation { // Used to transfer information between Sta
 
     public void setFinalEdge(DirectionEnum finalEdge) {
         this.finalEdgeDirection = new Direction(finalEdge);
-        this.finalEdgeString = finalEdge.getLongDir();
+        this.finalEdgeString = finalEdge.getShortDir();
     }
 
     public Direction getFinalEdgeDir() {

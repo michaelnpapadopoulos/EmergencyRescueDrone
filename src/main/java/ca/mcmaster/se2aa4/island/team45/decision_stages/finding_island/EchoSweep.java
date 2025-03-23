@@ -35,6 +35,6 @@ public class EchoSweep implements Stage {
         }
 
         logger.info("** Echoing " + echoDirection + " **");
-        return commandCenter.makeAction("echo", echoDirection.getLongDir());
+        return commandCenter.makeAction("echo", echoDirection.getShortDir());
     }
 }

@@ -43,6 +43,7 @@ public class SearchFinalTransition extends Transition implements Search {
                 } else {
                     stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), new Scan()));
                 }
+                
             } else if (previousDecision.getPrevAction().equals("scan") && Search.overWater(previousResult)) {
 
                 stageManager.setStage(new FlyDistance());

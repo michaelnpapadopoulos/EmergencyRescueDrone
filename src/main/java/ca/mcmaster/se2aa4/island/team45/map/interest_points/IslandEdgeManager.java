@@ -12,7 +12,7 @@ public class IslandEdgeManager {
     private Map<String, Coordinate> edges = new HashMap<>();
     private List<Coordinate> edgeCoordinates = new ArrayList<>();
 
-    public int numberOfCoordsFound() {
+    public int numberOfEdgesFound() {
         return edgeCoordinates.size();
     }
 

@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
-import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.drone_observers.BatteryObserver;
 import ca.mcmaster.se2aa4.island.team45.drone.drone_observers.CoordinateObserver;
 import ca.mcmaster.se2aa4.island.team45.drone.drone_observers.DirectionObserver;
+import ca.mcmaster.se2aa4.island.team45.drone.drone_observers.POIObserver;
 import ca.mcmaster.se2aa4.island.team45.drone.drone_observers.StatusObserver;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 
@@ -63,10 +63,11 @@ public class FlightManager {
     }
 
     public void initialize(DroneConfiguration config) { 
+        addStatusObserver(new POIObserver());
         addStatusObserver(new BatteryObserver());
-        addStatusObserver(new DirectionObserver());
         addStatusObserver(new CoordinateObserver());
-
+        addStatusObserver(new DirectionObserver());
+        
         droneStatus.getDirectionManager().setDirection(config.getDirection());
         previousResult.setPreviousResult(0, null, new JSONObject());
         droneStatus.getBatteryManager().setBatteryLevel(config.getBatteryManager().getBatteryLevel());
@@ -79,16 +80,19 @@ public class FlightManager {
             previousResult);
         
         for (StatusObserver observer: statusObservers) { // Notify all observers that a decision has been made (Pull strategy)
-            observer.updateStatus(this.droneStatus, this.previousResult);
+            observer.updateStatus(this.droneStatus, this.previousResult, this.poiManager);
         }
 
+        logger.info("** Current Coords: {}", droneStatus.getCoordinateManager().getCoordinates().printCord());
+        logger.info("** Current Direction: {}", droneStatus.getDirectionManager().getDirection().stringForward());
+        logger.info("** Current Battery Level: {}", droneStatus.getBatteryManager().getBatteryLevel());
         return decision;
     }
 
     public void acknowledgeResults(JSONObject results) {
         logger.info("** Acknowledging results...");
+        logger.info("** Cost of previous action: {}", results.getInt("cost"));
         previousResult.setPreviousResult(results.getInt("cost"), results.getString("status"), results.getJSONObject("extras"));
-        droneStatus.getBatteryManager().consumeBattery(previousResult.getCost());
     }
 
     private void addStatusObserver(StatusObserver observer) {

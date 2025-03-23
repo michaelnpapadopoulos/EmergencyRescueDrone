@@ -1,23 +1,19 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.transitions;
 
+import ca.mcmaster.se2aa4.island.team45.decision_stages.Transition;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.Transition;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.TransitionInformation;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.Scan;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_stages.*;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousDecision;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.*;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.FlyDistance;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_stages.*;
 
-public class SearchFinalTransition extends Transition implements Search {
-        private final Logger logger = LogManager.getLogger();
+public class EdgeSearch extends Transition implements Search {
 
     @Override
     public void execute(
@@ -26,21 +22,19 @@ public class SearchFinalTransition extends Transition implements Search {
         PreviousResult previousResult,
         StageManager stageManager,
         PreviousDecision previousDecision,
-        CoordinateManager coordinateManager) {            
-            
+        CoordinateManager coordinateManager) {
             TransitionInformation transitionInfo = stageManager.getTransitionInfo();
+            Direction currentDirection = directionManager.getDirection();
+
             if (Search.atForwardEdge(islandEdgeManager, directionManager, coordinateManager)) {
-                // If drone is at the edge of the island and the perpendicular edge to the drone is the final edge, turn on the spot and transition to SearchFinal
-                if (Search.shiftFromSideEdge(islandEdgeManager, transitionInfo.getFinalEdgeDir().getOppositeDirection(), coordinateManager, 1)) {
-                    logger.info("** REACHED FINAL EDGE");
-                    stageManager.setStage(new Stop());
-                } else {
-                    stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), new Scan()));
+                if (Search.shiftFromSideEdge(islandEdgeManager, transitionInfo.getFinalEdgeDir(), coordinateManager, 0)) {
+                    stageManager.setStage(new UTurn(previousDecision.getPrevUTurn(), new InPositionTurn(previousDecision.getPrevUTurn(), new Scan())));
+                    stageManager.setTransition(new InPositionTurnTransition(previousDecision.getPrevUTurn(), currentDirection, coordinateManager.getCoordinates()));
                 }
             } else if (previousDecision.getPrevAction().equals("scan") && Search.overWater(previousResult)) {
 
                 stageManager.setStage(new FlyDistance());
-                stageManager.setTransition(new FlyDistanceTransition(new SearchFinalTransition()));
+                stageManager.setTransition(new FlyDistanceTransition(new EdgeSearch()));
             }
-    }
+        }
 }

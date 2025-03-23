@@ -1,19 +1,13 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.Command;
 
 import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.FirstEcho;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.transitions.FirstEchoTransition;
 import ca.mcmaster.se2aa4.island.team45.drone.DroneStatus;
-import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.commands.CommandCenter;
-import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousResult;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 
 public class StageManager {
@@ -21,16 +15,22 @@ public class StageManager {
 
     private Stage currentStage;
     private Transition currentTransition;
+    private final IslandEdgeManager islandEdgeManager;
     private final TransitionInformation transitionInformation;
-
+    
     public StageManager() {
         this.currentStage = new FirstEcho();
+        this.islandEdgeManager = new IslandEdgeManager();
         this.currentTransition = new FirstEchoTransition();
         this.transitionInformation = new TransitionInformation();
     }
 
     public void setStage(Stage newStage) {
         this.currentStage = newStage;
+    }
+
+    public void setTransition(Transition newTransition) {
+        this.currentTransition = newTransition;
     }
 
     public TransitionInformation getTransitionInfo() {
@@ -41,20 +41,26 @@ public class StageManager {
             DroneStatus droneStatus,
             POIManager poiManager,
             PreviousResult previousResult) {
-                
-                currentTransition.makeTransition(directionManager, 
+
+                currentTransition.makeTransition(
+                    droneStatus.getDirectionManager(), 
                     droneStatus.getBatteryManager(), 
-                    poiManager, 
+                    this.islandEdgeManager, 
                     previousResult, 
                     this, 
                     droneStatus.getCommandCenter().getPreviousDecision(), 
                     droneStatus.getCoordinateManager());
-                return currentStage.makeDecision(directionManager, commandCenter);
+
+                String decision = currentStage.makeDecision(droneStatus.getDirectionManager(), droneStatus.getCommandCenter(), this);
+
+                logger.info("\n** Current Stage: {}\n** Transition: {}", currentStage.getClass().getSimpleName(), currentTransition.getClass().getSimpleName());
+
+                return decision;
 
                 // String dec;
                 
-                // logger.info("\n** Current Stage: {} **", currentStage.getClass().getSimpleName());
-                // logger.info("** Current Coords: {}", this.coordinateManager.getCoordinates().printCord());
+                
+                
                 // logger.info("** Current Direction: {}\n", direction.getDirection().stringForward());
                 // if (previousState.getPrevAction() != null && previousState.getPrevAction().equals("scan")) {
                 //     if (previousState.retrieveCreeks() != null) {

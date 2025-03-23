@@ -1,39 +1,30 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.transitions;
 
-import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.Transition;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.SearchFinal;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.SearchInitial;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.EdgeFlight;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.InPositionTurn;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_substages.UTurn;
-
-import org.json.JSONArray;
-
+import ca.mcmaster.se2aa4.island.team45.decision_stages.TransitionInformation;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.Scan;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.utility_stages.*;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
+import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousDecision;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.searching_island.FlyDistance;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 
 public class SearchInitialTransition extends Transition implements Search {
     @Override
     public void execute(
         DirectionManager directionManager,
-        POIManager poiManager,
+        IslandEdgeManager islandEdgeManager,
         PreviousResult previousResult,
         StageManager stageManager,
         PreviousDecision previousDecision,
         CoordinateManager coordinateManager) {
-            if (poiManager.atIslandEdge(
-                directionManager.getDirection().stringForward(), 
-                coordinateManager.getCoordinates(), 
-                directionManager.getDirection().getFullDirectionString(directionManager.getDirection().stringForward()))) {
-                
-                    if (poiManager.atIslandEdge(stageManager.getTransitionInfo().getFinalEdgeString(), 
-                    coordinateManager.getOffsetCoordinates(stageManager.getTransitionInfo().getFinalEdgeDir(), 1), 
-                    directionManager.getDirection().getFullDirectionString(stageManager.getTransitionInfo().getFinalEdgeString()))) {
-
+            
+            TransitionInformation transitionInfo = stageManager.getTransitionInfo();
+            if (Search.atForwardEdge(islandEdgeManager, directionManager, coordinateManager)) {
+                    if (Search.shiftFromSideEdge(islandEdgeManager, transitionInfo.getSweepDir(), coordinateManager, 1)) {
                         String inPositionTurnDirection;
                         if (previousDecision.getOppositeUTurn().equals("right")) {
                             inPositionTurnDirection = "left";
@@ -41,22 +32,27 @@ public class SearchInitialTransition extends Transition implements Search {
                             inPositionTurnDirection = "right";
                         }
                         
-                        stageManager.getTransitionInfo().setFinalEdge(stageManager.getTransitionInfo().getFinalEdgeDir().getOppositeDirection().stringForward());
-                        stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), 
+                        //transitionInfo.setFinalEdge(transitionInfo.getFinalEdgeDir().getOppositeDirection().stringForward());
+                        stageManager.setStage(
+                            new UTurn(previousDecision.getOppositeUTurn(), 
                             new InPositionTurn(inPositionTurnDirection, 
-                                new SearchFinal(stageManager.getTransitionInfo().getFinalEdgeDir().getOppositeDirection()))));
+                            new Scan())));
+                        stageManager.setTransition(new InPositionTurnTransition(previousDecision.getOppositeUTurn(), directionManager.getDirection(), coordinateManager.getCoordinates()));
 
-                    } else if (poiManager.atIslandEdge(stageManager.getTransitionInfo().getFinalEdgeString(), 
-                    coordinateManager.getOffsetCoordinates(stageManager.getTransitionInfo().getFinalEdgeDir(), 2), 
-                    directionManager.getDirection().getFullDirectionString(stageManager.getTransitionInfo().getFinalEdgeString()))) {
-                        
-                        stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), 
-                            new EdgeFlight(stageManager.getTransitionInfo().getFinalEdgeString(), 
-                                new SearchFinal(stageManager.getTransitionInfo().getFinalEdgeDir().getOppositeDirection()))));
+                    } else if (Search.shiftFromSideEdge(islandEdgeManager, transitionInfo.getSweepDir(), coordinateManager, 2)) {
+                        //transitionInfo.setFinalEdge(transitionInfo.getFinalEdgeDir().getOppositeDirection().stringForward());
+                        stageManager.setStage(
+                            new UTurn(previousDecision.getOppositeUTurn(), 
+                            new Scan()));
+                        stageManager.setTransition(new EdgeSearch());
+
                     } else {
-
-                        stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), new SearchInitial(stageManager.getTransitionInfo().getFinalEdgeString())));
+                        stageManager.setStage(new UTurn(previousDecision.getOppositeUTurn(), new Scan()));
                     }
-                } else if (pState.getPrevAction().equals("scan") && overWater())
+
+                } else if (previousDecision.getPrevAction().equals("scan") && Search.overWater(previousResult)) {
+                    stageManager.setStage(new FlyDistance());
+                    stageManager.setTransition(new FlyDistanceTransition(new SearchInitialTransition()));
+                }
         }
 }

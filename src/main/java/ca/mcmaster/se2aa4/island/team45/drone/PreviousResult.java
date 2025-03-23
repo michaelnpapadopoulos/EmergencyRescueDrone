@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team45.drone.commands;
+package ca.mcmaster.se2aa4.island.team45.drone;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

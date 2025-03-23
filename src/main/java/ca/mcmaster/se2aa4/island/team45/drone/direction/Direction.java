@@ -61,8 +61,8 @@ public class Direction {
         return null;
     }
 
-    public String getFullDirectionString(String directionChar) {
-        switch (directionChar) {
+    public String getFullDirectionString() {
+        switch (stringForward()) {
             case "N":
                 return "North";
             case "E":

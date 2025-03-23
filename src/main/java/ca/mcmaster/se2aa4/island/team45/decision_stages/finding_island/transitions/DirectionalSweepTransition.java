@@ -1,12 +1,13 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages.finding_island.transitions;
 
-import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
-import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
-import ca.mcmaster.se2aa4.island.team45.decision_stages.Transition;
 import ca.mcmaster.se2aa4.island.team45.decision_stages.StageManager;
+import ca.mcmaster.se2aa4.island.team45.decision_stages.Transition;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.commands.PreviousDecision;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionEnum;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 
 public class DirectionalSweepTransition extends Transition {
     @Override
@@ -19,7 +20,7 @@ public class DirectionalSweepTransition extends Transition {
         CoordinateManager coordinateManager) {
             if (previousResult.getFound() != null && previousResult.getFound().equals("GROUND")) {
                 islandEdgeManager.addEdge(directionManager, coordinateManager.getCoordinates());
-                stageManager.getTransitionInfo().setSweepDir(previousDecision.getPrevHeading());
+                stageManager.getTransitionInfo().setSweepDir(DirectionEnum.fromString(previousDecision.getPrevHeading()));
                 stageManager.setTransition(new FindEdgeTransition());
             }
     }

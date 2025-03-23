@@ -14,11 +14,11 @@ public enum DirectionEnum {
         this.longDir = longDir;
     }
 
-    public String getshortDir() {
+    public String getShortDir() {
         return shortDir;
     }
 
-    public String getlongDir() {
+    public String getLongDir() {
         return longDir;
     }
 

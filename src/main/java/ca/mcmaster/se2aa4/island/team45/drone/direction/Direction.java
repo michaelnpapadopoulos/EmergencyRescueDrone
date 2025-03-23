@@ -76,15 +76,11 @@ public class Direction {
         }
     }
 
-    public String stringForward() {
+    public String toString() {
         return directionState.getDirection();
     }
 
-    public String stringLeft() {
-        return directionState.getLeft();
-    }
-
-    public String stringRight() {
-        return directionState.getRight();
+    public String toFullString() {
+        
     }
 }

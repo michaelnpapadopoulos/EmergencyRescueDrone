@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team45.decision_stages;
 
 import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionEnum;
 
 public class TransitionInformation { // Used to transfer information between Stages when necessary
     private String sweepString;
@@ -8,9 +9,9 @@ public class TransitionInformation { // Used to transfer information between Sta
     private Direction finalEdgeDirection;
     private String finalEdgeString;
 
-    public void setSweepDir(String sweepDir) {
+    public void setSweepDir(DirectionEnum sweepDir) {
         this.sweepDirection = new Direction(sweepDir);
-        this.sweepString = sweepDir;
+        this.sweepString = sweepDir.getShortDir();
     }
 
     public Direction getSweepDir() {
@@ -21,9 +22,9 @@ public class TransitionInformation { // Used to transfer information between Sta
         return sweepString;
     }
 
-    public void setFinalEdge(String finalEdge) {
+    public void setFinalEdge(DirectionEnum finalEdge) {
         this.finalEdgeDirection = new Direction(finalEdge);
-        this.finalEdgeString = finalEdge;
+        this.finalEdgeString = finalEdge.getShortDir();
     }
 
     public Direction getFinalEdgeDir() {

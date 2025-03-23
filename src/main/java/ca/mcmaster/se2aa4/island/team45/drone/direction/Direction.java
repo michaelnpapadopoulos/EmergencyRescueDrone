@@ -9,71 +9,51 @@ import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.WestDir
 public class Direction {
     private DirectionState directionState;
 
-    public Direction(String direction) {
+    public Direction(DirectionEnum direction) {
         updateDirection(direction);
     }
 
-    public void updateDirection(String direction) {
+    public void updateDirection(DirectionEnum direction) {
         switch (direction) {
-            case "N":
+            case NORTH:
                 this.directionState = new NorthDirectionState();
                 break;
-            case "North":
-                this.directionState = new NorthDirectionState();
-                break;
-            case "E":
+            case EAST:
                 this.directionState = new EastDirectionState();
                 break;
-            case "East":
-                this.directionState = new EastDirectionState();
-                break;
-            case "S":
+            case SOUTH:
                 this.directionState = new SouthDirectionState();
                 break;
-            case "South":
-                this.directionState = new SouthDirectionState();
-                break;
-            case "W":
-                this.directionState = new WestDirectionState();
-                break;
-            case "West":
+            case WEST:
                 this.directionState = new WestDirectionState();
                 break;
         }
     }
 
+
     public Direction getOppositeDirection() {
-        Direction oppDirection;
-        switch (this.directionState.getDirection()) {
-            case "N":
-                oppDirection = new Direction("S");
-                return oppDirection;
-            case "E":
-                oppDirection = new Direction("W");
-                return oppDirection;
-            case "S":
-                oppDirection = new Direction("N");
-                return oppDirection;
-            case "W":
-                oppDirection = new Direction("E");
-                return oppDirection;
+        DirectionEnum opposite;
+        switch (DirectionEnum.fromString(this.directionState.getDirection())) {
+            case NORTH:
+                opposite = DirectionEnum.SOUTH;
+                break;
+            case EAST:
+                opposite = DirectionEnum.WEST;
+                break;
+            case SOUTH:
+                opposite = DirectionEnum.NORTH;
+                break;
+            case WEST:
+                opposite = DirectionEnum.EAST;
+                break;
+            default:
+                return null;
         }
-        return null;
+        return new Direction(opposite);
     }
 
     public String getFullDirectionString() {
-        switch (stringForward()) {
-            case "N":
-                return "North";
-            case "E":
-                return "East";
-            case "S":
-                return "South";
-            case "W":
-                return "West";
-            default:
-                return "Invalid direction";
-        }
+        return DirectionEnum.fromString(stringForward()).getLongDir();
     }
 
     public String toString() {

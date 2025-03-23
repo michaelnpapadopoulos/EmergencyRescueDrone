@@ -14,7 +14,7 @@ import ca.mcmaster.se2aa4.island.team45.drone.FlightManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.drone.battery.SimpleBatteryManager;
 import ca.mcmaster.se2aa4.island.team45.drone.commands.CommandCenter;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionEnum;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
@@ -41,7 +41,7 @@ public class Explorer implements IExplorerRaid {
             DroneStatus droneStatus = new DroneStatus(
                 new SimpleBatteryManager(batteryLevel),
                 new CoordinateManager(),
-                new DirectionManager(new Direction(direction)),
+                new DirectionManager(DirectionEnum.fromString(direction)),
                 new CommandCenter());
 
             // Initialize FlightManager using the builder pattern with DroneStatus

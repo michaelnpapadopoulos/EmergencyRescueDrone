@@ -1,24 +1,23 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousState;
+import ca.mcmaster.se2aa4.island.team45.drone.commands.CommandCenter;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 
 public class CoordinateAdjuster {
 
-    public Coordinate makeAdjustment(DirectionManager dm, PreviousState ps, Coordinate coordinates) {
-
-        if (ps.getPrevAction().equals("fly")) {
-            return flyAdjust(dm, coordinates);
-        } else if (ps.getPrevAction().equals("heading")) {
-            return headingAdjust(dm, ps, coordinates);
+    public Coordinate makeAdjustment(DirectionManager directionManager, CommandCenter commandCenter, Coordinate coordinates) {
+        if (commandCenter.getPrevAction().equals("fly")) {
+            return flyAdjust(directionManager, coordinates);
+        } else if (commandCenter.getPrevAction().equals("heading")) {
+            return headingAdjust(directionManager, commandCenter, coordinates);
         } else {
             return coordinates;
         }
     }
 
-    private Coordinate flyAdjust(DirectionManager dm, Coordinate coords) {
+    private Coordinate flyAdjust(DirectionManager directionManager, Coordinate coords) {
         Coordinate newCoords = coords;
-        switch (dm.getDirection().stringForward()) {
+        switch (directionManager.getDirection().stringForward()) {
             case "N":
                 newCoords.decrementY();
                 break;
@@ -35,47 +34,46 @@ public class CoordinateAdjuster {
         return newCoords;
     }
 
-    private Coordinate headingAdjust(DirectionManager dm, PreviousState ps, Coordinate coords) {
+    private Coordinate headingAdjust(DirectionManager directionManager, CommandCenter commandCenter, Coordinate coords) {
         Coordinate newCoords = coords;
-        switch (dm.getDirection().stringForward()) {
+        switch (directionManager.getDirection().stringForward()) {
             case "N":
-                if (ps.getPrevHeading().equals("E")) {
+                if (commandCenter.getPrevHeading().equals("E")) {
                     newCoords.incrementX();
-                } else if (ps.getPrevHeading().equals("W")) {
+                } else if (commandCenter.getPrevHeading().equals("W")) {
                     newCoords.decrementX();
                 }
                 newCoords.decrementY();
                 break;
 
             case "E":
-                if (ps.getPrevHeading().equals("N")) {
+                if (commandCenter.getPrevHeading().equals("N")) {
                     newCoords.decrementY();
-                } else if (ps.getPrevHeading().equals("S")) {
+                } else if (commandCenter.getPrevHeading().equals("S")) {
                     newCoords.incrementY();
                 }
                 newCoords.incrementX();
                 break;
 
             case "S":
-                if (ps.getPrevHeading().equals("E")) {
-                    newCoords.decrementX();
-                } else if (ps.getPrevHeading().equals("W")) {
+                if (commandCenter.getPrevHeading().equals("E")) {
+                    newCoords.incrementX();
+                } else if (commandCenter.getPrevHeading().equals("W")) {
                     newCoords.decrementX();
                 }
                 newCoords.incrementY();
                 break;
 
             case "W":
-                if (ps.getPrevHeading().equals("N")) {
+                if (commandCenter.getPrevHeading().equals("N")) {
                     newCoords.decrementY();
-                } else if (ps.getPrevHeading().equals("S")) {
+                } else if (commandCenter.getPrevHeading().equals("S")) {
                     newCoords.incrementY();
                 }
                 newCoords.decrementX();
                 break;
         }
         
-        dm.setDirection(ps.getPrevHeading());
         return newCoords;
     }
 }

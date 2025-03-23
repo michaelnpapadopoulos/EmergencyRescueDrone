@@ -1,6 +1,10 @@
 package ca.mcmaster.se2aa4.island.team45.drone.battery;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class SimpleBatteryManager implements BatteryManager {
+    private final Logger logger = LogManager.getLogger();
     private int batteryLevel;
 
     public SimpleBatteryManager(int batteryLevel) {
@@ -9,6 +13,7 @@ public class SimpleBatteryManager implements BatteryManager {
 
     @Override
     public void consumeBattery(int consumption) {
+        logger.info("Consuming {} battery", consumption);
         this.batteryLevel -= consumption;
     }
 

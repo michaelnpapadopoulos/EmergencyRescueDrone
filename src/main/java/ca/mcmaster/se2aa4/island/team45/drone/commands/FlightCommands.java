@@ -1,24 +1,41 @@
-package ca.mcmaster.se2aa4.island.team45.drone;
+package ca.mcmaster.se2aa4.island.team45.drone.commands;
 
 import org.json.JSONObject;
 
 public class FlightCommands {
-    private static FlightCommands instance = new FlightCommands();
     private final String action = "action";
 
-    private FlightCommands() {}
-
-    public static FlightCommands getInstance() {
-        return instance;
+    public String getAction(String action, String heading) {
+        switch (action) {
+            case "heading":
+                return heading(heading);
+            case "echo":
+                return echo(heading);
+            default:
+                return null;
+        }
     }
 
-    public String fly() {
+    public String getAction(String action) {
+        switch (action) {
+            case "stop":
+                return stop();
+            case "fly":
+                return fly();
+            case "scan":
+                return scan();
+            default:
+                return null;
+        }
+    }
+
+    private String fly() {
         JSONObject decision = new JSONObject();
         decision.put(action, "fly");
         return decision.toString();
     }
 
-    public String heading(String dir) {
+    private String heading(String dir) {
         JSONObject decision = new JSONObject();
         JSONObject param = new JSONObject();
 
@@ -28,7 +45,7 @@ public class FlightCommands {
         return decision.toString();
     }
 
-    public String echo (String dir) {
+    private String echo (String dir) {
         JSONObject decision = new JSONObject();
         JSONObject param = new JSONObject();
 
@@ -38,14 +55,14 @@ public class FlightCommands {
         return decision.toString();
     }
 
-    public String scan() {
+    private String scan() {
         JSONObject decision = new JSONObject();
 
         decision.put(action, "scan");
         return decision.toString();
     }
 
-    public String stop() {
+    private String stop() {
         JSONObject decision = new JSONObject();
 
         decision.put(action, "stop");

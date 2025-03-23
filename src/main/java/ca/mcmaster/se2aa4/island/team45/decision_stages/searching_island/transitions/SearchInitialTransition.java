@@ -35,7 +35,7 @@ public class SearchInitialTransition extends Transition implements Search {
                         //transitionInfo.setFinalEdge(transitionInfo.getFinalEdgeDir().getOppositeDirection().stringForward());
                         stageManager.setStage(
                             new UTurn(previousDecision.getOppositeUTurn(), 
-                            new InPositionTurn(inPositionTurnDirection, 
+                            new InPositionTurn(previousDecision.getOppositeUTurn(), // Possible fix to in position turn
                             new Scan())));
                         stageManager.setTransition(new InPositionTurnTransition(previousDecision.getOppositeUTurn(), directionManager.getDirection(), coordinateManager.getCoordinates()));
 

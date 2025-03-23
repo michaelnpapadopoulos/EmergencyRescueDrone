@@ -28,8 +28,14 @@ public class EdgeSearch extends Transition implements Search {
 
             if (Search.atForwardEdge(islandEdgeManager, directionManager, coordinateManager)) {
                 if (Search.shiftFromSideEdge(islandEdgeManager, transitionInfo.getFinalEdgeDir(), coordinateManager, 0)) {
-                    stageManager.setStage(new UTurn(previousDecision.getPrevUTurn(), new InPositionTurn(previousDecision.getPrevUTurn(), new Scan())));
-                    stageManager.setTransition(new InPositionTurnTransition(previousDecision.getPrevUTurn(), currentDirection, coordinateManager.getCoordinates()));
+                    stageManager.setStage(
+                        new UTurn(previousDecision.getPrevUTurn(), 
+                        new InPositionTurn(previousDecision.getPrevUTurn(), 
+                        new Scan())));
+                    stageManager.setTransition(
+                        new InPositionTurnTransition(previousDecision.getPrevUTurn(), 
+                        currentDirection, 
+                        coordinateManager.getCoordinates()));
                 }
             } else if (previousDecision.getPrevAction().equals("scan") && Search.overWater(previousResult)) {
 

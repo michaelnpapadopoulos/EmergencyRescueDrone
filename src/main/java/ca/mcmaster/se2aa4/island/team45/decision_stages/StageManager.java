@@ -54,6 +54,9 @@ public class StageManager {
                 String decision = currentStage.makeDecision(droneStatus.getDirectionManager(), droneStatus.getCommandCenter(), this);
 
                 logger.info("\n** Current Stage: {}\n** Transition: {}", currentStage.getClass().getSimpleName(), currentTransition.getClass().getSimpleName());
+                if (currentStage.getClass().getSimpleName().equals("Scan")) {
+                    logger.info("==== ALL ISLAND EDGES FOUND ====\nNorth: {}\nEast: {}\nSouth: {}\nWest: {}", islandEdgeManager.getEdge("North").printCord(), islandEdgeManager.getEdge("East").printCord(), islandEdgeManager.getEdge("South").printCord(), islandEdgeManager.getEdge("West").printCord());
+                }
 
                 return decision;
 

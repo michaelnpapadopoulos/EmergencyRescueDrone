@@ -18,7 +18,8 @@ public class FirstEchoTransition extends Transition {
         POIManager poiManager,
         PreviousResult previousResult,
         StageManager stageManager,
-        PreviousDecision previousDecision) {
+        PreviousDecision previousDecision,
+        CoordinateManager coordinateManager) {
             if (previousResult.getFound() != null && previousResult.getFound().equals("GROUND")) {
                 stageManager.setStage(new Turn("left", new FindEdge()));
             } else {

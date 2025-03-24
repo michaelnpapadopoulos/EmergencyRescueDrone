@@ -13,18 +13,13 @@ public class DirectionUtilities {
      * @param direction a cardinal direction (N,S,E,W)
     **************************************************************************/
     public static Direction getOpposite(Direction direction) {
-        switch (direction.toString()) {
-            case "N":
-                return new Direction("S");
-            case "E":
-                return new Direction("W");
-            case "S":
-                return new Direction("N");
-            case "W":
-                return new Direction("E");
-            default:
-                return null;
-        }
+        return switch (direction.toString()) {
+            case "N" -> new Direction("S");
+            case "E" -> new Direction("W");
+            case "S" -> new Direction("N");
+            case "W" -> new Direction("E");
+            default -> null;
+        };
     }
 
 

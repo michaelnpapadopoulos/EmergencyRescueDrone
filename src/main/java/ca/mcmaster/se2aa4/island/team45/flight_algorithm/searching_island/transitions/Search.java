@@ -27,7 +27,7 @@ public interface Search {
     }
 
     /**************************************************************************
-     * Checks if the drone is at a point from a edge to its right or left by a
+     * Checks if the drone is at a point from an edge to its right or left by a
      * certain shift value
      * 
      * @param islandEdgeManager the programs island edge manager
@@ -71,10 +71,6 @@ public interface Search {
                 }
             }
 
-            if (waterPresent && !landPresent) {
-                return true;
-            }
-
-            return false;
+        return waterPresent && !landPresent;
     }
 }

@@ -18,7 +18,7 @@ public class SearchFinalTrans extends Transition implements Search {
     /**************************************************************************
      * If at an edge the drone is facing does a uturn and if at the opposite 
      * edge of final edge transitions into stop, if over water transitions to
-     * fly diastance
+     * fly distance
      * 
      * @param directionMan the drones direction manager
      * @param islandEdgeManager the programs islandEdgeManager

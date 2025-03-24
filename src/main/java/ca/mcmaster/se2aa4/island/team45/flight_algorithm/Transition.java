@@ -14,8 +14,12 @@ public abstract class Transition { // Template Method Pattern
      * Uses the coordinate to determine whether to care about the X or Y 
      * coordinate
      * 
-     * @param directionMan the drones direction manager
-     * @param coord the drones current coordinates
+     * @param directionManager the drones direction manager
+     * @param islandEdgeManager the programs islandEdgeManager
+     * @param previousResult the drones previous result
+     * @param algorithmManager the programs algorithm manager
+     * @param previousDecision the drones previous decision
+     * @param coordinateManager the drones coordinate manager
     **************************************************************************/
     public void makeTransition(
         DirectionManager directionManager,
@@ -55,10 +59,6 @@ public abstract class Transition { // Template Method Pattern
      * @param coord the drones current coordinates
     **************************************************************************/
     private boolean checkBatteryCritical(BatteryManager batteryManager) {
-        if (batteryManager.getBatteryLevel() < 60) {
-            return true;
-        }
-
-        return false;
+        return batteryManager.getBatteryLevel() < 60;
     }
 }

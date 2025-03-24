@@ -16,28 +16,19 @@ public class CoordinateUtilities {
      * 
      * @param coordinate the drones current coordinate
      * @param direction the direction you want to shift
-     * @param shiftValue the shirft you want to make from your coordinates
+     * @param shiftValue the shift you want to make from your coordinates
     **************************************************************************/
     public static Coordinate getShiftedCoordinates(Coordinate coordinate, Direction direction, int shiftValue) {
         int coordinateX = coordinate.getX();
         int coordinateY = coordinate.getY();
-        
-        switch (direction.toString()) {
-            case "N":
-                return new Coordinate(coordinateX, coordinateY - shiftValue);
 
-            case "E":
-                return new Coordinate(coordinateX + shiftValue, coordinateY);
-
-            case "S":
-                return new Coordinate(coordinateX, coordinateY + shiftValue);
-
-            case "W":
-                return new Coordinate(coordinateX - shiftValue, coordinateY);
-
-                default:
-                return null;
-        }
+        return switch (direction.toString()) {
+            case "N" -> new Coordinate(coordinateX, coordinateY - shiftValue);
+            case "E" -> new Coordinate(coordinateX + shiftValue, coordinateY);
+            case "S" -> new Coordinate(coordinateX, coordinateY + shiftValue);
+            case "W" -> new Coordinate(coordinateX - shiftValue, coordinateY);
+            default -> null;
+        };
     }
 
     /**************************************************************************
@@ -65,29 +56,20 @@ public class CoordinateUtilities {
      * @param coords the drones current coordinates
     **************************************************************************/
     private static Coordinate flyAdjust(DirectionManager directionManager, Coordinate coords) {
-        switch (directionManager.getDirection().toString()) {
-            case "N":
-                return new Coordinate(coords.getX(), coords.getY() - 1);
-
-            case "E":
-                return new Coordinate(coords.getX() + 1, coords.getY());
-          
-            case "S":
-                return new Coordinate(coords.getX(), coords.getY() + 1);
-         
-            case "W":
-                return new Coordinate(coords.getX() - 1, coords.getY());
-          
-            default:
-                return coords;
-        }
+        return switch (directionManager.getDirection().toString()) {
+            case "N" -> new Coordinate(coords.getX(), coords.getY() - 1);
+            case "E" -> new Coordinate(coords.getX() + 1, coords.getY());
+            case "S" -> new Coordinate(coords.getX(), coords.getY() + 1);
+            case "W" -> new Coordinate(coords.getX() - 1, coords.getY());
+            default -> coords;
+        };
     }
 
     /**************************************************************************
      * Adjusts your coordinates when you take the heading action
      * 
      * @param directionManager the drones direction manager
-     * @param commandCenter the drones comand center
+     * @param commandCenter the drones command center
      * @param coords the drones current coordinates
     **************************************************************************/
     private static Coordinate headingAdjust(DirectionManager directionManager, CommandCenter commandCenter, Coordinate coords) {

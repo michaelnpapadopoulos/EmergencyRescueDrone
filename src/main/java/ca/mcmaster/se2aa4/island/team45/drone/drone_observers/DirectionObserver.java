@@ -8,7 +8,7 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 public class DirectionObserver implements StatusObserver {
 
     /**************************************************************************
-     * Updates the directionManager with the drons new direction
+     * Updates the directionManager with the drones new direction
      *
      * @param droneStatus tracks the drones current attributes
      * @param previousResult tracks the JSONObject created from the last action

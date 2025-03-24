@@ -16,9 +16,9 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 public class InPositionTurnTrans extends Transition {
     private final Logger logger = LogManager.getLogger();
 
-    private Coordinate initialCoords;
-    private Direction initialDirection;
-    private String turnDirection;
+    private final Coordinate initialCoords;
+    private final Direction initialDirection;
+    private final String turnDirection;
  
     /**************************************************************************
      * In position turn trans constructor
@@ -26,7 +26,7 @@ public class InPositionTurnTrans extends Transition {
      * @param turnDirection the direction to in position turn
      * @param initialDirection the drones initial direction at the in position
      * turn
-     * @param initialCoordinate the drones initial coordinsates at the in
+     * @param initialCoordinate the drones initial coordinates at the in
      * position turn
     **************************************************************************/
     public InPositionTurnTrans(String turnDirection, Direction initialDirection, Coordinate initialCoordinate) {
@@ -38,9 +38,9 @@ public class InPositionTurnTrans extends Transition {
     /**************************************************************************
      * After the in position turn is completed Transition into final search
      * 
-     * @param directionMan the drones direction manager
+     * @param directionManager the drones direction manager
      * @param islandEdgeManager the programs islandEdgeManager
-     * @param perviousResult the drones previous result
+     * @param previousResult the drones previous result
      * @param algorithmManager the programs algorithm manager
      * @param previousDecision the drones previous decision
      * @param coordinateManager the drones coordinate manager

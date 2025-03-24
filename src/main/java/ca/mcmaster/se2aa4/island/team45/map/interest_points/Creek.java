@@ -3,8 +3,8 @@ package ca.mcmaster.se2aa4.island.team45.map.interest_points;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
 
 public class Creek {
-    Coordinate creekCoordinate;
-    String creekID;
+    private Coordinate creekCoordinate;
+    private String creekID;
 
     /**************************************************************************
      * Creek constructor
@@ -20,15 +20,11 @@ public class Creek {
     /**************************************************************************
      * Returns the creek instance's ID
     **************************************************************************/
-    public String getCreekID() {
-        return creekID;
-    }
+    public String getCreekID() { return creekID; }
 
     /**************************************************************************
      * Returns the creek instance's coordinate
     **************************************************************************/
-    public Coordinate getCreekCoordinate() {
-        return creekCoordinate;
-    }
+    public Coordinate getCreekCoordinate() { return creekCoordinate; }
 }
 

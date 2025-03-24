@@ -33,39 +33,29 @@ public class AlgorithmManager {
      * 
      * @param newStage the next stage you want to move into
     **************************************************************************/
-    public void setStage(Stage newStage) {
-        this.currentStage = newStage;
-    }
+    public void setStage(Stage newStage) { this.currentStage = newStage;}
 
     /**************************************************************************
-     * Sets the drones next transisition phase
+     * Sets the drones next transition phase
      * 
      * @param newTransition the next transition you want to move into
     **************************************************************************/
-    public void setTransition(Transition newTransition) {
-        this.currentTransition = newTransition;
-    }
+    public void setTransition(Transition newTransition) { this.currentTransition = newTransition; }
 
     /**************************************************************************
      * @return the current stage object for testing purposes
      * ************************************************************************/
-    public Stage getCurrentStage() {
-        return currentStage;
-    }
+    public Stage getCurrentStage() { return currentStage;}
 
     /**************************************************************************
      * Returns the transition info object
     **************************************************************************/
-    public TransitionInformation getTransitionInfo() {
-        return transitionInformation;
-    }
+    public TransitionInformation getTransitionInfo() { return transitionInformation; }
 
     /**************************************************************************
      * @return the current transition object for testing purposes
      * ************************************************************************/
-    public Transition getCurrentTransition() {
-        return currentTransition;
-    }
+    public Transition getCurrentTransition() { return currentTransition; }
 
     /**************************************************************************
      * Checks if the drone needs to transition into a new stage then makes a 
@@ -73,7 +63,7 @@ public class AlgorithmManager {
      * 
      * @param droneStatus the drones status object
      * @param poiManager the programs poi manager object
-     * @param previousResult the drons previous result object
+     * @param previousResult the drones previous result object
     **************************************************************************/
     public String makeStageDecision(
             DroneStatus droneStatus,
@@ -81,21 +71,14 @@ public class AlgorithmManager {
             PreviousResult previousResult) {
 
                 currentTransition.makeTransition(
-                    droneStatus.getDirectionManager(), 
-                    droneStatus.getBatteryManager(), 
+                    droneStatus.getDirectionManager(),
+                    droneStatus.getBatteryManager(),
                     this.islandEdgeManager, 
                     previousResult, 
                     this, 
-                    droneStatus.getCommandCenter().getPreviousDecision(), 
+                    droneStatus.getCommandCenter().getPreviousDecision(),
                     droneStatus.getCoordinateManager());
 
-                String decision = currentStage.makeDecision(droneStatus.getDirectionManager(), droneStatus.getCommandCenter(), this);
-
-                logger.info("\n** Current Stage: {}\n** Transition: {}", currentStage.getClass().getSimpleName(), currentTransition.getClass().getSimpleName());
-                if (currentStage.getClass().getSimpleName().equals("Scan")) {
-                    logger.info("==== ALL ISLAND EDGES FOUND ====\nNorth: {}\nEast: {}\nSouth: {}\nWest: {}", islandEdgeManager.getEdge("North").printCord(), islandEdgeManager.getEdge("East").printCord(), islandEdgeManager.getEdge("South").printCord(), islandEdgeManager.getEdge("West").printCord());
-                }
-
-                return decision;
+                return currentStage.makeDecision(droneStatus.getDirectionManager(), droneStatus.getCommandCenter(), this);
     }
 }

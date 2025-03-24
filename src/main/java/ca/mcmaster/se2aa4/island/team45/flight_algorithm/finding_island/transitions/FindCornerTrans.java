@@ -21,9 +21,9 @@ public class FindCornerTrans extends Transition {
      * If an echo finds out of range sets the sweep direction to the direction 
      * of land, turns and transitions
      * 
-     * @param directionMan the drones direction manager
+     * @param directionManager the drones direction manager
      * @param islandEdgeManager the programs islandEdgeManager
-     * @param perviousResult the drones previous result
+     * @param previousResult the drones previous result
      * @param algorithmManager the programs algorithm manager
      * @param previousDecision the drones previous decision
      * @param coordinateManager the drones coordinate manager
@@ -49,16 +49,14 @@ public class FindCornerTrans extends Transition {
                 }
                     if (turnDirection.equals("right")) {
 
-                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getRight().toString());
-                        algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
-                        algorithmManager.setTransition(new DirectionalSweepTrans());
+                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getRight());
                     } else {
 
-                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getLeft().toString());
-                        algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
-                        algorithmManager.setTransition(new DirectionalSweepTrans());
+                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getLeft());
                     }
-                }
+                algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
+                algorithmManager.setTransition(new DirectionalSweepTrans());
+            }
         }
 }
 

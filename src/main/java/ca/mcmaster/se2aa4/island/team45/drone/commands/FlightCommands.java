@@ -9,36 +9,29 @@ public class FlightCommands {
      * Returns the action that the algorithm wants the drone to make if echo or
      * heading
      *
-     * @param action the action we want the drone to perfrom
+     * @param action the action we want the drone to perform
      * @param heading sets the heading of that action
     **************************************************************************/
     public String getAction(String action, String heading) {
-        switch (action) {
-            case "heading":
-                return heading(heading);
-            case "echo":
-                return echo(heading);
-            default:
-                return null;
-        }
+        return switch (action) {
+            case "heading" -> heading(heading);
+            case "echo" -> echo(heading);
+            default -> null;
+        };
     }
 
     /**************************************************************************
      * Returns the action that the algorithm wants the drone to make
      *
-     * @param action the action we want the drone to perfrom
+     * @param action the action we want the drone to perform
     **************************************************************************/
     public String getAction(String action) {
-        switch (action) {
-            case "stop":
-                return stop();
-            case "fly":
-                return fly();
-            case "scan":
-                return scan();
-            default:
-                return null;
-        }
+        return switch (action) {
+            case "stop" -> stop();
+            case "fly" -> fly();
+            case "scan" -> scan();
+            default -> null;
+        };
     }
 
     /**************************************************************************

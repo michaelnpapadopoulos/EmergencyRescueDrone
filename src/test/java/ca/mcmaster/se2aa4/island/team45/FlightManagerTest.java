@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,8 +62,9 @@ public class FlightManagerTest {
     public void testGetDecision() {
         String decision = flightManager.getDecision();
         assertNotNull(decision);
-        // Assuming the initial decision is based on the initial stage in AlgorithmManager
-        assertTrue(decision.equals("echo") || decision.equals("fly"));
+
+        // Assuming the initial decision is based on the initial stage in AlgorithmManager, and drone is facing North
+        assertTrue(decision.equals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}"));
     }
 
     @Test

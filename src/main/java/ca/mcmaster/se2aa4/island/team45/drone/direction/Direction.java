@@ -44,7 +44,7 @@ public class Direction {
     /**************************************************************************
      * Checks if this instance of direction is equal to a string (N,E,S,W)
      *
-     * @param droneAbbrev a string (N,E,S,W)
+     * @param directionAbbrev a string (N,E,S,W)
     **************************************************************************/
     public boolean equals(String directionAbbrev) { // Check if direction is equal to directionAbbrev
         return this.toString().equals(directionAbbrev);

@@ -8,7 +8,7 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 public class CoordinateObserver implements StatusObserver {
 
     /**************************************************************************
-     * Updates the cooredinate manager with the drones new coordinates
+     * Updates the coordinate manager with the drones new coordinates
      *
      * @param droneStatus tracks the drones current attributes
      * @param previousResult tracks the JSONObject created from the last action

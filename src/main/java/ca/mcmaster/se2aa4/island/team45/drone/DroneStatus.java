@@ -10,14 +10,14 @@ public class DroneStatus {
     private final CoordinateManager coordinateManager;
     private final DirectionManager directionManager;
     private final CommandCenter commandCenter;
-    
+
     /**************************************************************************
      * Constructs a drone status object
      *
      * @param batteryManager used to update the drones battery
      * @param coordinateManager used to update the drones coordinates
      * @param directionManager used to update the drones direction
-     * @param commanCenter used to access previous decisions as well as drone 
+     * @param commandCenter used to access previous decisions as well as drone
      * commands
     **************************************************************************/
     public DroneStatus(
@@ -34,28 +34,20 @@ public class DroneStatus {
     /**************************************************************************
      *Returns the battery manager
     **************************************************************************/
-    public BatteryManager getBatteryManager() {
-        return batteryManager;
-    }
+    public BatteryManager getBatteryManager() { return batteryManager; }
 
     /**************************************************************************
      * Returns the coordinate Manager
     **************************************************************************/
-    public CoordinateManager getCoordinateManager() {
-        return coordinateManager;
-    }
+    public CoordinateManager getCoordinateManager() { return coordinateManager; }
 
     /**************************************************************************
      * Returns the direction manager
     **************************************************************************/
-    public DirectionManager getDirectionManager() {
-        return directionManager;
-    }
+    public DirectionManager getDirectionManager() { return directionManager; }
 
     /**************************************************************************
      * Returns the drones command center (previous decision, and commands)
     **************************************************************************/
-    public CommandCenter getCommandCenter() {
-        return commandCenter;
-    }
+    public CommandCenter getCommandCenter() { return commandCenter; }
 }

@@ -31,9 +31,7 @@ public class SimpleBatteryManager implements BatteryManager {
      * Returns the drones battery level
     **************************************************************************/
     @Override
-    public int getBatteryLevel() {
-        return this.batteryLevel;
-    }
+    public int getBatteryLevel() { return batteryLevel; }
 
     /**************************************************************************
      * Sets the drones battery level
@@ -41,7 +39,5 @@ public class SimpleBatteryManager implements BatteryManager {
      * @param level drone battery level
     **************************************************************************/
     @Override
-    public void setBatteryLevel(int level) {
-        this.batteryLevel = level;
-    }
+    public void setBatteryLevel(int level) { this.batteryLevel = level; }
 }

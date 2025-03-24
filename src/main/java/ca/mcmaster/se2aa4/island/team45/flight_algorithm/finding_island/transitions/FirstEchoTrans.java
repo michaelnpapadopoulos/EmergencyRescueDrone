@@ -17,8 +17,12 @@ public class FirstEchoTrans extends Transition {
      * If the previous echo found ground turns left sets sweep direction moving
      * on to the next stage and transition
      * 
-     * @param directionMan the drones direction manager
-     * @param coord the drones current coordinates
+     * @param directionManager the drones direction manager
+     * @param islandEdgeManager the programs islandEdgeManager
+     * @param previousResult the drones previous result
+     * @param algorithmManager the programs algorithm manager
+     * @param previousDecision the drones previous decision
+     * @param coordinateManager the drones coordinate manager
     **************************************************************************/
     @Override
     public void execute(

@@ -23,7 +23,8 @@ public class PreviousResultTest {
         previousResult.setPreviousResult(10, "success", extras);
         assertEquals(10, previousResult.getCost());
         assertEquals("success", previousResult.getStatus());
-        assertEquals(extras, previousResult.getExtrasCopy());
+        // Extras is empty JSONObject so should return null
+        assertEquals(null, previousResult.getExtrasCopy()); 
     }
 
     @Test

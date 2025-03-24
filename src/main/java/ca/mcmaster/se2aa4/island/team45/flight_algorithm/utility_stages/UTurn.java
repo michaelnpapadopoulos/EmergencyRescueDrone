@@ -10,8 +10,8 @@ import ca.mcmaster.se2aa4.island.team45.flight_algorithm.*;
 public class UTurn implements Stage {
     private final Logger logger = LogManager.getLogger();
     private boolean turned = false;
-    private String turnDirection;
-    private Stage returnStage;
+    private final String turnDirection;
+    private final Stage returnStage;
 
     /**************************************************************************
      * UTurn constructor
@@ -50,13 +50,13 @@ public class UTurn implements Stage {
     private String uTurnRight(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making a right U-turn **");
        
-        if (turned == true) {
+        if (turned) {
             algorithmManager.setStage(returnStage);
             commandCenter.getPreviousDecision().setPrevUTurn("right");
         }
 
         this.turned = true;
-        return commandCenter.makeAction("heading", directionManager.getDirection().getRight().toString());
+        return commandCenter.makeAction("heading", directionManager.getDirection().getRight());
     }
 
     /**************************************************************************
@@ -69,12 +69,12 @@ public class UTurn implements Stage {
     private String uTurnLeft(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making a left U-turn **");
 
-        if (turned == true) {
+        if (turned) {
             algorithmManager.setStage(returnStage);
             commandCenter.getPreviousDecision().setPrevUTurn("left");
         }
 
         this.turned = true;
-        return commandCenter.makeAction("heading", directionManager.getDirection().getLeft().toString());
+        return commandCenter.makeAction("heading", directionManager.getDirection().getLeft());
     }
 }

@@ -10,7 +10,7 @@ public class DroneConfiguration {
      * Constructs a drone configuration object
      *
      * @param direction direction the drone is initially facing
-     * @param batterylevel initial battery level of the drone
+     * @param batteryLevel initial battery level of the drone
     **************************************************************************/
     public DroneConfiguration(String direction, int batteryLevel) {
         this.direction = direction;

@@ -22,13 +22,13 @@ public class FindEdgeTrans extends Transition {
     private final Logger logger = LogManager.getLogger();
 
     /**************************************************************************
-     * If 4 edges have been found does a uturn and moves into searching island
+     * If 4 edges have been found does a Uturn and moves into searching island
      * otherwise when an edge is found it turn and transitions into directional
      * sweep
      * 
-     * @param directionMan the drones direction manager
+     * @param directionManager the drones direction manager
      * @param islandEdgeManager the programs islandEdgeManager
-     * @param perviousResult the drones previous result
+     * @param previousResult the drones previous result
      * @param algorithmManager the programs algorithm manager
      * @param previousDecision the drones previous decision
      * @param coordinateManager the drones coordinate manager
@@ -64,15 +64,13 @@ public class FindEdgeTrans extends Transition {
                 } else {
                     if (turnDirection.equals("right")) {
 
-                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getRight().toString());
-                        algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
-                        algorithmManager.setTransition(new DirectionalSweepTrans());
+                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getRight());
                     } else {
 
-                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getLeft().toString());
-                        algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
-                        algorithmManager.setTransition(new DirectionalSweepTrans());
+                        transitionInfo.setSweepDir(transitionInfo.getSweepDir().getLeft());
                     }
+                    algorithmManager.setStage(new Turn(turnDirection, new DirectionalSweep(transitionInfo.getSweepString())));
+                    algorithmManager.setTransition(new DirectionalSweepTrans());
                 }
             }
         }

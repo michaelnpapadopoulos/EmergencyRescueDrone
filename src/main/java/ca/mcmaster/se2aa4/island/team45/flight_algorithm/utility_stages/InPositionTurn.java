@@ -10,8 +10,8 @@ import ca.mcmaster.se2aa4.island.team45.flight_algorithm.*;
 public class InPositionTurn implements Stage {
     private final Logger logger = LogManager.getLogger();
     private int turnCount = 0;
-    private String turnDirection;
-    private Stage returnStage;
+    private final String turnDirection;
+    private final Stage returnStage;
 
     /**************************************************************************
      * In position turn constructor
@@ -25,7 +25,7 @@ public class InPositionTurn implements Stage {
     }
 
     /**************************************************************************
-     * Determines whether to move the drone one coordinate to its realative 
+     * Determines whether to move the drone one coordinate to its relative
      * right or left
      * 
      * @param directionManager the drones direction manager object
@@ -45,24 +45,24 @@ public class InPositionTurn implements Stage {
     }
 
     /**************************************************************************
-     * Moves the drone one coordinate to its realative right
+     * Moves the drone one coordinate to its relative right
      * 
      * @param directionManager the drones direction manager object
      * @param commandCenter the drones command center object
      * @param algorithmManager the programs algorithm manager
     **************************************************************************/
-    private String inPositionRight(DirectionManager direction, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
+    private String inPositionRight(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making an in position right turn **");
         String headingDir;
 
-        if (turnCount == 4) { // Final right turn to face the inital direction
+        if (turnCount == 4) { // Final right turn to face the initial direction
             algorithmManager.setStage(returnStage);
-            return commandCenter.makeAction("heading", direction.getDirection().getRight().toString());
+            return commandCenter.makeAction("heading", directionManager.getDirection().getRight());
         }
 
         if (turnCount == 0) {
             turnCount++;
-            headingDir = direction.getDirection().getRight().toString();
+            headingDir = directionManager.getDirection().getRight();
             
         } else if (turnCount == 1) { // Offsets plane by 1 square to allow for an in position right turn
             turnCount++;
@@ -70,35 +70,35 @@ public class InPositionTurn implements Stage {
 
         } else if (turnCount == 2) {
             turnCount++;
-            headingDir = direction.getDirection().getRight().toString();
+            headingDir = directionManager.getDirection().getRight();
 
         } else {
             turnCount++;
-            headingDir = direction.getDirection().getRight().toString();
+            headingDir = directionManager.getDirection().getRight();
         }
         
         return commandCenter.makeAction("heading", headingDir);
     }
 
     /**************************************************************************
-     * Moves the drone one coordinate to its realative left
+     * Moves the drone one coordinate to its relative left
      * 
      * @param directionManager the drones direction manager object
      * @param commandCenter the drones command center object
      * @param algorithmManager the programs algorithm manager
     **************************************************************************/
-    private String inPositionLeft(DirectionManager direction, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
+    private String inPositionLeft(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making an in position left turn **");
         String headingDir;
 
-        if (turnCount == 4) { // Final left turn to face the inital direction
+        if (turnCount == 4) { // Final left turn to face the initial direction
             algorithmManager.setStage(returnStage);
-            return commandCenter.makeAction("heading", direction.getDirection().getLeft().toString());
+            return commandCenter.makeAction("heading", directionManager.getDirection().getLeft());
         }
 
         if (turnCount == 0) {
             turnCount++;
-            headingDir = direction.getDirection().getLeft().toString();
+            headingDir = directionManager.getDirection().getLeft();
             
         } else if (turnCount == 1) { // Offsets plane by 1 square to allow for an in position left turn
             turnCount++;
@@ -106,11 +106,11 @@ public class InPositionTurn implements Stage {
 
         } else if (turnCount == 2) {
             turnCount++;
-            headingDir = direction.getDirection().getLeft().toString();
+            headingDir = directionManager.getDirection().getLeft();
 
         } else {
             turnCount++;
-            headingDir = direction.getDirection().getLeft().toString();
+            headingDir = directionManager.getDirection().getLeft();
         }
         
         return commandCenter.makeAction("heading", headingDir);

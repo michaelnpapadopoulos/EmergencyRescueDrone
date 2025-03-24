@@ -24,14 +24,14 @@ public class PreviousResult {
     }
 
     /**************************************************************************
-     * Gets cost of the pervious action
+     * Gets cost of the previous action
     **************************************************************************/
     public int getCost() {
         return cost;
     }
 
     /**************************************************************************
-     * Gets previous drone status (initally from JSONObject)
+     * Gets previous drone status (initially from JSONObject)
     **************************************************************************/
     public String getStatus() {
         return status;
@@ -55,7 +55,7 @@ public class PreviousResult {
      * Returns the "extras" JSONObject
     **************************************************************************/
     private JSONObject getExtras() {
-        if (extras == null || extras.length() == 0) {
+        if (extras == null || extras.isEmpty()) {
             return null;
         }
         return extras;
@@ -64,9 +64,8 @@ public class PreviousResult {
     /**************************************************************************
      * @return the "extras" JSONObject, but a copy of it to avoid leaky abstractions
     **************************************************************************/
-
     public JSONObject getExtrasCopy() {
-        if (extras == null || extras.length() == 0) {
+        if (extras == null || extras.isEmpty()) {
             return null;
         }
         return new JSONObject(extras);

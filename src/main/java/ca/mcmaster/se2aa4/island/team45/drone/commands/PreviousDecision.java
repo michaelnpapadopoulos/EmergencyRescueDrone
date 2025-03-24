@@ -33,7 +33,7 @@ public class PreviousDecision {
     }
 
     /**************************************************************************
-     * Gets the previous direction a echo or heading change was made in
+     * Gets the previous direction echo or heading change was made in
     **************************************************************************/
     public String getPrevHeading() {
         return prevHeading;

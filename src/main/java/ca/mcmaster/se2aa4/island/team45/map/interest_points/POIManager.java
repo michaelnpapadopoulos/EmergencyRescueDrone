@@ -11,46 +11,34 @@ public class POIManager {
      * 
      * @param newCreek a creek object representing a creek we found
     **************************************************************************/
-    public void addCreek(Creek newCreek) {
-        creeks.add(newCreek);
-    }
+    public void addCreek(Creek newCreek) { creeks.add(newCreek); }
 
     /**************************************************************************
      * Adds the sites location
      * 
      * @param newSite a site object representing the emergency site
     **************************************************************************/
-    public void setSiteLocation(Site newSite) {
-        this.emergencySite = newSite;
-    }
+    public void setSiteLocation(Site newSite) { this.emergencySite = newSite; }
 
     /**************************************************************************
      * Returns the list of creeks
     **************************************************************************/
-    public ArrayList<Creek> getCreeks() {
-        return creeks;
-    }
+    public ArrayList<Creek> getCreeks() { return creeks; }
 
     /**************************************************************************
      * Returns the emergency site
     **************************************************************************/
-    public Site getSite() {
-        return emergencySite;
-    }
+    public Site getSite() { return emergencySite; }
 
     /**************************************************************************
      * Checks if we found a creek
     **************************************************************************/
-    public boolean hasCreeks() {
-        return !creeks.isEmpty();
-    }
+    public boolean hasCreeks() { return !creeks.isEmpty(); }
 
     /**************************************************************************
      * Checks if we found an emergency site
     **************************************************************************/
-    public boolean hasSite() {
-        return emergencySite != null;
-    }
+    public boolean hasSite() { return emergencySite != null; }
 
     /**************************************************************************
      * Finds how to format the report based off what POI's we have found
@@ -68,7 +56,7 @@ public class POIManager {
     }
 
     /**************************************************************************
-     * Uses Pythagorean theorem to find the nerest creek to the emergency siteS
+     * Uses Pythagorean theorem to find the nearest creek to the emergency siteS
     **************************************************************************/
     public Creek getNearestCreek() {
         if (!hasCreeks()) {
@@ -81,9 +69,9 @@ public class POIManager {
         }
         
         // Sets the first creek to the nearest
-        Creek nearestCreek = creeks.get(0);
-        int nearestX = Math.abs((int)creeks.get(0).getCreekCoordinate().getX() - (int)emergencySite.getSiteCoordinate().getX());
-        int nearestY = Math.abs((int)creeks.get(0).getCreekCoordinate().getY() - (int)emergencySite.getSiteCoordinate().getY());
+        Creek nearestCreek = creeks.getFirst();
+        int nearestX = Math.abs((int)creeks.getFirst().getCreekCoordinate().getX() - (int)emergencySite.getSiteCoordinate().getX());
+        int nearestY = Math.abs((int)creeks.getFirst().getCreekCoordinate().getY() - (int)emergencySite.getSiteCoordinate().getY());
 
         // Checks if each following creek is closer if so sets it to the nearest and continues until all creeks checked
         for(int i = 1; i < creeks.size(); i++) {
@@ -96,6 +84,7 @@ public class POIManager {
                 nearestY = currentY;
             }
         }
+        
         return nearestCreek;
     }
 }

@@ -1,8 +1,8 @@
 package ca.mcmaster.se2aa4.island.team45.drone.commands;
 
 public class CommandCenter {
-    private PreviousDecision previousDecision;
-    private FlightCommands flightCommands;
+    private final PreviousDecision previousDecision;
+    private final FlightCommands flightCommands;
 
     /**************************************************************************
      * Command center constructor

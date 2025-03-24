@@ -14,11 +14,11 @@ public class EdgeSearchTrans extends Transition implements Search {
     /**************************************************************************
      * If it reaches the edge it is facing does a series of turn and then 
      * transitions into search final, if its over water transitions to fly
-     * dustance
+     * distance
      * 
-     * @param directionMan the drones direction manager
+     * @param directionManager the drones direction manager
      * @param islandEdgeManager the programs islandEdgeManager
-     * @param perviousResult the drones previous result
+     * @param previousResult the drones previous result
      * @param algorithmManager the programs algorithm manager
      * @param previousDecision the drones previous decision
      * @param coordinateManager the drones coordinate manager

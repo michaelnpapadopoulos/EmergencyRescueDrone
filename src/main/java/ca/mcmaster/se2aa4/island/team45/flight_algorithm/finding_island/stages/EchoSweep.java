@@ -26,13 +26,13 @@ public class EchoSweep implements Stage {
         Direction currentDirection = directionManager.getDirection();
         String echoDirection;
 
-        if (echoedRight == false) { // Echo right
+        if (!echoedRight) { // Echo right
             echoedRight = true;
-            echoDirection = currentDirection.getRight().toString();
+            echoDirection = currentDirection.getRight();
             
-        } else if (echoedLeft == false) { // Echo left
+        } else if (!echoedLeft) { // Echo left
             echoedLeft = true;
-            echoDirection = currentDirection.getLeft().toString();
+            echoDirection = currentDirection.getLeft();
 
         } else {
             logger.info("** Flying forward **");

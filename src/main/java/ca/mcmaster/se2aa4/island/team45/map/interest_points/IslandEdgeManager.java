@@ -23,14 +23,14 @@ public class IslandEdgeManager {
 
     public void labelEdges() {
         if (edgeCoordinates.get(0).getX() == null) {
-            if (edgeCoordinates.get(1).getY().getCoordVal() > edgeCoordinates.get(0).getY().getCoordVal()) {
+            if (edgeCoordinates.get(1).getY() > edgeCoordinates.get(0).getY()) {
                 edges.put("South", edgeCoordinates.get(1));
                 edges.put("North", edgeCoordinates.get(0));
             } else {
                 edges.put("North", edgeCoordinates.get(1));
                 edges.put("South", edgeCoordinates.get(0));
             }
-            if (edgeCoordinates.get(2).getX().getCoordVal() > edgeCoordinates.get(3).getX().getCoordVal()) {
+            if (edgeCoordinates.get(2).getX() > edgeCoordinates.get(3).getX()) {
                 edges.put("East", edgeCoordinates.get(2));
                 edges.put("West", edgeCoordinates.get(3));
             } else {
@@ -38,14 +38,14 @@ public class IslandEdgeManager {
                 edges.put("East", edgeCoordinates.get(3));
             }
         } else {
-            if (edgeCoordinates.get(1).getX().getCoordVal() > edgeCoordinates.get(0).getX().getCoordVal()) {
+            if (edgeCoordinates.get(1).getX() > edgeCoordinates.get(0).getX()) {
                 edges.put("East", edgeCoordinates.get(1));
                 edges.put("West", edgeCoordinates.get(0));
             } else {
                 edges.put("West", edgeCoordinates.get(1));
                 edges.put("East", edgeCoordinates.get(0));
             }
-            if (edgeCoordinates.get(2).getY().getCoordVal() > edgeCoordinates.get(3).getY().getCoordVal()) {
+            if (edgeCoordinates.get(2).getY() > edgeCoordinates.get(3).getY()) {
                 edges.put("South", edgeCoordinates.get(2));
                 edges.put("North", edgeCoordinates.get(3));
             } else {
@@ -68,7 +68,7 @@ public class IslandEdgeManager {
 
     private Coordinate determineEdge(DirectionManager directionMan, Coordinate coord) {
         Coordinate edge;
-        String currDirection = directionMan.getDirection().stringForward();
+        String currDirection = directionMan.getDirection().toString();
         if (currDirection.equals("N") || currDirection.equals("S")) {
             edge = new Coordinate(null,coord.getY());
             return edge;
@@ -82,19 +82,19 @@ public class IslandEdgeManager {
     public boolean atEdge(String directionChar, Coordinate currCoord, String edgeLabel) {
         Coordinate edge = getEdge(edgeLabel);
         if (directionChar.equals("N")) {
-            if (currCoord.getY().getCoordVal() <= edge.getY().getCoordVal()) {
+            if (currCoord.getY() <= edge.getY()) {
                 return true;
             }
         } else if (directionChar.equals("S")) {
-            if (currCoord.getY().getCoordVal() >= edge.getY().getCoordVal()) {
+            if (currCoord.getY() >= edge.getY()) {
                 return true;
             }
         } else if (directionChar.equals("E")) {
-            if (currCoord.getX().getCoordVal() >= edge.getX().getCoordVal()) {
+            if (currCoord.getX() >= edge.getX()) {
                 return true;
             }
         } else {
-            if (currCoord.getX().getCoordVal() <= edge.getX().getCoordVal()) {
+            if (currCoord.getX() <= edge.getX()) {
                 return true;
             }
         }

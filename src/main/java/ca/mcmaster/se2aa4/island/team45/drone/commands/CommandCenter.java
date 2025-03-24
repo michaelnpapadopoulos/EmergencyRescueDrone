@@ -19,8 +19,12 @@ public class CommandCenter {
         return flightCommands.getAction(action);
     }
 
-    public String getPrevAction() {
-        return this.previousDecision.getPrevAction();
+    public boolean wasPrevAction(String action) {
+        return this.previousDecision.getPrevAction().equals(action);
+    }
+
+    public boolean wasPrevHeading(String heading) {
+        return this.previousDecision.getPrevHeading().equals(heading);
     }
 
     public String getPrevHeading() {

@@ -3,15 +3,15 @@ package ca.mcmaster.se2aa4.island.team45.drone.direction;
 public class DirectionManager {
     private Direction direction;
 
-    public DirectionManager(DirectionEnum direction) {
-        this.direction = new Direction(direction);
+    public DirectionManager(Direction droneDirection) {
+        this.direction = droneDirection;
     }
 
     public void setDirection(String newDirection) {
-        this.direction.updateDirection(DirectionEnum.fromString(newDirection));
+        this.direction = new Direction(newDirection);
     }
 
-    public Direction getDirection() {
-        return new Direction(DirectionEnum.fromString(this.direction.stringForward()));
+    public Direction getDirection() { // Returns copy of current direction
+        return new Direction(this.direction.toString());
     }
 }

@@ -21,21 +21,22 @@ public class PreviousResult {
     public String getStatus() {
         return status;
     }
+    
+    
+    public boolean getFound(String foundType) {
+        if (getExtras() == null) {
+            return false;
+        } else if (!getExtras().has("found")) {
+            return false;
+        }
+        return getExtras().getString("found").equals(foundType);
+    }
 
     private JSONObject getExtras() {
         if (extras == null || extras.length() == 0) {
             return null;
         }
         return extras;
-    }
-
-    public String getFound() {
-        if (getExtras() == null) {
-            return null;
-        } else if (!getExtras().has("found")) {
-            return null;
-        }
-        return getExtras().getString("found");
     }
 
     public int getRange() {
@@ -57,12 +58,29 @@ public class PreviousResult {
     }
 
     public JSONArray getSites() {
-        if (getExtras() == null || getExtras().getJSONArray("sites").length() == 0) {
+        if (getExtras() == null) {
             return null;
-        } 
-
-        return getExtras().getJSONArray("sites");
+        } else if (!getExtras().has("sites")) {
+            return null;
+        } else if (getExtras().getJSONArray("sites").isEmpty()) {
+            return null;
+        } else {
+            return getExtras().getJSONArray("sites");
+        }
     }
+
+    public JSONArray getCreeks() {
+        if (getExtras() == null) {
+            return null;
+        } else if (!getExtras().has("creeks")) {
+            return null;
+        } else if (getExtras().getJSONArray("creeks").isEmpty()) {
+            return null;
+        } else {
+            return getExtras().getJSONArray("creeks");
+        }
+    }
+
 
     public String[] retrieveSites() {
         JSONArray sites = getSites();
@@ -78,13 +96,7 @@ public class PreviousResult {
         return siteList;
     }
 
-    public JSONArray getCreeks() {
-        if (getExtras() == null || getExtras().getJSONArray("creeks").length() == 0) {
-            return null;
-        } 
-
-        return getExtras().getJSONArray("creeks");
-    }
+    
 
     public String[] retrieveCreeks() {
         JSONArray creeks = getCreeks();

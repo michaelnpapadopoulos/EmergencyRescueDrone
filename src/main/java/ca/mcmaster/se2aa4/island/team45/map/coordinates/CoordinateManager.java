@@ -1,49 +1,29 @@
 package ca.mcmaster.se2aa4.island.team45.map.coordinates;
 
 import ca.mcmaster.se2aa4.island.team45.drone.commands.CommandCenter;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.Direction;
 import ca.mcmaster.se2aa4.island.team45.drone.direction.DirectionManager;
 
 public class CoordinateManager {
     private Coordinate currentCoords;
-    private CoordinateAdjuster coordAdjuster = new CoordinateAdjuster();
 
     public CoordinateManager() {
         this.currentCoords = new Coordinate(1, 1); // Always start drone at (1, 1)
     }
 
-    public void adjustCoords(DirectionManager directionManager, CommandCenter commandCenter) {
-        this.currentCoords = coordAdjuster.makeAdjustment(directionManager, commandCenter, this.currentCoords);
-    }
-
-    public Coordinate getCoordinates() {
+    public Coordinate getCoordinates() { // Returns copy of current coordinates
         return new Coordinate(getCoordinateX(), getCoordinateY());
     }
 
-    public Coordinate getShiftedCoordinates(Direction direction, int shiftValue) {    
-        switch (direction.stringForward()) {
-            case "N":
-                return new Coordinate(getCoordinateX(), getCoordinateY()-shiftValue);
-
-            case "E":
-                return new Coordinate(getCoordinateX()+shiftValue, getCoordinateY());
-
-            case "S":
-                return new Coordinate(getCoordinateX(), getCoordinateY()+shiftValue);
-
-            case "W":
-                return new Coordinate(getCoordinateX()-shiftValue, getCoordinateY());
-
-                default:
-                return null;
-        }
+    public void adjustCoords(DirectionManager directionManager, CommandCenter commandCenter) {
+        this.currentCoords = CoordinateUtilities.makeAdjustment(directionManager, commandCenter, this.currentCoords);
     }
 
-    private int getCoordinateX() {
+
+    private Integer getCoordinateX() { // Returns int x-coordinate of current coordinates, used for getShiftedCoordinates
         return currentCoords.getX();
     }
 
-    private int getCoordinateY() {
+    private Integer getCoordinateY() { // Returns int y-coordinate of current coordinates, used for getShiftedCoordinates
         return currentCoords.getY();
     }
 }

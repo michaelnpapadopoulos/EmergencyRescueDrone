@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.island.team45.drone;
 
-import ca.mcmaster.se2aa4.island.team45.drone.battery.BatteryManager;
-import ca.mcmaster.se2aa4.island.team45.drone.battery.SimpleBatteryManager;
+import ca.mcmaster.se2aa4.island.team45.drone.battery.*;
 
 public class DroneConfiguration {
     private final String direction;

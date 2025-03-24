@@ -1,66 +1,52 @@
 package ca.mcmaster.se2aa4.island.team45.drone.direction;
 
-import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.DirectionState;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.EastDirectionState;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.NorthDirectionState;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.SouthDirectionState;
-import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.WestDirectionState;
+import ca.mcmaster.se2aa4.island.team45.drone.direction.direction_states.*;
 
 public class Direction {
     private DirectionState directionState;
 
-    public Direction(DirectionEnum direction) {
-        updateDirection(direction);
-    }
-
-    public void updateDirection(DirectionEnum direction) {
-        switch (direction) {
-            case NORTH:
+    public Direction(String directionAbbrev) {
+        switch (directionAbbrev) {
+            case "N":
                 this.directionState = new NorthDirectionState();
                 break;
-            case EAST:
+            case "E":
                 this.directionState = new EastDirectionState();
                 break;
-            case SOUTH:
+            case "S":
                 this.directionState = new SouthDirectionState();
                 break;
-            case WEST:
+            case "W":
                 this.directionState = new WestDirectionState();
                 break;
         }
     }
 
-
-    public Direction getOppositeDirection() {
-        DirectionEnum opposite;
-        switch (DirectionEnum.fromString(this.directionState.getDirection())) {
-            case NORTH:
-                opposite = DirectionEnum.SOUTH;
-                break;
-            case EAST:
-                opposite = DirectionEnum.WEST;
-                break;
-            case SOUTH:
-                opposite = DirectionEnum.NORTH;
-                break;
-            case WEST:
-                opposite = DirectionEnum.EAST;
-                break;
-            default:
-                return null;
+    @Override
+    public boolean equals(Object obj) { // Check if direction is equal to obj
+        if (obj instanceof Direction) {
+            return this.toString().equals(((Direction) obj).toString());
         }
-        return new Direction(opposite);
+        return false;
     }
 
-    public String getFullDirectionString() {
-        return DirectionEnum.fromString(stringForward()).getLongDir();
+    public boolean equals(String directionAbbrev) { // Check if direction is equal to directionAbbrev
+        return this.toString().equals(directionAbbrev);
     }
-
-    public String toString() {
+ 
+    public String toString() { // Return direction abbreviation (N, E, S, W)
         return directionState.getDirection();
     }
 
-    public String toFullString() {
-        
+    public String toFullString() { // Return full direction (North, East, South, West)
+        return directionState.getFullDirection();
+    }
+
+    public String getLeft() { // Return direction to the left
+        return directionState.getLeft();
+    }
+
+    public String getRight() { // Return direction to the right
+        return directionState.getRight();
     }
 }

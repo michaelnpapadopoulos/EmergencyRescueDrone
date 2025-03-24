@@ -1,18 +1,18 @@
 package ca.mcmaster.se2aa4.island.team45.drone.drone_observers;
 
-
-import ca.mcmaster.se2aa4.island.team45.map.coordinates.Coordinate;
-import ca.mcmaster.se2aa4.island.team45.drone.DroneStatus;
-import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
-import ca.mcmaster.se2aa4.island.team45.map.interest_points.Creek;
-import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
-import ca.mcmaster.se2aa4.island.team45.map.interest_points.Site;
+import ca.mcmaster.se2aa4.island.team45.drone.*;
+import ca.mcmaster.se2aa4.island.team45.drone.commands.CommandCenter;
+import ca.mcmaster.se2aa4.island.team45.map.interest_points.*;
+import ca.mcmaster.se2aa4.island.team45.map.coordinates.*;
 
 public class POIObserver implements StatusObserver {
     @Override
     public void updateStatus(DroneStatus droneStatus, PreviousResult previousResult, POIManager poiManager) {
-        if (droneStatus.getCommandCenter().getPrevAction().equals("scan")) {
-            Coordinate poiCoords = droneStatus.getCoordinateManager().getCoordinates();
+        CommandCenter commandCenter = droneStatus.getCommandCenter();
+        CoordinateManager coordinateManager = droneStatus.getCoordinateManager();
+        
+        if (commandCenter.wasPrevAction("scan")) {
+            Coordinate poiCoords = coordinateManager.getCoordinates();
             String[] siteList = previousResult.retrieveSites();
             String[] creekList = previousResult.retrieveCreeks();
 

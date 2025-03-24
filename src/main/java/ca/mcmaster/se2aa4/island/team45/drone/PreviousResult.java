@@ -62,6 +62,17 @@ public class PreviousResult {
     }
 
     /**************************************************************************
+     * @return the "extras" JSONObject, but a copy of it to avoid leaky abstractions
+    **************************************************************************/
+
+    public JSONObject getExtrasCopy() {
+        if (extras == null || extras.length() == 0) {
+            return null;
+        }
+        return new JSONObject(extras);
+    }
+
+    /**************************************************************************
      * Takes the "range" int from the "extras" and returns it
     **************************************************************************/
     public int getRange() {

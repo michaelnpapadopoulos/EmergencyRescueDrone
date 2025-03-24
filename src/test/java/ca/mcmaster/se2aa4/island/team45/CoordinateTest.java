@@ -18,20 +18,4 @@ public class CoordinateTest {
         Coordinate coord = new Coordinate(5, 10);
         assertEquals(10, coord.getY());
     }
-
-    // @Test
-    // public void testIncrementX() {
-    //     Coordinate coord = new Coordinate(5, 10);
-    //     int coordX = coord.getX();
-    //     coord.incrementX();
-    //     assertEquals(6, coordX);
-    // }
-
-    // @Test
-    // public void testDecrementY() {
-    //     Coordinate coord = new Coordinate(5, 10);
-    //     int coordY = coord.getY();
-    //     coord.decrementY();
-    //     assertEquals(9, coordY);
-    // }
 }

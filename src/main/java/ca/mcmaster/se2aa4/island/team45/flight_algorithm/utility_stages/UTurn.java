@@ -13,11 +13,24 @@ public class UTurn implements Stage {
     private String turnDirection;
     private Stage returnStage;
 
+    /**************************************************************************
+     * UTurn constructor
+     * 
+     * @param turnDirection the direction "right","left" to UTurn in
+     * @param returnStage the stage to move to when the UTurn ends
+    **************************************************************************/
     public UTurn(String turnDirection, Stage returnStage) {
         this.turnDirection = turnDirection;
         this.returnStage = returnStage;
     }
 
+    /**************************************************************************
+     * Decides whether to UTurn right or left
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         if (turnDirection.equals("right")) {
@@ -27,6 +40,13 @@ public class UTurn implements Stage {
         } 
     }
 
+    /**************************************************************************
+     * Turns to the drones relative right twice
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     private String uTurnRight(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making a right U-turn **");
        
@@ -39,6 +59,13 @@ public class UTurn implements Stage {
         return commandCenter.makeAction("heading", directionManager.getDirection().getRight().toString());
     }
 
+    /**************************************************************************
+     * Turns to the drones relative left twice
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     private String uTurnLeft(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making a left U-turn **");
 

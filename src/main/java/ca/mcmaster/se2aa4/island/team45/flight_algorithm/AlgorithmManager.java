@@ -16,6 +16,9 @@ public class AlgorithmManager {
     private final IslandEdgeManager islandEdgeManager;
     private final TransitionInformation transitionInformation;
     
+    /**************************************************************************
+     * Algorithm manager constructor
+    **************************************************************************/
     public AlgorithmManager() {
         this.currentStage = new FirstEcho();
         this.islandEdgeManager = new IslandEdgeManager();
@@ -23,18 +26,39 @@ public class AlgorithmManager {
         this.transitionInformation = new TransitionInformation();
     }
 
+    /**************************************************************************
+     * Sets the drones next stage phase
+     * 
+     * @param newStage the next stage you want to move into
+    **************************************************************************/
     public void setStage(Stage newStage) {
         this.currentStage = newStage;
     }
 
+    /**************************************************************************
+     * Sets the drones next transisition phase
+     * 
+     * @param newTransition the next transition you want to move into
+    **************************************************************************/
     public void setTransition(Transition newTransition) {
         this.currentTransition = newTransition;
     }
 
+    /**************************************************************************
+     * Returns the transition info object
+    **************************************************************************/
     public TransitionInformation getTransitionInfo() {
         return transitionInformation;
     }
 
+    /**************************************************************************
+     * Checks if the drone needs to transition into a new stage then makes a 
+     * decision within the current stage and return a drone action
+     * 
+     * @param droneStatus the drones status object
+     * @param poiManager the programs poi manager object
+     * @param previousResult the drons previous result object
+    **************************************************************************/
     public String makeStageDecision(
             DroneStatus droneStatus,
             POIManager poiManager,

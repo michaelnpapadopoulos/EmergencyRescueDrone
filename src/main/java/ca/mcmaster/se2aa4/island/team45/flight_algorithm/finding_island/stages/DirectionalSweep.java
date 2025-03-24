@@ -12,10 +12,22 @@ public class DirectionalSweep implements Stage {
     private final Logger logger = LogManager.getLogger();
     String directionToEcho;
 
+    /**************************************************************************
+     * Direction sweep constructor
+     * 
+     * @param directionToEcho a direction (N,E,S,W) to echo in
+    **************************************************************************/
     public DirectionalSweep(String directionToEcho) {
         this.directionToEcho = directionToEcho;
     }
 
+    /**************************************************************************
+     * Decides whether to fly or echo
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Echoing in {} direction to find edge **", directionToEcho);

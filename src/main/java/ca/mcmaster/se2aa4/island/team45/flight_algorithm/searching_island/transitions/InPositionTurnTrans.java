@@ -19,13 +19,32 @@ public class InPositionTurnTrans extends Transition {
     private Coordinate initialCoords;
     private Direction initialDirection;
     private String turnDirection;
-    
-    public InPositionTurnTrans(String turnDirection, Direction initialDirection, Coordinate currCoordinate) {
+ 
+    /**************************************************************************
+     * In position turn trans constructor
+     * 
+     * @param turnDirection the direction to in position turn
+     * @param initialDirection the drones initial direction at the in position
+     * turn
+     * @param initialCoordinate the drones initial coordinsates at the in
+     * position turn
+    **************************************************************************/
+    public InPositionTurnTrans(String turnDirection, Direction initialDirection, Coordinate initialCoordinate) {
         this.turnDirection = turnDirection;
         this.initialDirection = initialDirection;
-        this.initialCoords = currCoordinate;
+        this.initialCoords = initialCoordinate;
     }
-    
+
+    /**************************************************************************
+     * After the in position turn is completed Transition into final search
+     * 
+     * @param directionMan the drones direction manager
+     * @param islandEdgeManager the programs islandEdgeManager
+     * @param perviousResult the drones previous result
+     * @param algorithmManager the programs algorithm manager
+     * @param previousDecision the drones previous decision
+     * @param coordinateManager the drones coordinate manager
+    **************************************************************************/
     @Override
     public void execute(
         DirectionManager directionManager,

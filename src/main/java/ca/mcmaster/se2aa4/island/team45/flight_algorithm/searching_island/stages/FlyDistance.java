@@ -11,6 +11,13 @@ public class FlyDistance implements Stage {
     private final Logger logger = LogManager.getLogger();
     private boolean hasEchoed = false; // Distance to travel yet to be initialized, will using result from previous stage's echo
 
+    /**************************************************************************
+     * Echos once and then flies forward while over water
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Flying forward to cross land gap **");

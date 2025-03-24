@@ -10,6 +10,13 @@ import org.apache.logging.log4j.Logger;
 public class Stop implements Stage {
     private final Logger logger = LogManager.getLogger();
 
+    /**************************************************************************
+     * Stops the drone and returns home
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Stopping drone **");

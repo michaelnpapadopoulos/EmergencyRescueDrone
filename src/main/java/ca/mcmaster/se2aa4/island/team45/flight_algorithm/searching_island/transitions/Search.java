@@ -9,6 +9,13 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 
 public interface Search {
 
+    /**************************************************************************
+     * Checks if the drone is on the edge equivalent to its forward direction
+     * 
+     * @param islandEdgeManager the programs island edge manager
+     * @param directionManager the drones direction manager
+     * @param coordinateManager the drones coordinate manager
+    **************************************************************************/
     public static boolean atForwardEdge(
         IslandEdgeManager islandEdgeManager, 
         DirectionManager directionManager, 
@@ -19,6 +26,14 @@ public interface Search {
                 directionManager.getDirection().toFullString());
     }
 
+    /**************************************************************************
+     * Checks if the drone is at a point from a edge to its right or left by a
+     * certain shift value
+     * 
+     * @param islandEdgeManager the programs island edge manager
+     * @param sideEdgeDirection the direction of the edge to check (N,E,S,W)
+     * @param coordinateManager the drones coordinate manager
+    **************************************************************************/
     public static boolean shiftFromSideEdge(
         IslandEdgeManager islandEdgeManager, 
         Direction sideEdgeDirection, 
@@ -32,6 +47,11 @@ public interface Search {
                     sideEdgeDirection.toFullString());
     }
 
+    /**************************************************************************
+     * Checks if the drone is over water after a scan
+     * 
+     * @param previousResult the drones previous result
+    **************************************************************************/
     public static boolean overWater(
         PreviousResult previousResult) {
             JSONArray biomes = previousResult.getBiomes();

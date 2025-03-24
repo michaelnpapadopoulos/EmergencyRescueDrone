@@ -8,21 +8,40 @@ public class PreviousResult {
     private String status;
     private JSONObject extras;
 
+    /**************************************************************************
+     * Sets the previous cost, extras, and status of the drone for the previous
+     * result object
+     *
+     * @param cost cost of the action on the drone battery
+     * @param status drones status
+     * @param extras the extra from the JSONObject created when you make a 
+     * decision
+    **************************************************************************/
     public void setPreviousResult(int cost, String status, JSONObject extras) {
         this.cost = cost;
         this.extras = extras;
         this.status = status;
     }
 
+    /**************************************************************************
+     * Gets cost of the pervious action
+    **************************************************************************/
     public int getCost() {
         return cost;
     }
 
+    /**************************************************************************
+     * Gets previous drone status (initally from JSONObject)
+    **************************************************************************/
     public String getStatus() {
         return status;
     }
     
-    
+    /**************************************************************************
+     * Finds if "found" is equivalent to an expected "found" content
+     *
+     * @param foundType a possible content of "found"
+    **************************************************************************/
     public boolean getFound(String foundType) {
         if (getExtras() == null) {
             return false;
@@ -32,6 +51,9 @@ public class PreviousResult {
         return getExtras().getString("found").equals(foundType);
     }
 
+    /**************************************************************************
+     * Returns the "extras" JSONObject
+    **************************************************************************/
     private JSONObject getExtras() {
         if (extras == null || extras.length() == 0) {
             return null;
@@ -39,6 +61,9 @@ public class PreviousResult {
         return extras;
     }
 
+    /**************************************************************************
+     * Takes the "range" int from the "extras" and returns it
+    **************************************************************************/
     public int getRange() {
         if (getExtras() == null) {
             return -1;
@@ -48,6 +73,9 @@ public class PreviousResult {
         return getExtras().getInt("range");
     }
 
+    /**************************************************************************
+     * Takes the "biomes" JSONArray from the "extras" and returns it
+    **************************************************************************/
     public JSONArray getBiomes() {
         if (getExtras() == null) {
             return null;
@@ -57,6 +85,9 @@ public class PreviousResult {
         return getExtras().getJSONArray("biomes");
     }
 
+    /**************************************************************************
+     * Takes the "sites" JSONArray from the "extras" and returns it
+    **************************************************************************/
     public JSONArray getSites() {
         if (getExtras() == null) {
             return null;
@@ -69,6 +100,9 @@ public class PreviousResult {
         }
     }
 
+    /**************************************************************************
+     * Takes the "creeks" JSONArray from the "extras" and returns it
+    **************************************************************************/
     public JSONArray getCreeks() {
         if (getExtras() == null) {
             return null;
@@ -81,7 +115,10 @@ public class PreviousResult {
         }
     }
 
-
+    /**************************************************************************
+     * Takes the "sites" JSONArray from the "extras" and creates a string 
+     * array of its contents
+    **************************************************************************/
     public String[] retrieveSites() {
         JSONArray sites = getSites();
         if (sites == null) {
@@ -96,8 +133,10 @@ public class PreviousResult {
         return siteList;
     }
 
-    
-
+    /**************************************************************************
+     * Takes the "creeks" JSONArray from the "extras" and creates a string 
+     * array of its contents
+    **************************************************************************/
     public String[] retrieveCreeks() {
         JSONArray creeks = getCreeks();
         if (creeks == null) {

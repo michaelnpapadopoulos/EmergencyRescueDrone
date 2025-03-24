@@ -6,30 +6,55 @@ public class POIManager {
     private ArrayList<Creek> creeks = new ArrayList<Creek>();
     private Site emergencySite;
 
+    /**************************************************************************
+     * Adds a creek to the list of creeks
+     * 
+     * @param newCreek a creek object representing a creek we found
+    **************************************************************************/
     public void addCreek(Creek newCreek) {
         creeks.add(newCreek);
     }
 
+    /**************************************************************************
+     * Adds the sites location
+     * 
+     * @param newSite a site object representing the emergency site
+    **************************************************************************/
     public void setSiteLocation(Site newSite) {
         this.emergencySite = newSite;
     }
 
+    /**************************************************************************
+     * Returns the list of creeks
+    **************************************************************************/
     public ArrayList<Creek> getCreeks() {
         return creeks;
     }
 
+    /**************************************************************************
+     * Returns the emergency site
+    **************************************************************************/
     public Site getSite() {
         return emergencySite;
     }
 
+    /**************************************************************************
+     * Checks if we found a creek
+    **************************************************************************/
     public boolean hasCreeks() {
         return !creeks.isEmpty();
     }
 
+    /**************************************************************************
+     * Checks if we found an emergency site
+    **************************************************************************/
     public boolean hasSite() {
         return emergencySite != null;
     }
 
+    /**************************************************************************
+     * Finds how to format the report based off what POI's we have found
+    **************************************************************************/
     public int reportCase() {
         if(hasCreeks() && hasSite()) {
             return 1;
@@ -42,6 +67,9 @@ public class POIManager {
         }
     }
 
+    /**************************************************************************
+     * Uses Pythagorean theorem to find the nerest creek to the emergency siteS
+    **************************************************************************/
     public Creek getNearestCreek() {
         if (!hasCreeks()) {
             return null;

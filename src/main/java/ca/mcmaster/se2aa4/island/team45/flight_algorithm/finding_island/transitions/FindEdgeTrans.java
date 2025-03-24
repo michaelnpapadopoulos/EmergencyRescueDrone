@@ -21,6 +21,18 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 public class FindEdgeTrans extends Transition {
     private final Logger logger = LogManager.getLogger();
 
+    /**************************************************************************
+     * If 4 edges have been found does a uturn and moves into searching island
+     * otherwise when an edge is found it turn and transitions into directional
+     * sweep
+     * 
+     * @param directionMan the drones direction manager
+     * @param islandEdgeManager the programs islandEdgeManager
+     * @param perviousResult the drones previous result
+     * @param algorithmManager the programs algorithm manager
+     * @param previousDecision the drones previous decision
+     * @param coordinateManager the drones coordinate manager
+    **************************************************************************/
     @Override
     public void execute(
         DirectionManager directionManager,

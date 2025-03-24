@@ -6,6 +6,15 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.*;
 import ca.mcmaster.se2aa4.island.team45.map.coordinates.*;
 
 public class POIObserver implements StatusObserver {
+    
+    /**************************************************************************
+     * Updates the poiManager with emergency sites and creeks
+     *
+     * @param droneStatus tracks the drones current attributes
+     * @param previousResult tracks the JSONObject created from the last action
+     * @param poiManager used to update the points of interest found during 
+     * scan
+    **************************************************************************/
     @Override
     public void updateStatus(DroneStatus droneStatus, PreviousResult previousResult, POIManager poiManager) {
         CommandCenter commandCenter = droneStatus.getCommandCenter();

@@ -5,8 +5,19 @@ import ca.mcmaster.se2aa4.island.team45.drone.direction.*;
 
 public class CoordinateUtilities {
 
+    /**************************************************************************
+     * Coordinate utilities constructor
+    **************************************************************************/
     private CoordinateUtilities() {}
 
+    /**************************************************************************
+     * Returns a coordinate shifted by a value in a direction from your current
+     * coordinates
+     * 
+     * @param coordinate the drones current coordinate
+     * @param direction the direction you want to shift
+     * @param shiftValue the shirft you want to make from your coordinates
+    **************************************************************************/
     public static Coordinate getShiftedCoordinates(Coordinate coordinate, Direction direction, int shiftValue) {
         int coordinateX = coordinate.getX();
         int coordinateY = coordinate.getY();
@@ -29,6 +40,14 @@ public class CoordinateUtilities {
         }
     }
 
+    /**************************************************************************
+     * Makes adjustments to your drones coordinates depending on what action
+     * you take
+     * 
+     * @param directionManager the drones direction manager
+     * @param commandCenter the drones command center
+     * @param coordinates the drones current coordinates
+    **************************************************************************/
     public static Coordinate makeAdjustment(DirectionManager directionManager, CommandCenter commandCenter, Coordinate coordinates) {
         if (commandCenter.wasPrevAction("fly")) { // If previous action was fly, adjust coordinates
             return flyAdjust(directionManager, coordinates);
@@ -39,6 +58,12 @@ public class CoordinateUtilities {
         }
     }
 
+    /**************************************************************************
+     * Adjusts your coordinates when you take the fly action
+     * 
+     * @param directionManager the drones direction manager
+     * @param coords the drones current coordinates
+    **************************************************************************/
     private static Coordinate flyAdjust(DirectionManager directionManager, Coordinate coords) {
         switch (directionManager.getDirection().toString()) {
             case "N":
@@ -58,6 +83,13 @@ public class CoordinateUtilities {
         }
     }
 
+    /**************************************************************************
+     * Adjusts your coordinates when you take the heading action
+     * 
+     * @param directionManager the drones direction manager
+     * @param commandCenter the drones comand center
+     * @param coords the drones current coordinates
+    **************************************************************************/
     private static Coordinate headingAdjust(DirectionManager directionManager, CommandCenter commandCenter, Coordinate coords) {
         switch (directionManager.getDirection().toString()) { // Based on the current direction of the plane, adjust the coordinates
             case "N":

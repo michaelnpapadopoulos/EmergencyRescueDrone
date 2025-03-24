@@ -13,11 +13,25 @@ public class InPositionTurn implements Stage {
     private String turnDirection;
     private Stage returnStage;
 
+    /**************************************************************************
+     * In position turn constructor
+     * 
+     * @param turnDirection the direction "right","left" to in position turn in
+     * @param returnStage the stage to move to when the UTurn ends
+    **************************************************************************/
     public InPositionTurn(String turnDirection, Stage returnStage) {
         this.turnDirection = turnDirection;
         this.returnStage = returnStage;
     }
-    
+
+    /**************************************************************************
+     * Determines whether to move the drone one coordinate to its realative 
+     * right or left
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         if (turnDirection.equals("right")) {
@@ -30,6 +44,13 @@ public class InPositionTurn implements Stage {
         }
     }
 
+    /**************************************************************************
+     * Moves the drone one coordinate to its realative right
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     private String inPositionRight(DirectionManager direction, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making an in position right turn **");
         String headingDir;
@@ -59,6 +80,13 @@ public class InPositionTurn implements Stage {
         return commandCenter.makeAction("heading", headingDir);
     }
 
+    /**************************************************************************
+     * Moves the drone one coordinate to its realative left
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     private String inPositionLeft(DirectionManager direction, CommandCenter commandCenter, AlgorithmManager algorithmManager) {
         logger.info("** Making an in position left turn **");
         String headingDir;

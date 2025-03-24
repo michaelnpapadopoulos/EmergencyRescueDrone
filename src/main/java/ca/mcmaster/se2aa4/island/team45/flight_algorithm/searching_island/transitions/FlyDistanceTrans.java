@@ -13,10 +13,28 @@ public class FlyDistanceTrans extends Transition {
     private int distance;
     private Transition previousTransition;
 
+    /**************************************************************************
+     * Fly distance trans constructor
+     * 
+     * @param previousTransition the transistion state the drone ws in before
+     * fly distance
+    **************************************************************************/
     public FlyDistanceTrans(Transition previousTransition) {
                 this.previousTransition = previousTransition;
     }
 
+    /**************************************************************************
+     * If the drone echoed set the fly range to the range to land or the 
+     * forward edge whichever is smaller, if not if fly range is less than one
+     * transition back to the original transition
+     * 
+     * @param directionMan the drones direction manager
+     * @param islandEdgeManager the programs islandEdgeManager
+     * @param perviousResult the drones previous result
+     * @param algorithmManager the programs algorithm manager
+     * @param previousDecision the drones previous decision
+     * @param coordinateManager the drones coordinate manager
+    **************************************************************************/
     public void execute(
         DirectionManager directionManager,
         IslandEdgeManager islandEdgeManager,

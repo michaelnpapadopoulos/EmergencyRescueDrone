@@ -6,15 +6,27 @@ public class Creek {
     Coordinate creekCoordinate;
     String creekID;
 
+    /**************************************************************************
+     * Creek constructor
+     * 
+     * @param creekCoordinate the drones coordinates when creek is found
+     * @param creekID the creeks ID found from the scanned JSONObject
+    **************************************************************************/
     public Creek(Coordinate creekCoordinate, String creekID) {
         this.creekCoordinate = creekCoordinate;
         this.creekID = creekID;
     }
 
+    /**************************************************************************
+     * Returns the creek instance's ID
+    **************************************************************************/
     public String getCreekID() {
         return creekID;
     }
 
+    /**************************************************************************
+     * Returns the creek instance's coordinate
+    **************************************************************************/
     public Coordinate getCreekCoordinate() {
         return creekCoordinate;
     }

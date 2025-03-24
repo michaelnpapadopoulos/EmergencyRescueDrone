@@ -14,6 +14,13 @@ public class EchoSweep implements Stage {
     private boolean echoedRight = false;
     private boolean echoedLeft = false;
 
+    /**************************************************************************
+     * Echos to the left and right and then flies forward
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     @Override
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) { // Echos left, forward, then right to find the edge of the island
         Direction currentDirection = directionManager.getDirection();

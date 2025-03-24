@@ -11,6 +11,13 @@ import ca.mcmaster.se2aa4.island.team45.flight_algorithm.AlgorithmManager;
 public class FirstEcho implements Stage {
     private final Logger logger = LogManager.getLogger();
 
+    /**************************************************************************
+     * Echos once
+     * 
+     * @param directionManager the drones direction manager object
+     * @param commandCenter the drones command center object
+     * @param algorithmManager the programs algorithm manager
+    **************************************************************************/
     public String makeDecision(DirectionManager directionManager, CommandCenter commandCenter, AlgorithmManager algorithmManager) { // Echo forward once to possible find the edge of the island
             logger.info("** First Echo **");
             String echoDirection = directionManager.getDirection().toString();

@@ -26,7 +26,7 @@ public class FlightManager {
      * create a FlightManager object with the necessary parameters.
      *
      * @param builder the builder object used to create the FlightManager object
-     **************************************************************************/
+    **************************************************************************/
     private FlightManager(Builder builder) {
         this.previousResult = builder.previousResult;
         this.algorithmManager = builder.algorithmManager;
@@ -35,10 +35,12 @@ public class FlightManager {
     }
 
     /**************************************************************************
-     * Fly the drone and echo in the current direction of the drone.
+     * Builderclass for our FlightManager
      *
-     * @param previousResult the drone being used to carry out the various actions
-     * @param algorithmManager 
+     * @param previousResult stores the JSONobjects properties from the previous 
+     * action
+     * @param algorithmManager moves through our algorithm for scanning the 
+     * island
      * @param droneStatus stores the drones current status (direction, 
      * coordinates, battery, etc.)
      * @param poiManager stores the many points of interest found while 
@@ -76,14 +78,10 @@ public class FlightManager {
     }
 
     /**************************************************************************
-     * Fly the drone and echo in the current direction of the drone.
+     * initializes our FlightManager with the drones starting attributes
      *
-     * @param drone the drone being used to carry out the various actions
-     * @param direction the current direction of the drone.
-     * @param decision the decision JSON object to be modified
-     * @param parameters the parameter JSON object that stores the additional
-     * parameters for the action
-     **************************************************************************/
+     * @param config a configuration of the drone given by explorer
+    **************************************************************************/
     public void initialize(DroneConfiguration config) { 
         // Add all observers to the observer list
         addStatusObserver(new POIObserver());
@@ -98,14 +96,9 @@ public class FlightManager {
     }
 
     /**************************************************************************
-     * Fly the drone and echo in the current direction of the drone.
-     *
-     * @param drone the drone being used to carry out the various actions
-     * @param direction the current direction of the drone.
-     * @param decision the decision JSON object to be modified
-     * @param parameters the parameter JSON object that stores the additional
-     * parameters for the action
-     **************************************************************************/
+     * Takes a decision for a drone action from the algorithm manager then logs 
+     * the drones status after the decision is made
+    **************************************************************************/
     public String getDecision() {
         String decision = algorithmManager.makeStageDecision(
             droneStatus,
@@ -123,7 +116,7 @@ public class FlightManager {
      *
      * @param results the JSON object containing the results of the previous 
      * decision made by the drone
-     **************************************************************************/
+    **************************************************************************/
     public void acknowledgeResults(JSONObject results) {
         logger.info("** Acknowledging results...");
         logger.info("** Cost of previous action: {}", results.getInt("cost"));
@@ -139,20 +132,15 @@ public class FlightManager {
      *
      * @param observer an observer type object which is used to update a certan
      * drone status
-     **************************************************************************/
+    **************************************************************************/
     private void addStatusObserver(StatusObserver observer) {
         statusObservers.add(observer);
     }
 
     /**************************************************************************
-     * Fly the drone and echo in the current direction of the drone.
-     *
-     * @param drone the drone being used to carry out the various actions
-     * @param direction the current direction of the drone.
-     * @param decision the decision JSON object to be modified
-     * @param parameters the parameter JSON object that stores the additional
-     * parameters for the action
-     **************************************************************************/
+     * Retrieves the reportCase and formats the final report given from the 
+     * search
+    **************************************************************************/
     public String getFinalReport() { // Generate final report with locations of POIs
         int reportCase = poiManager.reportCase();
         String finalReport;

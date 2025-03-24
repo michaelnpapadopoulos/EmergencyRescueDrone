@@ -12,6 +12,14 @@ import ca.mcmaster.se2aa4.island.team45.map.coordinates.CoordinateManager;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 
 public class FirstEchoTrans extends Transition {
+
+    /**************************************************************************
+     * If the previous echo found ground turns left sets sweep direction moving
+     * on to the next stage and transition
+     * 
+     * @param directionMan the drones direction manager
+     * @param coord the drones current coordinates
+    **************************************************************************/
     @Override
     public void execute(
         DirectionManager directionManager,

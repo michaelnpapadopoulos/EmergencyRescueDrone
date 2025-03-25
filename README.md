@@ -1,5 +1,10 @@
 # Assignment A2 - Rescue mission
 
+## Authors:
+- [Michael Papadopoulos](https://www.github.com/michaelnpapadopoulos)
+- [Josh Engel](https://www.github.com/Josh-Engel)
+- [Dhruv Chokshi](https://www.github.com/chokshidhruv) 
+
 ## Product Description
 
 This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team45.drone.DroneConfiguration;
 import ca.mcmaster.se2aa4.island.team45.drone.DroneStatus;
 import ca.mcmaster.se2aa4.island.team45.drone.FlightManager;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
@@ -50,8 +49,7 @@ public class FlightManagerTest {
 
     @Test
     public void testInitialize() {
-        DroneConfiguration config = new DroneConfiguration("N", 100);
-        flightManager.initialize(config);
+        flightManager.initialize("N", 100);
         
         // Accessing droneStatus directly for testing purposes
         assertEquals("N", droneStatus.getDirectionManager().getDirection().toString());

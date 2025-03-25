@@ -1,0 +1,79 @@
+@startuml EmergencyRescueDrone-Drone-Conceptual
+hide empty members
+hide empty methods
+hide empty fields
+skinparam linetype ortho
+skinparam nodesep 15
+skinparam ranksep 15
+skinparam padding 0
+skinparam packagePadding 0
+skinparam defaultTextAlignment center
+skinparam packageStyle rectangle
+scale max 1000 width
+
+package "drone" {
+  together {
+    class FlightManager
+    class DroneStatus
+    class PreviousResult
+  }
+  together {
+    package "commands" #D0FFD0 {
+      class CommandCenter
+      class FlightCommands
+      class PreviousDecision
+      CommandCenter "1" *-- "1" PreviousDecision
+      CommandCenter "1" *-- "1" FlightCommands
+    }
+    package "direction" #FFD0D0 {
+      class DirectionManager
+      class Direction
+      interface DirectionState
+      class NorthDirectionState
+      class EastDirectionState
+      class SouthDirectionState
+      class WestDirectionState
+      DirectionManager "1" *-- "1" Direction
+      Direction "1" *-- "1" DirectionState
+      DirectionState <|.. NorthDirectionState
+      DirectionState <|.. EastDirectionState
+      DirectionState <|.. SouthDirectionState
+      DirectionState <|.. WestDirectionState
+    }
+  }
+  together {  
+    package "battery" #D0D0FF {
+      interface BatteryManager
+      class SimpleBatteryManager
+      BatteryManager <|.. SimpleBatteryManager
+    }
+    package "drone_observers" #FFFFD0 {
+      interface StatusObserver
+      class POIObserver
+      class BatteryObserver
+      class CoordinateObserver
+      class DirectionObserver
+      StatusObserver <|-- POIObserver
+      StatusObserver <|-- BatteryObserver
+      StatusObserver <|-- CoordinateObserver
+      StatusObserver <|-- DirectionObserver
+    }
+  }
+  package "external" #EEEEEE {
+    class "AlgorithmManager" as ExtAlgorithmManager
+    class "POIManager" as ExtPOIManager
+    class "CoordinateManager" as ExtCoordinateManager
+    class "CoordinateUtilities" as ExtCoordinateUtilities
+  }
+  FlightManager "1" *-right- "1" DroneStatus
+  FlightManager "1" *-down- "1" PreviousResult
+  FlightManager "1" o-left- "*" StatusObserver
+  FlightManager "1" *-- "1" ExtAlgorithmManager
+  FlightManager "1" *-- "1" ExtPOIManager
+  DroneStatus "1" *-right- "1" BatteryManager
+  DroneStatus "1" *-down- "1" ExtCoordinateManager
+  DroneStatus "1" *-left- "1" DirectionManager
+  DroneStatus "1" *-up- "1" CommandCenter
+  CoordinateObserver "1" ..> "1" ExtCoordinateUtilities
+}
+@enduml

@@ -80,19 +80,20 @@ public class FlightManager {
     /**************************************************************************
      * initializes our FlightManager with the drones starting attributes
      *
-     * @param config a configuration of the drone given by explorer
+     * @param direction the initial direction the drone is facing
+     * @param batteryLevel the initial battery level of the drone
     **************************************************************************/
-    public void initialize(DroneConfiguration config) { 
+    public void initialize(String direction, int batteryLevel) { 
         // Add all observers to the observer list
         addStatusObserver(new POIObserver());
         addStatusObserver(new BatteryObserver());
         addStatusObserver(new CoordinateObserver()); // Need to adjust coordinates before direction
         addStatusObserver(new DirectionObserver());
         
-        // Initialize the drone status with the configuration information        
-        droneStatus.getDirectionManager().setDirection(config.getDirection());
+        // Initialize the drones status with the given initial information       
+        droneStatus.getDirectionManager().setDirection(direction);
+        droneStatus.getBatteryManager().setBatteryLevel(batteryLevel);
         previousResult.setPreviousResult(0, null, new JSONObject()); // Initialize previous result before any decisions are made
-        droneStatus.getBatteryManager().setBatteryLevel(config.getBatteryManager().getBatteryLevel());
     }
 
     /**************************************************************************

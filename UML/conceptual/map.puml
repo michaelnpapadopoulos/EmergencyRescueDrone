@@ -1,0 +1,44 @@
+@startuml EmergencyRescueDrone-Map-Conceptual
+
+' Hide empty fields to create cleaner boxes
+hide empty members
+hide empty methods
+hide empty fields
+
+' Use layout settings to reduce overlapping arrows
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 40
+
+package "map" {
+  together {
+    package "coordinates" #D0D0FF {
+      class CoordinateManager
+      class Coordinate
+      class CoordinateUtilities
+      
+      CoordinateManager "1" *-right- "1" Coordinate
+      CoordinateManager "1" ..> "1" CoordinateUtilities
+    }
+    
+    package "interest_points" #D0FFD0 {
+      class POIManager
+      class IslandEdgeManager
+      class Creek
+      class Site
+      
+      POIManager "1" *-right- "1" IslandEdgeManager
+      POIManager "1" *-down- "0..1" Site
+      POIManager "1" *-left- "0..*" Creek
+      POIManager "1" ..> "1" CoordinateUtilities
+    }
+  }
+  
+  package "external" #EEEEEE {
+    class "StageManager" as ExtStageManager
+  }
+  
+  ExtStageManager "1" ..> "1" CoordinateUtilities
+}
+
+@enduml

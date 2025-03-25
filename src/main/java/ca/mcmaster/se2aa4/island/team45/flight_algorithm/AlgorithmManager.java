@@ -1,8 +1,5 @@
 package ca.mcmaster.se2aa4.island.team45.flight_algorithm;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import ca.mcmaster.se2aa4.island.team45.drone.DroneStatus;
 import ca.mcmaster.se2aa4.island.team45.drone.PreviousResult;
 import ca.mcmaster.se2aa4.island.team45.flight_algorithm.finding_island.stages.FirstEcho;
@@ -11,8 +8,6 @@ import ca.mcmaster.se2aa4.island.team45.map.interest_points.IslandEdgeManager;
 import ca.mcmaster.se2aa4.island.team45.map.interest_points.POIManager;
 
 public class AlgorithmManager {
-    private final Logger logger = LogManager.getLogger();
-
     private Stage currentStage;
     private Transition currentTransition;
     private final IslandEdgeManager islandEdgeManager;

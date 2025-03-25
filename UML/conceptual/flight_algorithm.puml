@@ -1,0 +1,93 @@
+@startuml EmergencyRescueDrone-FlightAlgorithm-Conceptual
+hide empty members
+hide empty methods
+hide empty fields
+skinparam linetype ortho
+skinparam nodesep 80
+skinparam ranksep 60
+package "flight_algorithm" {
+  package "external" #EEEEEE {
+    class "CommandCenter" as ExtCommandCenter
+    class "IslandEdgeManager" as ExtIslandEdgeManager
+  }
+  class AlgorithmManager
+  class TransitionInformation
+  abstract Transition
+  interface Stage
+  AlgorithmManager "1" *-- "1" Transition
+  AlgorithmManager "1" *-- "1" TransitionInformation
+  AlgorithmManager "1" *-- "1" Stage
+  AlgorithmManager "1" *-- "1" ExtIslandEdgeManager
+  together {
+    package "finding_island" as FI #FFD0D0 {
+      package "stages" as FIS #FFFFD0 {
+        class FirstEcho
+        class EchoSweep
+        class FindEdge
+        class DirectionalSweep
+      }
+      package "transitions" as FIT #FFFFD0 {
+        class FirstEchoTrans
+        class EchoSweepTrans
+        class FindCornerTrans
+      }
+    }
+    package "searching_island" as SI #D0FFD0 {
+      package "transitions" as SIT #FFFFD0 {
+        class FlyDistanceTrans
+        class InPositionTurnTrans
+        class SearchInitialTrans
+        class SearchFinalTrans
+        interface Search
+      }
+      package "stages" as SIS #FFFFD0 {
+        class Scan
+        class FlyDistance
+      }
+      SearchInitialTrans -up-|> Search
+      SearchFinalTrans -up-|> Search
+    }
+    package "utility_stages" as US #D0D0FF {
+      class UTurn
+      class InPositionTurn
+      class Turn
+      class Stop
+    }
+  }
+  FI -[hidden]right-> SI
+  SI -[hidden]right-> US
+  Stage -[hidden]down-> FIS
+  Transition -[hidden]down-> FIT
+  FirstEcho -up-|> Stage
+  EchoSweep -up-|> Stage
+  FindEdge -up-|> Stage  
+  DirectionalSweep -up-|> Stage
+  Scan -up-|> Stage
+  FlyDistance -up-|> Stage
+  UTurn -up-|> Stage
+  InPositionTurn -up-|> Stage
+  Turn -up-|> Stage
+  Stop -up-|> Stage
+  FirstEchoTrans -up-|> Transition
+  EchoSweepTrans -up-|> Transition
+  FindCornerTrans -up-|> Transition
+  FlyDistanceTrans -up-|> Transition
+  InPositionTurnTrans -up-|> Transition
+  SearchInitialTrans -up-|> Transition
+  SearchFinalTrans -up-|> Transition
+  note "Finding Island stages use CommandCenter" as N1
+  note "Utility stages use CommandCenter" as N2
+  note "FlyDistance uses CommandCenter" as N3
+  N1 .. ExtCommandCenter
+  N2 .. ExtCommandCenter
+  N3 .. ExtCommandCenter
+  FirstEcho ..> N1
+  EchoSweep ..> N1
+  FindEdge ..> N1
+  DirectionalSweep ..> N1
+  UTurn ..> N2
+  InPositionTurn ..> N2
+  Turn ..> N2
+  FlyDistance ..> N3
+}
+@enduml

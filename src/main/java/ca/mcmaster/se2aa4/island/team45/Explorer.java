@@ -45,8 +45,8 @@ public class Explorer implements IExplorerRaid {
                 .withDroneStatus(droneStatus)
                 .build();
 
-            // Pass initial info to FlightManager through DroneConfiguration object
-            flightManager.initialize(new DroneConfiguration(direction, batteryLevel));
+            // Pass initial info to FlightManager
+            flightManager.initialize(direction, batteryLevel);
         } catch (Exception e) {
             logger.error("Error during initialization: ", e);
         }

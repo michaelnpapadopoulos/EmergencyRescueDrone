@@ -1,0 +1,174 @@
+@startuml EmergencyRescueDrone-Drone-Specification
+
+skinparam linetype ortho
+skinparam nodesep 70
+skinparam ranksep 40
+skinparam padding 4
+skinparam packagePadding 10
+skinparam defaultTextAlignment center
+skinparam packageStyle rectangle
+
+skinparam minClassWidth 150
+skinparam classFontSize 14
+skinparam classNameFontSize 14
+skinparam packageFontSize 16
+skinparam noteFontSize 12
+skinparam ArrowFontSize 12
+skinparam stereotypeFontSize 12
+skinparam titleFontSize 18
+
+package "drone" {
+  class FlightManager {
+    -PreviousResult previousResult
+    -AlgorithmManager algorithmManager
+    -POIManager poiManager
+    +initialize(String direction, int batteryLevel): void
+    +getDecision(): String
+    +acknowledgeResults(JSONObject results): void
+    +getFinalReport(): String
+    -addStatusObserver(StatusObserver observer): void
+  }
+
+  class DroneStatus {
+    -CoordinateManager coordinateManager
+  }
+
+  class PreviousResult {
+    -int cost
+    -String status
+    -JSONObject extras
+    +setPreviousResult(int cost, String status, JSONObject extras): void
+    +getFound(String foundType): boolean
+    -getExtras(): JSONObject
+    +retrieveSites(): String[]
+    +retrieveCreeks(): String[]
+  }
+
+  interface StatusObserver {
+    +updateStatus(DroneStatus, PreviousResult, POIManager): void
+  }
+
+  package "commands" {
+    class CommandCenter {
+      +CommandCenter()
+      +makeAction(String action, String heading): String
+      +makeAction(String action): String
+      +wasPrevAction(String action): boolean
+      +wasPrevHeading(String heading): boolean
+    }
+
+    class FlightCommands {
+      -String action
+      +getAction(String action, String heading): String
+      +getAction(String action): String
+      -fly(): String
+      -heading(String dir): String
+      -echo(String dir): String
+      -scan(): String
+      -stop(): String
+    }
+
+    class PreviousDecision {
+      -String prevAction
+      -String prevHeading
+      -String prevUTurn
+      +setAction(String action): void
+      +setAction(String action, String heading): void
+      +setPrevUTurn(String turnDirection): void
+      +getPrevUTurn(): String
+      +getOppositeUTurn(): String
+    }
+
+    CommandCenter "1"*--"1" PreviousDecision: PreviousDecision
+    CommandCenter "1"*--"1" FlightCommands: FlightCommands
+  }
+
+  package "battery" {
+    interface BatteryManager {
+      +decreaseBatteryBy(int amount): void
+    }
+
+    class SimpleBatteryManager {
+      -int batteryLevel
+      +SimpleBatteryManager(int initialBattery)
+    }
+
+    BatteryManager <|.. SimpleBatteryManager
+  }
+
+  package "direction" {
+    class Direction {
+      +Direction(String direction)
+      +toString(): String
+      +toFullString(): String
+      -createDirectionState(String direction): DirectionState
+    }
+
+    interface DirectionState {
+      +getFullDirection(): String
+      +getDirection(): String
+      +getRight(): String
+      +getLeft(): String
+    }
+
+    package "direction_states" {
+      class NorthDirectionState {
+      }
+      class EastDirectionState {
+      }
+      class SouthDirectionState {
+      }
+      class WestDirectionState {
+      }
+
+      DirectionState <|.. NorthDirectionState
+      DirectionState <|.. EastDirectionState
+      DirectionState <|.. SouthDirectionState
+      DirectionState <|.. WestDirectionState
+    }
+
+    DirectionManager "1"*--"1" Direction
+    Direction "1"*--"1" DirectionState: DirectionState
+  }
+
+  package "drone_observers" {
+    class POIObserver {
+    }
+
+    class BatteryObserver {
+    }
+
+    class CoordinateObserver {
+    }
+
+    class DirectionObserver {
+    }
+
+    StatusObserver <|-- POIObserver
+    StatusObserver <|-- BatteryObserver
+    StatusObserver <|-- CoordinateObserver
+    StatusObserver <|-- DirectionObserver
+  }
+
+  class Builder {
+    -PreviousResult previousResult
+    -AlgorithmManager algorithmManager
+    -DroneStatus droneStatus
+    -POIManager poiManager
+    +withPreviousResults(PreviousResult): Builder
+    +withAlgorithmManager(AlgorithmManager): Builder
+    +withDroneStatus(DroneStatus): Builder
+    +withPOIManager(POIManager): Builder
+    +build(): FlightManager
+  }
+
+  FlightManager "1"*--"1" Builder
+  FlightManager "1"*--"*" StatusObserver: StatusObservers
+  FlightManager "1"*--"1" DroneStatus: DroneStatus
+  FlightManager "1"*--"1" PreviousResult
+  DroneStatus "1"*--"1" BatteryManager: BatteryManager
+  DroneStatus "1"*--"1" CommandCenter: CommandCenter
+  DroneStatus "1"*--"1" DirectionManager: DirectionManager
+}
+
+@enduml

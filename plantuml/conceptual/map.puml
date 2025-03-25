@@ -1,0 +1,63 @@
+@startuml EmergencyRescueDrone-Map-Conceptual
+
+' Hide empty fields to create cleaner boxes
+hide empty members
+hide empty methods
+hide empty fields
+
+' Use layout settings to reduce overlapping arrows
+skinparam linetype ortho
+skinparam nodesep 70
+skinparam ranksep 50
+skinparam packagePadding 15
+skinparam defaultTextAlignment center
+
+' Improve diagram spacing and layout
+skinparam padding 4
+top to bottom direction
+skinparam ArrowColor #666666
+
+' Increase class/interface box sizes and font
+skinparam minClassWidth 120
+skinparam classFontSize 16
+skinparam classNameFontSize 16
+skinparam packageFontSize 18
+skinparam noteFontSize 14
+skinparam ArrowFontSize 14
+skinparam stereotypeFontSize 14
+skinparam titleFontSize 20
+
+package "map" {
+  package "coordinates" #D0D0FF {
+    class CoordinateManager
+    class Coordinate
+    class CoordinateUtilities
+    
+    CoordinateManager "1" *-down-> "1" Coordinate
+    CoordinateManager "1" ..> "1" CoordinateUtilities
+  }
+  
+  package "interest_points" #D0FFD0 {
+    class POIManager
+    class IslandEdgeManager
+    class Creek
+    class Site
+    
+    POIManager "1" *-down-> "1" IslandEdgeManager
+    POIManager "1" *-down-> "0..1" Site
+    POIManager "1" *-down-> "0..*" Creek
+    POIManager "1" ..> "1" CoordinateUtilities
+  }
+  
+  package "external" #EEEEEE {
+    class "StageManager" as ExtStageManager
+  }
+  
+  ' Add some hidden relationships to improve layout
+  coordinates -[hidden]down-> interest_points
+  interest_points -[hidden]down-> external
+  
+  ExtStageManager "1" ..> "1" CoordinateUtilities
+}
+
+@enduml

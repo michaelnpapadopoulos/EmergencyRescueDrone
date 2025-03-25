@@ -1,0 +1,105 @@
+@startuml EmergencyRescueDrone-Drone-Conceptual
+hide empty members
+hide empty methods
+hide empty fields
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam padding 4
+skinparam packagePadding 10
+skinparam defaultTextAlignment center
+skinparam packageStyle rectangle
+
+' Increase class/interface box sizes and font
+skinparam minClassWidth 120
+skinparam classFontSize 16
+skinparam classNameFontSize 16
+skinparam packageFontSize 18
+skinparam noteFontSize 14
+skinparam ArrowFontSize 14
+skinparam stereotypeFontSize 14
+skinparam titleFontSize 20
+
+scale max 800 height
+top to bottom direction
+
+package "drone" {
+  ' Separate FlightManager and PreviousResult from the same "together" block
+  class FlightManager
+  class DroneStatus
+  
+  ' Position PreviousResult on its own
+  class PreviousResult
+  
+  ' Add hidden relationship to force more distance
+  FlightManager -[hidden]right-> PreviousResult
+  
+  package "external" #EEEEEE {
+    class "AlgorithmManager" as ExtAlgorithmManager
+    class "POIManager" as ExtPOIManager
+    class "CoordinateManager" as ExtCoordinateManager
+    class "CoordinateUtilities" as ExtCoordinateUtilities
+  }
+  
+  together {
+    package "commands" #D0FFD0 {
+      class CommandCenter
+      class FlightCommands
+      class PreviousDecision
+      CommandCenter "1" *-- "1" PreviousDecision
+      CommandCenter "1" *-- "1" FlightCommands
+    }
+    
+    package "battery" #D0D0FF {
+      interface BatteryManager
+      class SimpleBatteryManager
+      BatteryManager <|.. SimpleBatteryManager
+    }
+  }
+  
+  together {
+    package "direction" #FFD0D0 {
+      class DirectionManager
+      class Direction
+      interface DirectionState
+      class NorthDirectionState
+      class EastDirectionState
+      class SouthDirectionState
+      class WestDirectionState
+      DirectionManager "1" *-- "1" Direction
+      Direction "1" *-- "1" DirectionState
+      DirectionState <|.. NorthDirectionState
+      DirectionState <|.. EastDirectionState
+      DirectionState <|.. SouthDirectionState
+      DirectionState <|.. WestDirectionState
+    }
+    
+    package "drone_observers" #FFFFD0 {
+      interface StatusObserver
+      class POIObserver
+      class BatteryObserver
+      class CoordinateObserver
+      class DirectionObserver
+      StatusObserver <|-- POIObserver
+      StatusObserver <|-- BatteryObserver
+      StatusObserver <|-- CoordinateObserver
+      StatusObserver <|-- DirectionObserver
+    }
+  }
+  
+  ' Main relationships adjusted for vertical layout
+  FlightManager "1" *-down- "1" DroneStatus
+  ' Change the relationship to have more distance
+  FlightManager "1" *-- "1" PreviousResult
+  FlightManager "1" o-down- "*" StatusObserver
+  FlightManager "1" *-- "1" ExtAlgorithmManager
+  FlightManager "1" *-- "1" ExtPOIManager
+  
+  DroneStatus "1" *-down- "1" BatteryManager
+  DroneStatus "1" *-right- "1" ExtCoordinateManager
+  DroneStatus "1" *-down- "1" DirectionManager
+  DroneStatus "1" *-left- "1" CommandCenter
+  
+  CoordinateObserver "1" ..> "1" ExtCoordinateUtilities
+}
+@enduml

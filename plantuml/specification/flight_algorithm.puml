@@ -1,0 +1,180 @@
+@startuml EmergencyRescueDrone-FlightAlgorithm-Specification
+
+' Hide empty methods to avoid clutter
+hide empty methods
+
+' Use better layout settings
+skinparam linetype ortho
+skinparam nodesep 70
+skinparam ranksep 40
+skinparam padding 4
+
+' Increase class/interface box sizes and font
+skinparam minClassWidth 150
+skinparam classFontSize 14
+skinparam classNameFontSize 14
+skinparam packageFontSize 16
+skinparam noteFontSize 12
+skinparam ArrowFontSize 12
+skinparam stereotypeFontSize 12
+skinparam titleFontSize 18
+
+package "flight_algorithm" {
+  class AlgorithmManager {
+    -IslandEdgeManager islandEdgeManager
+    +makeStageDecision(DroneStatus, POIManager, PreviousResult): String
+  }
+  
+  class TransitionInformation {
+    -String sweepString
+    -Direction sweepDirection
+    -Direction finalEdgeDirection
+    -String finalEdgeString
+    +getSweepString(): String
+    +getFinalEdgeString(): String
+  }
+  
+  abstract class Transition {
+    +makeTransition(DirectionManager, BatteryManager, IslandEdgeManager, PreviousResult, AlgorithmManager, PreviousDecision, CoordinateManager): void
+    +{abstract} execute(DirectionManager, IslandEdgeManager, PreviousResult, AlgorithmManager, PreviousDecision, CoordinateManager): void
+    -checkBatteryCritical(BatteryManager): boolean
+  }
+  
+  interface Stage {
+    +makeDecision(DirectionManager, CommandCenter, AlgorithmManager): String
+  }
+  
+  package "finding_island" {
+    package "stages" {
+      class FirstEcho {
+      }
+      
+      class EchoSweep {
+      }
+      
+      class DirectionalSweep {
+        -String sweepDirection
+        +DirectionalSweep(String sweepDirection)
+      }
+      
+      Stage <|.. FirstEcho
+      Stage <|.. EchoSweep
+      Stage <|.. DirectionalSweep
+    }
+    
+    package "transitions" {
+      class FirstEchoTrans {
+      }
+      
+      class EchoSweepTrans {
+      }
+      
+      class FindCornerTrans {
+      }
+      
+      class DirectionalSweepTrans {
+      }
+      
+      class FindEdgeTrans {
+      }
+      
+      Transition <|-- FirstEchoTrans
+      Transition <|-- EchoSweepTrans
+      Transition <|-- FindCornerTrans
+      Transition <|-- DirectionalSweepTrans
+      Transition <|-- FindEdgeTrans
+    }
+  }
+  
+  package "searching_island" {
+    package "transitions" {
+      interface Search {
+        +{static} atForwardEdge(IslandEdgeManager, DirectionManager, CoordinateManager): boolean
+        +{static} shiftFromSideEdge(IslandEdgeManager, Direction, CoordinateManager, int): boolean
+        +{static} overWater(PreviousResult): boolean
+      }
+      
+      class FlyDistanceTrans {
+        -int distance
+        -Transition previousTransition
+        +FlyDistanceTrans(Transition previousTransition)
+      }
+      
+      class InPositionTurnTrans {
+        -Coordinate initialCoords
+        -Direction initialDirection
+        -String turnDirection
+        +InPositionTurnTrans(String turnDirection, Direction initialDirection, Coordinate initialCoordinate)
+      }
+      
+      class SearchInitialTrans {
+      }
+      
+      class SearchFinalTrans {
+      }
+      
+      class EdgeSearchTrans {
+      }
+      
+      Transition <|-- FlyDistanceTrans
+      Transition <|-- InPositionTurnTrans
+      Transition <|-- SearchInitialTrans
+      Transition <|-- SearchFinalTrans
+      Transition <|-- EdgeSearchTrans
+      Search <|.. SearchInitialTrans
+      Search <|.. SearchFinalTrans
+      Search <|.. EdgeSearchTrans
+    }
+    
+    package "stages" {
+      class Scan {
+      }
+      
+      class FlyDistance {
+      }
+      
+      Stage <|.. Scan
+      Stage <|.. FlyDistance
+    }
+  }
+  
+  package "utility_stages" {
+    class UTurn {
+      -boolean turned
+      -String turnDirection
+      -Stage returnStage
+      +UTurn(String turnDirection, Stage returnStage)
+      -uTurnRight(DirectionManager, CommandCenter, AlgorithmManager): String
+      -uTurnLeft(DirectionManager, CommandCenter, AlgorithmManager): String
+    }
+    
+    class InPositionTurn {
+      -int turnCount
+      -String turnDirection
+      -Stage returnStage
+      +InPositionTurn(String turnDirection, Stage returnStage)
+      -inPositionRight(DirectionManager, CommandCenter, AlgorithmManager): String
+      -inPositionLeft(DirectionManager, CommandCenter, AlgorithmManager): String
+    }
+    
+    class Turn {
+      -String direction
+      -Stage nextStage
+      +Turn(String direction, Stage nextStage)
+    }
+    
+    class Stop {
+    }
+    
+    Stage <|.. UTurn
+    Stage <|.. InPositionTurn
+    Stage <|.. Turn
+    Stage <|.. Stop
+  }
+  
+  AlgorithmManager "1" *-- "1" Stage: Stage
+  AlgorithmManager "1" *-- "1" Transition: Transition
+  AlgorithmManager "1" *-- "1" TransitionInformation: TransitionInformation
+}
+
+@enduml

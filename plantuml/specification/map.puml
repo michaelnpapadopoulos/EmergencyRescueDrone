@@ -1,0 +1,87 @@
+@startuml EmergencyRescueDrone-Map-Specification
+
+' Hide empty methods to avoid clutter
+hide empty methods
+
+' Use better layout settings
+skinparam linetype ortho
+skinparam nodesep 70
+skinparam ranksep 40
+skinparam padding 4
+
+' Increase class/interface box sizes and font
+skinparam minClassWidth 150
+skinparam classFontSize 14
+skinparam classNameFontSize 14
+skinparam packageFontSize 16
+skinparam noteFontSize 12
+skinparam ArrowFontSize 12
+skinparam stereotypeFontSize 12
+skinparam titleFontSize 18
+
+package "map" {
+  package "coordinates" {
+    class CoordinateManager {
+      -Coordinate currentCoords
+      +adjustCoords(DirectionManager, CommandCenter): void
+      -getCoordinateX(): Integer
+      -getCoordinateY(): Integer
+    }
+    
+    class Coordinate {
+      -Integer[] coord
+      +printCord(): String
+    }
+    
+    class CoordinateUtilities {
+      +{static} makeAdjustment(DirectionManager, CommandCenter, Coordinate): Coordinate
+      +{static} getShiftedCoordinates(Coordinate, Direction, int): Coordinate
+      -{static} flyAdjust(DirectionManager, Coordinate): Coordinate
+      -{static} headingAdjust(DirectionManager, CommandCenter, Coordinate): Coordinate
+    }
+    
+    CoordinateManager "1" --> "1" Coordinate: contains
+    CoordinateManager ..> CoordinateUtilities: uses
+  }
+  
+  package "interest_points" {
+    class POIManager {
+      -ArrayList<Creek> creeks
+      -Site site
+      +adjustCoords(DirectionManager, CommandCenter): void
+      -getCoordinateX(): Integer
+      -getCoordinateY(): Integer
+    }
+    
+    class IslandEdgeManager {
+      -Map<String, Coordinate> edges
+      +numberOfEdgesFound(): int
+      +addEdge(DirectionManager direction, Coordinate coordinates): void
+      +labelEdges(): void
+      +hasEdge(String edgeLabel): boolean
+      +atEdge(String directionChar, Coordinate currCoord, String edgeLabel): boolean
+    }
+    
+    class Creek {
+      -Coordinate creekCoordinate
+      -String creekID
+      +Creek(Coordinate creekCoordinate, String creekID)
+    }
+    
+    class Site {
+      -Coordinate siteCoordinate
+      -String siteID
+      +Site(Coordinate siteCoordinate, String siteID)
+    }
+    
+    POIManager "1" --> "0..1" Site: contains
+    POIManager "1" --> "0..*" Creek: contains
+    POIManager ..> CoordinateUtilities: uses
+  }
+  
+  IslandEdgeManager ..> Coordinate: uses
+  Creek "1" --> "1" Coordinate: contains
+  Site "1" --> "1" Coordinate: contains
+}
+
+@enduml
